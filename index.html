@@ -6,48 +6,56 @@
 <title>ODA SHOP NIGER</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f1c2e;display:flex;justify-content:center;min-height:100vh;font-family:Arial}
-.app{width:390px;background:#0f1c2e;padding:25px;position:relative}
-.logo{display:flex;align-items:center;gap:10px;color:white}
-.circle{background:#1e344f;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;color:#ffcc4d;text-align:center}
-.logo b{color:#ffcc4d;font-size:11px}
-.logo span{font-size:11px;color:#8a9bb5}
-h1{color:white;font-size:28px;margin-top:35px;line-height:1.2}
-h1 span{color:#ffcc4d}
-.desc{color:#8a9bb5;font-size:13px;margin:12px 0 30px;line-height:1.4}
-label{color:#ffcc4d;font-size:11px;font-weight:bold;letter-spacing:1px;margin-top:20px;display:block}
-input,select{width:100%;padding:14px 18px;margin-top:8px;border-radius:25px;border:1px solid #233a5a;background:#142541;color:white;outline:none;font-size:14px}
-select{color:#8a9bb5}
-.btn{width:100%;padding:16px;background:#ffcc4d;color:#0f1c2e;border:none;border-radius:25px;font-weight:800;letter-spacing:1px;margin-top:30px;font-size:14px}
-.foot{color:#4a5f7e;font-size:10px;text-align:center;margin-top:25px}
-.bg-text{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);font-size:85px;font-weight:900;color:rgba(255,255,255,0.04);line-height:0.9;text-align:center;pointer-events:none}
+body{background:#f1f1f1;display:flex;justify-content:center;min-height:100vh;font-family:Arial,sans-serif}
+.app{width:390px;background:#f1c40f;padding:12px;position:relative;min-height:100vh}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.logo{display:flex;align-items:center;gap:8px}
+.circle{background:#34495e;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:18px}
+.logo b{color:#000;font-size:16px}
+.logo span{font-size:11px;color:#000}
+.icons{display:flex;gap:8px}
+.icon{width:28px;height:28px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.card{background:white;border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.row{display:flex;justify-content:space-between;align-items:center}
+.yellow-btn{background:#ffcc00;border:none;padding:8px 12px;border-radius:20px;font-size:12px;font-weight:bold}
+.search{background:white;border-radius:20px;padding:10px 14px;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.search input{border:none;outline:none;width:100%;font-size:13px}
+.black-bar{background:black;color:white;text-align:center;padding:10px;border-radius:8px;font-weight:bold;margin-bottom:10px;font-size:14px}
+.section{border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.section.black{background:black;color:white}
+.section.yellow{background:#ffcc00;color:black}
+.section.white{background:white;color:black}
+.section b{font-size:13px;display:block}
+.section span{font-size:11px;opacity:0.8}
+.num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;flex-shrink:0}
+.black .num{background:white;color:black}
+.yellow .num{background:black;color:white}
+.white .num{background:black;color:white}
 </style>
 </head>
 <body>
 <div class="app">
-<div class="bg-text">ODA<br>SHOP</div>
-<div class="logo"><div class="circle">ODA<br>SHOP</div><div><b>ODA SHOP</b><br><span>Niger</span></div></div>
-<h1>Bienvenue sur <span>ODA SHOP</span></h1>
-<p class="desc">Dites-nous qui vous êtes et où vous êtes, pour voir les produits livrables dans votre ville.</p>
+  <div class="top">
+    <div class="logo"><div class="circle">O</div><div><b>ODA SHOP</b><br><span>Bienvenue Zara Agadez</span></div></div>
+    <div class="icons"><div class="icon">🛒</div><div class="icon">🔔</div><div class="icon">👤</div></div>
+  </div>
 
-<label>NOM ET PRÉNOM</label>
-<input type="text" placeholder="Mettez votre nom prénom">
+  <div class="card"><div class="row"><div><small>Ville: Agadez</small><br><small style="color:#888">Livraison partout au Niger</small></div><button class="yellow-btn">Commander vers une autre ville</button></div></div>
 
-<label>DANS QUELLE VILLE ES-TU ?</label>
-<select>
-<option>Dans quelle ville es-tu ?</option>
-<option>Agadez</option>
-<option>Diffa</option>
-<option>Dosso</option>
-<option>Maradi</option>
-<option>Tahoua</option>
-<option>Tillabéri</option>
-<option>Zinder</option>
-<option>Niamey</option>
-</select>
+  <div class="search">🔍<input placeholder="Que cherchez-vous ?"></div>
 
-<button class="btn">COMMENCER</button>
-<p class="foot">Vos infos restent enregistrées sur votre téléphone.</p>
+  <div class="black-bar">Commander à Agadez</div>
+
+  <div class="section black"><div class="num">1</div><div><b>SECTION 1 BOUTIQUE NEUVE</b><span>Téléphones, ordinateurs, meubles, électroménager neufs</span></div></div>
+  <div class="section yellow"><div class="num">2</div><div><b>SECTION 2 MARCHÉ OCCASION</b><span>Achetez et vendez des produits d'occasion</span></div></div>
+  <div class="section white"><div class="num">3</div><div><b>SECTION 3 LIVRAISON NOURRITURE</b><span>Restaurants d'Agadez livrés chez vous</span></div></div>
+  <div class="section black"><div class="num">4</div><div><b>SECTION 4 PHARMACIE</b><span>Pharmacie Agadez et produits santé</span></div></div>
+  <div class="section yellow"><div class="num">5</div><div><b>SECTION 5 IMMOBILIER</b><span>Maisons, terrains, locations à Agadez</span></div></div>
+  <div class="section white"><div class="num">6</div><div><b>SECTION 6 TRANSPORT</b><span>Taxis, bus, location véhicules</span></div></div>
+  <div class="section black"><div class="num">7</div><div><b>SECTION 7 TRAVAUX À DOMICILE</b><span>Plombiers, électriciens, maçons</span></div></div>
+  <div class="section yellow"><div class="num">8</div><div><b>SECTION 8 SERVICE COLIS ODA</b><span>Envoi et réception de colis</span></div></div>
+  <div class="section white"><div class="num">9</div><div><b>SECTION 9 ODA EXPRESS</b><span>Livraison rapide en 30 minutes</span></div></div>
+  <div class="section black"><div class="num">10</div><div><b>SECTION 10 AUTOMOBILE</b><span>Pièces détachées et garages</span></div></div>
 </div>
 </body>
 </html>
