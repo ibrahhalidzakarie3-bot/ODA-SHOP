@@ -1,118 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin ODA SHOP</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODA SHOP</title>
 <style>
-body{font-family:Arial;background:#f5f5f5;padding:12px;margin:0}
-.box{max-width:600px;margin:10px auto;background:#fff;padding:18px;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-input,select,textarea{width:100%;padding:13px;margin:7px 0;border:1.5px solid #ddd;border-radius:10px;box-sizing:border-box;font-size:15px}
-label{font-size:13px;font-weight:800;margin-top:10px;display:block;color:#222}
-button{width:100%;padding:14px;background:#E9A800;border:0;border-radius:12px;font-weight:900;cursor:pointer;font-size:16px;margin-top:8px}
-.item{border:1px solid #eee;padding:12px;border-radius:12px;margin-top:12px;background:#fafafa}
-.top{display:flex;justify-content:space-between;font-size:13px}
-.photo-preview{width:100%;height:160px;object-fit:cover;border-radius:10px;margin-top:8px;display:none;border:1px solid #eee}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,Arial,sans-serif;background:#fff}
+.header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff}
+.header .logo img{height:56px}
+.header .center{text-align:center;line-height:1.1}
+.header .center b{font-size:24px;font-weight:900;color:#000}.header .center b span{color:#E9A800}
+.header .center p{color:#555;font-size:16px;margin-top:4px}
+.header .right{display:flex;gap:12px}
+.circle{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;text-decoration:none}
+.c-yellow{background:#E9A800}.c-white{background:#fff;border:2.5px solid #E9A800}
+.ville{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:1px solid #eee;border-bottom:1px solid #eee;flex-wrap:wrap;gap:10px}
+.ville strong{font-size:18px;display:flex;align-items:center;gap:6px}
+.btn-ville{background:#E9A800;border:0;padding:13px 20px;border-radius:30px;font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
+.search-wrap{padding:14px 16px;border-bottom:1px solid #eee}
+.search{width:100%;background:#f2f2f2;border:1px solid #e6e6e6;border-radius:30px;padding:18px 18px 18px 54px;font-size:18px}
+.search-wrap span{position:absolute;left:36px;top:50%;transform:translateY(-50%);font-size:22px}
+.black{margin:18px 16px 0 16px;background:#000;border-radius:20px;padding:18px 20px;color:#fff;display:flex;align-items:center;gap:12px;font-size:17px;position:relative;overflow:hidden}
+.black span{color:#E9A800;font-weight:700}
+.card{margin:18px 16px;background:#000;border-radius:24px;padding:20px;display:flex;gap:18px;align-items:center;position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;right:-20px;top:-20px;width:180px;height:180px;background:radial-gradient(circle,#3a2a00 0%,transparent 70%);opacity:0.6}
+.icon{width:84px;height:84px;background:#E9A800;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;z-index:1}
+.card-text{z-index:1}
 </style>
 </head>
 <body>
-<div class="box" id="loginBox">
-<h2 style="text-align:center">🔐 ODA SHOP Admin</h2>
-<p style="text-align:center;color:#888;font-size:13px">Accès sécurisé</p>
-<input id="email" placeholder="Email">
-<input id="pass" type="password" placeholder="Mot de passe">
-<button onclick="login()">Entrer</button>
+<div class="header">
+ <div class="logo"><img src="logo.png"></div>
+ <div class="center"><b>Bienvenue <span>Zara</span></b><p>Agadez</p></div>
+ <div class="right"><a href="tel:+22777174950" class="circle c-yellow">📞</a><div class="circle c-white">☰</div></div>
 </div>
-
-<div class="box" id="adminBox" style="display:none">
-<h3>📦 Ajouter Produit Neuf - Boutique Neuve</h3>
-
-<label>Numéro de série carte d'identité (anti-vol)</label>
-<input id="serie" placeholder="Ex: NIN 1234...">
-
-<label>Nom du vendeur</label>
-<input id="vendeur" placeholder="Ex: Ibrahim">
-
-<label>Nom de la marchandise</label>
-<input id="nom" placeholder="Ex: Chemise Zara">
-
-<label>Prix d'achat (toi seul vois, client ne voit pas)</label>
-<input id="prixAchat" type="number" placeholder="Ex: 5000">
-
-<label>Prix de vente (client va voir dans Boutique Neuve)</label>
-<input id="prixVente" type="number" placeholder="Ex: 7500">
-
-<label>Description de la marchandise</label>
-<textarea id="desc" placeholder="Taille, couleur, état..."></textarea>
-
-<label>Photo de la marchandise</label>
-<input type="file" id="photoFile" accept="image/*" onchange="previewPhoto()">
-<img id="preview" class="photo-preview">
-
-<label>Statut du stock</label>
-<select id="statut">
-<option value="en-stock">🟢 En Stock</option>
-<option value="reserve">🟡 Réservé</option>
-<option value="vendu">🔴 Vendu</option>
-</select>
-
-<button onclick="ajouter()">💾 ENREGISTRER DANS BOUTIQUE NEUVE</button>
-<div id="liste"></div>
-
-<button onclick="location.href='index.html'" style="background:#000;color:#fff;margin-top:15px">← Retour boutique</button>
-<button onclick="location.href='boutique-neuve.html'" style="background:#fff;border:2px solid #E9A800;margin-top:8px">Voir Boutique Neuve →</button>
+<div class="ville"><strong>📍 Ville : Agadez</strong><button class="btn-ville">👜 📍 Commander vers une autre ville</button></div>
+<div class="search-wrap" style="position:relative"><span>🔍</span><input class="search" placeholder="Que cherchez-vous ?"></div>
+<div class="black">🚚 <div><span>Commander à Agadez</span> · Payez et faites-vous livrer</div></div>
+<div class="card">
+ <div class="icon">🏪</div>
+ <div class="card-text">
+  <div style="color:#E9A800;letter-spacing:2px;font-size:14px;margin-bottom:6px">SECTION 1</div>
+  <div style="color:#fff;font-size:23px;font-weight:900">BOUTIQUE NEUVE</div>
+  <div style="color:#bbb;font-size:15px;margin-top:6px;line-height:1.3">Téléphones, ordinateurs, meubles,<br>électroménager neufs</div>
+ </div>
 </div>
-
-<script>
-const GMAIL="odashop215@gmail.com"; const MDP="Oda2025";
-let photoBase64="";
-
-function login(){ 
- if(email.value.trim()===GMAIL && pass.value===MDP){ 
-  loginBox.style.display='none'; adminBox.style.display='block'; afficher(); 
- } else alert('Email ou mot de passe incorrect'); 
-}
-
-function previewPhoto(){
- let f=document.getElementById('photoFile').files[0];
- if(!f) return;
- let r=new FileReader();
- r.onload=e=>{
-  photoBase64=e.target.result;
-  let img=document.getElementById('preview');
-  img.src=photoBase64; img.style.display='block';
- }
- r.readAsDataURL(f);
-}
-
-function ajouter(){
- if(!nom.value || !prixVente.value || !vendeur.value || !serie.value) return alert('Remplis: série carte, nom vendeur, nom marchandise, prix vente');
- let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]');
- arr.push({
-  nom:nom.value, prixAchat:prixAchat.value, prixVente:prixVente.value,
-  vendeur:vendeur.value, serie:serie.value, desc:desc.value,
-  statut:statut.value, photo:photoBase64, date:new Date().toLocaleDateString()
- });
- localStorage.setItem('produits_complets',JSON.stringify(arr));
- nom.value='';prixAchat.value='';prixVente.value='';vendeur.value='';serie.value='';desc.value='';photoBase64='';document.getElementById('photoFile').value='';document.getElementById('preview').style.display='none';
- afficher(); alert('✅ Produit ajouté dans Boutique Neuve !');
-}
-
-function afficher(){
- let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]');
- if(arr.length==0) liste.innerHTML='<p style="text-align:center;color:#999;margin-top:15px">Aucun produit encore</p>';
- else liste.innerHTML=arr.map((p,i)=>`
-  <div class="item">
-   <div class="top"><b>${p.nom}</b><span>${p.statut}</span></div>
-   <div style="font-size:13px;margin-top:6px">
-    Vendeur: ${p.vendeur} | Série: ${p.serie}<br>
-    Achat: ${p.prixAchat} | Vente: <b>${p.prixVente}</b><br>
-    ${p.desc}<br><small>${p.date}</small>
-   </div>
-   ${p.photo?`<img src="${p.photo}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-top:6px">`:''}
-   <button onclick="suppr(${i})" style="background:#ffe6e6;padding:8px;margin-top:6px;font-size:13px">Supprimer</button>
-  </div>`).join('');
-}
-function suppr(i){ let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]'); arr.splice(i,1); localStorage.setItem('produits_complets',JSON.stringify(arr)); afficher(); }
-</script>
 </body>
 </html>
