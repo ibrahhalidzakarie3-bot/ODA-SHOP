@@ -1,56 +1,98 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ODA SHOP - Agadez</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Agadez - ODA SHOP</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui}
-body{background:#F6F6F6;display:flex;justify-content:center}
-.app{width:100%;max-width:430px;background:white;min-height:100vh;position:relative;padding-bottom:80px}
-.header{padding:20px;display:flex;justify-content:center;background:white;box-shadow:0 1px 10px #0001;position:sticky;top:0;z-index:5}
-.header img{height:70px}
-.search{margin:12px 16px;background:#F2F2F2;border-radius:12px;padding:12px;display:flex;gap:8px}
-.search input{border:none;background:transparent;width:100%;outline:none}
-.list{padding:0 16px;display:flex;flex-direction:column;gap:16px;margin-top:10px}
-.card{display:flex;gap:14px;align-items:center;background:white;border:1px solid #EAEAEA;border-radius:14px;padding:16px;box-shadow:0 4px 12px #0000000A;cursor:pointer}
-.card:active{transform:scale(0.98)}
-.card .ico{width:44px;height:44px;background:#FFF7D6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
-.card b{font-size:12.5px} .card small{color:#888;font-size:11px}
-.num{margin-left:auto;background:#111;color:#FFB700;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
-
-/* PAGE DETAIL */
-.detail{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:100vh;background:white;z-index:20;display:none;flex-direction:column;overflow:auto}
-.detail.active{display:flex}
-.detail-head{padding:16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #eee;position:sticky;top:0;background:white}
-.detail-head button{border:none;background:#111;color:#FFB700;width:36px;height:36px;border-radius:10px;font-size:18px}
-.subs{padding:16px;display:grid;gap:10px}
-.sub{background:#F8F8F8;border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center;border:1px solid #eee}
-.sub:active{background:#FFFBEB}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:white;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #eee}
+body{font-family:Arial;background:#FFF8E7;margin:0;padding:20px}
+.card{max-width:400px;margin:50px auto;background:white;padding:25px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+h2{text-align:center;color:#FF6B00}
+input,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ddd;box-sizing:border-box}
+button{background:#FF6B00;color:white;border:none;font-weight:bold;cursor:pointer}
+button:active{opacity:0.8}
+.hidden{display:none}
+.prod{border-bottom:1px solid #eee;padding:10px 0;display:flex;justify-content:space-between}
 </style>
 </head>
 <body>
-<div class="app">
-<div class="header"><img src="logo.png"></div>
-<div class="search">🔍<input placeholder="Rechercher service..."></div>
-<div class="list" id="list"></div>
+
+<div id="login" class="card">
+  <h2>ODA SHOP - Agadez</h2>
+  <p style="text-align:center">Admin seulement</p>
+  <input type="password" id="pass" placeholder="Mot de passe">
+  <button onclick="checkPass()">Entrer</button>
+  <p id="err" style="color:red;text-align:center"></p>
 </div>
 
-<div class="detail" id="detail">
-<div class="detail-head"><button onclick="closeDetail()">‹</button><b id="detailTitle"></b></div>
-<div class="subs" id="subs"></div>
+<div id="admin" class="card hidden" style="max-width:500px">
+  <h2>Ajouter Produit - Agadez</h2>
+  <input type="text" id="name" placeholder="Nom du produit (ex: iPhone 12)">
+  <input type="number" id="price" placeholder="Prix en FCFA (ex: 150000)">
+  <input type="text" id="image" placeholder="Lien image ou laisse vide">
+  <input type="file" id="fileImg" accept="image/*">
+  <input type="text" id="city" value="Agadez" readonly style="background:#f5f5f5">
+  <button onclick="addProduct()">Ajouter à Agadez</button>
+  <button onclick="logout()" style="background:#333;margin-top:20px">Déconnexion</button>
+  <hr>
+  <h3>Produits Agadez (<span id="count">0</span>)</h3>
+  <div id="list"></div>
 </div>
-
-<div class="nav">🏠 Accueil</div>
 
 <script>
-const data = {
-"1 BOUTIQUE NEUVE": ["Téléphones neufs","Ordinateurs","Électroménager","Accessoires"],
-"2 MARCHE OCCASION": ["Téléphones occasion","Meubles","Vêtements","Tout vendre"],
-"3 LIVRAISON NOURRITURE": ["Restaurants Agadez","Fast-food","Épicerie","Boissons"],
-"4 PHARMACIE": ["Médicaments","Parapharmacie","Livraison 24h","Conseil"],
-"5 IMMOBILIER": ["Maison à vendre","Location maison","Terrain","Appartement"],
-"6 TRANSPORT": ["Taxi ville","Voyage Agadez-Niamey","Location voiture","Moto"],
-"7 TRAVAUX DOMICILE": ["Électricien","Plombier","Maçon","Peintre","Menuisier","Climatisation"],
-"8 SERVICE COLIS": ["Envoi Niamey","Envoi Arlit","Suivi colis","Stockage"],
-"9 ODA EXPRESS": ["Livraison -60min","Course
+const PASSWORD = "agadez2025";
+let products = JSON.parse(localStorage.getItem('oda_agadez_products') || '[]');
+
+function checkPass(){
+  if(document.getElementById('pass').value === PASSWORD){
+    document.getElementById('login').classList.add('hidden');
+    document.getElementById('admin').classList.remove('hidden');
+    render();
+  } else {
+    document.getElementById('err').innerText = "Mot de passe faux !";
+  }
+}
+
+function addProduct(){
+  const name = document.getElementById('name').value;
+  const price = document.getElementById('price').value;
+  const image = document.getElementById('image').value || 'https://via.placeholder.com/300?text=ODA+SHOP';
+  if(!name || !price) return alert('Mets nom et prix !');
+  
+  const p = {id:Date.now(), name, price, image, city:'Agadez', date: new Date().toLocaleDateString()};
+  products.unshift(p);
+  localStorage.setItem('oda_agadez_products', JSON.stringify(products));
+  
+  document.getElementById('name').value='';
+  document.getElementById('price').value='';
+  document.getElementById('image').value='';
+  render();
+  alert('Produit ajouté à Agadez !');
+}
+
+function render(){
+  document.getElementById('count').innerText = products.length;
+  document.getElementById('list').innerHTML = products.map(p=>`
+    <div class="prod"><span><b>${p.name}</b><br>${p.price} FCFA</span><span style="color:red;cursor:pointer" onclick="del(${p.id})">X</span></div>
+  `).join('');
+}
+
+function del(id){
+  products = products.filter(p=>p.id!==id);
+  localStorage.setItem('oda_agadez_products', JSON.stringify(products));
+  render();
+}
+
+function logout(){
+  location.reload();
+}
+
+// Support image file to base64
+document.getElementById('fileImg').addEventListener('change', function(e){
+  const reader = new FileReader();
+  reader.onload = function(ev){ document.getElementById('image').value = ev.target.result; }
+  reader.readAsDataURL(e.target.files[0]);
+});
+</script>
+</body>
+</html>
