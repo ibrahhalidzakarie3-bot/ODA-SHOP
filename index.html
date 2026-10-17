@@ -3,78 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ODA SHOP</title>
+<title>ODA SHOP NIGER</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#fff;display:flex;justify-content:center}
-.app{width:100%;max-width:380px;background:#fff;min-height:100vh;padding:14px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.top b{font-size:16px;font-weight:900}
-.top a{background:#111;color:#fff;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800;text-decoration:none}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#EFE7DD;display:flex;justify-content:center}
+.app{width:100%;max-width:400px;background:#EFE7DD;min-height:100vh;padding:14px;background-image: radial-gradient(#00000008 1px, transparent 1px);background-size:20px 20px}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;background:white;padding:10px 12px;border-radius:14px;box-shadow:0 1px 3px #00000010}
+.logo{display:flex;align-items:center;gap:8px}
+.circle{width:38px;height:38px;background:#1E293B;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
+.head b{font-size:14px} .head small{font-size:11px;color:#666}
+.icons{display:flex;gap:6px} .ic{width:32px;height:32px;background:#F5F1E8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px}
 
-/* COMME TA PHOTO - PETIT PETIT */
-.card{border-radius:16px;padding:14px 14px;display:flex;align-items:center;gap:12px;margin-bottom:12px;position:relative;overflow:hidden;cursor:pointer}
-.icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;z-index:2}
+.ville{background:white;border-radius:16px;padding:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;box-shadow:0 1px 3px #0000000F}
+.ville b{font-size:13px} .ville p{font-size:11px;color:#666;line-height:1.2}
+.ville button{background:#111;color:white;border:none;padding:10px 12px;border-radius:20px;font-weight:700;font-size:11px;line-height:1.2}
 
-/* SECTEUR 1 - NOIR complètement + un peu jaune */
-.s1{background:#000;color:#fff;border:1.5px solid #000}
-.s1 .icon{background:#FFC21C;color:#000}
-.s1 small{font-size:10px;color:#FFC21C;letter-spacing:1px;font-weight:700}
-.s1 b{font-size:15px;font-weight:900;color:#fff;margin-top:3px;line-height:1.1}
-.s1 span{font-size:11.5px;color:#9F9FA9;margin-top:4px;line-height:1.2}
+.search{background:white;border-radius:24px;padding:11px 14px;display:flex;gap:8px;margin-bottom:12px;box-shadow:0 1px 3px #0000000F}
+.search input{border:none;outline:none;width:100%;font-size:13px;background:transparent}
 
-/* SECTEUR 2 - BLANC comme fond, entouré en noir */
-.s2{background:#FFFEFB;color:#000;border:1.5px solid #000}
-.s2 .icon{background:#000;color:#FFC21C}
-.s2 small{font-size:10px;color:#71717A;letter-spacing:1px;font-weight:600}
-.s2 b{font-size:15px;font-weight:900;color:#000;margin-top:3px;line-height:1.1}
-.s2 span{font-size:11.5px;color:#71717A;margin-top:4px;line-height:1.2}
+.bar{background:#111;color:#fff;text-align:center;padding:11px;border-radius:12px;font-weight:800;font-size:13px;margin-bottom:14px}
 
-/* Filigrane ODA SHOP derrière comme photo */
-.card::after{content:'ODA SHOP';position:absolute;right:8px;top:52%;transform:translateY(-50%);font-size:36px;font-weight:900;opacity:0.06;z-index:1}
-.s1::after{color:#fff;opacity:0.09}
+.sec{border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;background:white;box-shadow:0 1px 4px #00000012;border:1px solid #00000008}
+.sec .n{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0}
+.sec b{font-size:12.5px;display:block;line-height:1.2} .sec span{font-size:11px;margin-top:3px;display:block;color:#666;line-height:1.3}
 
-/* PAGES */
-.page{display:none}.page.active{display:block}
-.back{background:#111;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:800;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.prod{background:#F5F5F5;border-radius:12px;padding:8px}
-input,select{width:100%;padding:11px;border-radius:10px;border:1.2px solid #ccc;margin-bottom:8px;font-size:13px}
-.btn{background:#111;color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:900;font-size:13px}
+.s1 .n{background:#111;color:#fff}
+.s2 .n{background:#111;color:#fff}
+.s3 .n{background:#111;color:#fff}
+.s4 .n{background:#111;color:#fff}
+.s5 .n{background:#111;color:#fff}
+.s6 .n{background:#111;color:#fff}
 </style>
 </head>
 <body>
 <div class="app">
-<div id="accueil" class="page active">
-<div class="top"><b>ODA SHOP</b><a onclick="showPage('admin')">ADMIN</a></div>
+<div class="head"><div class="logo"><div class="circle">O</div><div><b>ODA SHOP</b><br><small>Bienvenue Zara Agadez</small></div></div><div class="icons"><div class="ic">🛒</div><div class="ic">🔔</div><div class="ic">👤</div></div></div>
 
-<div class="card s1" onclick="showPage('p1')">
-<div class="icon">🏪</div>
-<div><small>SECTION 1</small><b>BOUTIQUE NEUVE</b><span>Téléphones, ordinateurs, meubles, électroménager neufs</span></div>
-</div>
+<div class="ville"><div><b>Ville: Agadez</b><p>Livraison partout au<br>Niger</p></div><button>Commander vers<br>une autre ville</button></div>
 
-<div class="card s2" onclick="showPage('p2')">
-<div class="icon">🏷️</div>
-<div><small>SECTION 2</small><b>MARCHÉ OCCASION</b><span>Achetez et vendez des produits d'occasion</span></div>
-</div>
-</div>
+<div class="search">🔍<input placeholder="Que cherchez-vous ?"></div>
+<div class="bar">Commander à Agadez</div>
 
-<div id="p1" class="page"><button class="back" onclick="showPage('accueil')">← Retour</button><h3>BOUTIQUE NEUVE</h3><div id="g1" class="grid" style="margin-top:10px"></div></div>
-<div id="p2" class="page"><button class="back" onclick="showPage('accueil')">← Retour</button><h3>MARCHÉ OCCASION</h3><div id="g2" class="grid" style="margin-top:10px"></div></div>
+<div class="sec"><div class="n">1</div><div><b>SECTION 1 BOUTIQUE NEUVE</b><span>Téléphones, ordinateurs, meubles, électroménager neufs</span></div></div>
+<div class="sec"><div class="n">2</div><div><b>SECTION 2 MARCHÉ OCCASION</b><span>Achetez et vendez des produits d'occasion</span></div></div>
+<div class="sec"><div class="n">3</div><div><b>SECTION 3 LIVRAISON NOURRITURE</b><span>Restaurants d'Agadez livrés chez vous</span></div></div>
+<div class="sec"><div class="n">4</div><div><b>SECTION 4 PHARMACIE</b><span>Pharmacie Agadez et produits santé</span></div></div>
+<div class="sec"><div class="n">5</div><div><b>SECTION 5 IMMOBILIER</b><span>Maisons, terrains, locations à Agadez</span></div></div>
+<div class="sec"><div class="n">6</div><div><b>SECTION 6 TRANSPORT</b><span>Taxis, bus, location véhicules</span></div></div>
 
-<div id="admin" class="page"><button class="back" onclick="showPage('accueil')">← Retour</button><h3>ADMINISTRATION</h3><p style="font-size:11px;color:#666;margin:6px 0 10px 0">Tu mets manuellement ici</p>
-<select id="sec"><option value="neuf">Secteur 1 - Boutique Neuve</option><option value="occ">Secteur 2 - Marché Occasion</option></select>
-<input id="nom" placeholder="Nom produit"><input id="prix" placeholder="Prix"><input id="img" placeholder="Lien image (optionnel)">
-<button class="btn" onclick="add()">+ AJOUTER</button><div id="list" style="margin-top:12px"></div></div>
+<p style="text-align:center;color:#999;font-size:10px;margin-top:18px">Fond WhatsApp chic - plus de jaune ✓</p>
 </div>
-<script>
-let prods=JSON.parse(localStorage.getItem('oda_final')||'[]');
-function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');render()}
-function add(){let n=document.getElementById('nom').value,p=document.getElementById('prix').value;if(!n||!p)return alert('Nom et prix');prods.push({id:Date.now(),sec:document.getElementById('sec').value,nom:n,prix:p,img:document.getElementById('img').value});localStorage.setItem('oda_final',JSON.stringify(prods));document.getElementById('nom').value='';document.getElementById('prix').value='';document.getElementById('img').value='';renderAdmin();alert('Ajouté')}
-function render(){let g1=document.getElementById('g1'),g2=document.getElementById('g2');if(!g1)return;g1.innerHTML='';g2.innerHTML='';prods.forEach(x=>{let h=`<div class=prod>${x.img?`<img src=${x.img} style='width:100%;height:80px;object-fit:cover;border-radius:8px'>`:`<div style='height:80px;background:#ddd;border-radius:8px;display:flex;align-items:center;justify-content:center'>📦</div>`}<b style='font-size:12px;display:block;margin-top:4px'>${x.nom}</b><small style='font-size:11px;color:#666'>${x.prix}</small></div>`;if(x.sec=='neuf')g1.innerHTML+=h;else g2.innerHTML+=h});if(g1.innerHTML=='')g1.innerHTML='<small style=grid-column:1/3;text-align:center;color:#999>Aucun produit, va dans ADMIN</small>';if(g2.innerHTML=='')g2.innerHTML='<small style=grid-column:1/3;text-align:center;color:#999>Aucun produit, va dans ADMIN</small>'}
-function renderAdmin(){let l=document.getElementById('list');l.innerHTML='';prods.slice().reverse().forEach(p=>{l.innerHTML+=`<div style='background:#f5f5f5;padding:8px;border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between;font-size:12px'><span><b>${p.nom}</b> - ${p.sec}<br>${p.prix}</span><button onclick='del(${p.id})' style='background:red;color:#fff;border:none;padding:4px 8px;border-radius:6px'>X</button></div>`})}
-function del(id){prods=prods.filter(p=>p.id!=id);localStorage.setItem('oda_final',JSON.stringify(prods));renderAdmin();render()}
-render();renderAdmin();
-</script>
 </body>
 </html>
