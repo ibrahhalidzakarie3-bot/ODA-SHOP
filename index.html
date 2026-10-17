@@ -2,60 +2,67 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ODA SHOP NIGER</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ODA SHOP NIGER - Agadez</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#f1f1f1;display:flex;justify-content:center;min-height:100vh;font-family:Arial,sans-serif}
-.app{width:390px;background:#f1c40f;padding:12px;position:relative;min-height:100vh}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.logo{display:flex;align-items:center;gap:8px}
-.circle{background:#34495e;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:18px}
-.logo b{color:#000;font-size:16px}
-.logo span{font-size:11px;color:#000}
-.icons{display:flex;gap:8px}
-.icon{width:28px;height:28px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.card{background:white;border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-.row{display:flex;justify-content:space-between;align-items:center}
-.yellow-btn{background:#ffcc00;border:none;padding:8px 12px;border-radius:20px;font-size:12px;font-weight:bold}
-.search{background:white;border-radius:20px;padding:10px 14px;display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.search input{border:none;outline:none;width:100%;font-size:13px}
-.black-bar{background:black;color:white;text-align:center;padding:10px;border-radius:8px;font-weight:bold;margin-bottom:10px;font-size:14px}
-.section{border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
-.section.black{background:black;color:white}
-.section.yellow{background:#ffcc00;color:black}
-.section.white{background:white;color:black}
-.section b{font-size:13px;display:block}
-.section span{font-size:11px;opacity:0.8}
-.num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;flex-shrink:0}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:#111;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;background:#FFCC00;min-height:100vh;padding:14px 14px 30px 14px}
+.header{display:flex;justify-content:space-between;align-items:center;padding:8px 4px 18px 4px}
+.left{display:flex;align-items:center;gap:10px}
+.logo-circle{width:52px;height:52px;background:#0F172A;border-radius:50%;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:26px;border:3px solid white}
+.left b{font-size:18px;font-weight:900;color:#000;line-height:1}
+.left span{font-size:13px;font-weight:700;color:#333}
+.right{display:flex;gap:10px}
+.r-icon{width:36px;height:36px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
+
+.ville{background:white;border-radius:18px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.ville b{font-size:14px;font-weight:900}
+.ville p{font-size:11px;color:#666;font-weight:700;margin-top:2px}
+.ville button{background:#FFCC00;border:none;padding:10px 14px;border-radius:24px;font-weight:900;font-size:11px}
+
+.search{background:white;border-radius:28px;padding:14px 18px;display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.search input{border:none;outline:none;width:100%;font-size:15px;font-weight:700}
+
+.cmd{background:#000;color:white;text-align:center;padding:14px;border-radius:12px;font-weight:900;font-size:15px;margin-bottom:16px;letter-spacing:0.5px}
+
+.card{border-radius:18px;padding:18px 16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;min-height:84px}
+.card.black{background:#0F172A;color:white}
+.card.yellow{background:#FFCC00;color:black;border:1.5px solid #000}
+.card.white{background:white;color:black}
+.num{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;z-index:2;flex-shrink:0}
 .black .num{background:white;color:black}
-.yellow .num{background:black;color:white}
+.yellow .num{background:black;color:#FFCC00}
 .white .num{background:black;color:white}
+.txt{z-index:2}
+.txt b{font-size:15px;font-weight:900;display:block;line-height:1.2}
+.txt span{font-size:12.5px;font-weight:600;margin-top:4px;display:block;opacity:0.85;line-height:1.3}
+/* O géant derrière */
+.card::after{content:'O';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:90px;font-weight:900;line-height:1;z-index:1}
+.black::after{color:rgba(255,255,255,0.10)}
+.yellow::after{color:rgba(0,0,0,0.08)}
+.white::after{color:rgba(0,0,0,0.05)}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="top">
-    <div class="logo"><div class="circle">O</div><div><b>ODA SHOP</b><br><span>Bienvenue Zara Agadez</span></div></div>
-    <div class="icons"><div class="icon">🛒</div><div class="icon">🔔</div><div class="icon">👤</div></div>
-  </div>
+<div class="header"><div class="left"><div class="logo-circle">O</div><div><b>ODA SHOP</b><br><span>Bienvenue Zara Agadez</span></div></div><div class="right"><div class="r-icon">🛒</div><div class="r-icon">🔔</div><div class="r-icon">👤</div></div></div>
+<div class="ville"><div><b>Ville: Agadez</b><p>Livraison partout au Niger</p></div><button>Commander vers une autre ville</button></div>
+<div class="search">🔍<input placeholder="Que cherchez-vous ?"></div>
+<div class="cmd">Commander à Agadez</div>
 
-  <div class="card"><div class="row"><div><small>Ville: Agadez</small><br><small style="color:#888">Livraison partout au Niger</small></div><button class="yellow-btn">Commander vers une autre ville</button></div></div>
+<div class="card black"><div class="num">1</div><div class="txt"><b>SECTION 1 BOUTIQUE NEUVE</b><span>Téléphones, ordinateurs, meubles, électroménager neufs</span></div></div>
+<div class="card yellow"><div class="num">2</div><div class="txt"><b>SECTION 2 MARCHÉ OCCASION</b><span>Achetez et vendez des produits d'occasion</span></div></div>
+<div class="card white"><div class="num">3</div><div class="txt"><b>SECTION 3 LIVRAISON NOURRITURE</b><span>Restaurants d'Agadez livrés chez vous</span></div></div>
+<div class="card black"><div class="num">4</div><div class="txt"><b>SECTION 4 PHARMACIE</b><span>Pharmacie Agadez et produits santé</span></div></div>
+<div class="card yellow"><div class="num">5</div><div class="txt"><b>SECTION 5 IMMOBILIER</b><span>Maisons, terrains, locations à Agadez</span></div></div>
+<div class="card white"><div class="num">6</div><div class="txt"><b>SECTION 6 TRANSPORT</b><span>Taxis, bus, location véhicules</span></div></div>
+<div class="card black"><div class="num">7</div><div class="txt"><b>SECTION 7 TRAVAUX À DOMICILE</b><span>Plombiers, électriciens, maçons</span></div></div>
+<div class="card yellow"><div class="num">8</div><div class="txt"><b>SECTION 8 SERVICE COLIS ODA</b><span>Envoi et réception de colis</span></div></div>
+<div class="card white"><div class="num">9</div><div class="txt"><b>SECTION 9 ODA EXPRESS</b><span>Livraison rapide en 30 minutes</span></div></div>
+<div class="card black"><div class="num">10</div><div class="txt"><b>SECTION 10 AUTOMOBILE</b><span>Pièces détachées et garages</span></div></div>
 
-  <div class="search">🔍<input placeholder="Que cherchez-vous ?"></div>
-
-  <div class="black-bar">Commander à Agadez</div>
-
-  <div class="section black"><div class="num">1</div><div><b>SECTION 1 BOUTIQUE NEUVE</b><span>Téléphones, ordinateurs, meubles, électroménager neufs</span></div></div>
-  <div class="section yellow"><div class="num">2</div><div><b>SECTION 2 MARCHÉ OCCASION</b><span>Achetez et vendez des produits d'occasion</span></div></div>
-  <div class="section white"><div class="num">3</div><div><b>SECTION 3 LIVRAISON NOURRITURE</b><span>Restaurants d'Agadez livrés chez vous</span></div></div>
-  <div class="section black"><div class="num">4</div><div><b>SECTION 4 PHARMACIE</b><span>Pharmacie Agadez et produits santé</span></div></div>
-  <div class="section yellow"><div class="num">5</div><div><b>SECTION 5 IMMOBILIER</b><span>Maisons, terrains, locations à Agadez</span></div></div>
-  <div class="section white"><div class="num">6</div><div><b>SECTION 6 TRANSPORT</b><span>Taxis, bus, location véhicules</span></div></div>
-  <div class="section black"><div class="num">7</div><div><b>SECTION 7 TRAVAUX À DOMICILE</b><span>Plombiers, électriciens, maçons</span></div></div>
-  <div class="section yellow"><div class="num">8</div><div><b>SECTION 8 SERVICE COLIS ODA</b><span>Envoi et réception de colis</span></div></div>
-  <div class="section white"><div class="num">9</div><div><b>SECTION 9 ODA EXPRESS</b><span>Livraison rapide en 30 minutes</span></div></div>
-  <div class="section black"><div class="num">10</div><div><b>SECTION 10 AUTOMOBILE</b><span>Pièces détachées et garages</span></div></div>
 </div>
 </body>
 </html>
