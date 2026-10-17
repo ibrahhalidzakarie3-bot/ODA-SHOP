@@ -1,24 +1,118 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Boutique Neuve - ODA SHOP</title>
-<style>body{font-family:Arial;background:#fff;margin:0}.top{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;position:sticky;top:0;background:#fff}.grid{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.grid{grid-template-columns:1fr}} .card{border:1px solid #eee;border-radius:16px;padding:12px;overflow:hidden}.card img{width:100%;height:160px;object-fit:cover;border-radius:12px}.price{color:#E9A800;font-weight:900;font-size:18px}.btn{ display:block;background:#000;color:#fff;text-align:center;padding:12px;border-radius:22px;text-decoration:none;margin-top:8px;font-weight:800}</style>
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin ODA SHOP</title>
+<style>
+body{font-family:Arial;background:#f5f5f5;padding:12px;margin:0}
+.box{max-width:600px;margin:10px auto;background:#fff;padding:18px;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+input,select,textarea{width:100%;padding:13px;margin:7px 0;border:1.5px solid #ddd;border-radius:10px;box-sizing:border-box;font-size:15px}
+label{font-size:13px;font-weight:800;margin-top:10px;display:block;color:#222}
+button{width:100%;padding:14px;background:#E9A800;border:0;border-radius:12px;font-weight:900;cursor:pointer;font-size:16px;margin-top:8px}
+.item{border:1px solid #eee;padding:12px;border-radius:12px;margin-top:12px;background:#fafafa}
+.top{display:flex;justify-content:space-between;font-size:13px}
+.photo-preview{width:100%;height:160px;object-fit:cover;border-radius:10px;margin-top:8px;display:none;border:1px solid #eee}
+</style>
 </head>
 <body>
-<div class="top"><a href="index.html" style="text-decoration:none;color:#000">← Retour</a><b>BOUTIQUE NEUVE</b><a href="tel:+22777174950" style="text-decoration:none">📞</a></div>
-<div id="list" class="grid"></div>
+<div class="box" id="loginBox">
+<h2 style="text-align:center">🔐 ODA SHOP Admin</h2>
+<p style="text-align:center;color:#888;font-size:13px">Accès sécurisé</p>
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Mot de passe">
+<button onclick="login()">Entrer</button>
+</div>
+
+<div class="box" id="adminBox" style="display:none">
+<h3>📦 Ajouter Produit Neuf - Boutique Neuve</h3>
+
+<label>Numéro de série carte d'identité (anti-vol)</label>
+<input id="serie" placeholder="Ex: NIN 1234...">
+
+<label>Nom du vendeur</label>
+<input id="vendeur" placeholder="Ex: Ibrahim">
+
+<label>Nom de la marchandise</label>
+<input id="nom" placeholder="Ex: Chemise Zara">
+
+<label>Prix d'achat (toi seul vois, client ne voit pas)</label>
+<input id="prixAchat" type="number" placeholder="Ex: 5000">
+
+<label>Prix de vente (client va voir dans Boutique Neuve)</label>
+<input id="prixVente" type="number" placeholder="Ex: 7500">
+
+<label>Description de la marchandise</label>
+<textarea id="desc" placeholder="Taille, couleur, état..."></textarea>
+
+<label>Photo de la marchandise</label>
+<input type="file" id="photoFile" accept="image/*" onchange="previewPhoto()">
+<img id="preview" class="photo-preview">
+
+<label>Statut du stock</label>
+<select id="statut">
+<option value="en-stock">🟢 En Stock</option>
+<option value="reserve">🟡 Réservé</option>
+<option value="vendu">🔴 Vendu</option>
+</select>
+
+<button onclick="ajouter()">💾 ENREGISTRER DANS BOUTIQUE NEUVE</button>
+<div id="liste"></div>
+
+<button onclick="location.href='index.html'" style="background:#000;color:#fff;margin-top:15px">← Retour boutique</button>
+<button onclick="location.href='boutique-neuve.html'" style="background:#fff;border:2px solid #E9A800;margin-top:8px">Voir Boutique Neuve →</button>
+</div>
+
 <script>
-let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]');
-let el=document.getElementById('list');
-if(arr.length==0) el.innerHTML='<div style="text-align:center;padding:40px;color:#888;grid-column:1/-1">Aucun produit pour le moment<br><small>Ajoute dans Admin</small></div>';
-else el.innerHTML=arr.filter(p=>p.statut!=='vendu').map(p=>`
-<div class="card">
- ${p.photo?`<img src="${p.photo}">`:`<div style="height:160px;background:#f5f5f5;border-radius:12px;display:flex;align-items:center;justify-content:center">📦</div>`}
- <div style="margin-top:8px"><b>${p.nom}</b></div>
- <div style="font-size:12px;color:#666;margin:4px 0">${p.desc||''}</div>
- <div class="price">${p.prixVente} FCFA</div>
- <div style="font-size:11px;color:#00a651;margin-top:2px">${p.statut}</div>
- <a class="btn" href="https://wa.me/22777174950?text=Salam%20ODA%20SHOP%20je%20veux%20commander%20${encodeURIComponent(p.nom)}%20à%20${p.prixVente}FCFA">Commander</a>
-</div>`).join('');
+const GMAIL="odashop215@gmail.com"; const MDP="Oda2025";
+let photoBase64="";
+
+function login(){ 
+ if(email.value.trim()===GMAIL && pass.value===MDP){ 
+  loginBox.style.display='none'; adminBox.style.display='block'; afficher(); 
+ } else alert('Email ou mot de passe incorrect'); 
+}
+
+function previewPhoto(){
+ let f=document.getElementById('photoFile').files[0];
+ if(!f) return;
+ let r=new FileReader();
+ r.onload=e=>{
+  photoBase64=e.target.result;
+  let img=document.getElementById('preview');
+  img.src=photoBase64; img.style.display='block';
+ }
+ r.readAsDataURL(f);
+}
+
+function ajouter(){
+ if(!nom.value || !prixVente.value || !vendeur.value || !serie.value) return alert('Remplis: série carte, nom vendeur, nom marchandise, prix vente');
+ let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]');
+ arr.push({
+  nom:nom.value, prixAchat:prixAchat.value, prixVente:prixVente.value,
+  vendeur:vendeur.value, serie:serie.value, desc:desc.value,
+  statut:statut.value, photo:photoBase64, date:new Date().toLocaleDateString()
+ });
+ localStorage.setItem('produits_complets',JSON.stringify(arr));
+ nom.value='';prixAchat.value='';prixVente.value='';vendeur.value='';serie.value='';desc.value='';photoBase64='';document.getElementById('photoFile').value='';document.getElementById('preview').style.display='none';
+ afficher(); alert('✅ Produit ajouté dans Boutique Neuve !');
+}
+
+function afficher(){
+ let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]');
+ if(arr.length==0) liste.innerHTML='<p style="text-align:center;color:#999;margin-top:15px">Aucun produit encore</p>';
+ else liste.innerHTML=arr.map((p,i)=>`
+  <div class="item">
+   <div class="top"><b>${p.nom}</b><span>${p.statut}</span></div>
+   <div style="font-size:13px;margin-top:6px">
+    Vendeur: ${p.vendeur} | Série: ${p.serie}<br>
+    Achat: ${p.prixAchat} | Vente: <b>${p.prixVente}</b><br>
+    ${p.desc}<br><small>${p.date}</small>
+   </div>
+   ${p.photo?`<img src="${p.photo}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-top:6px">`:''}
+   <button onclick="suppr(${i})" style="background:#ffe6e6;padding:8px;margin-top:6px;font-size:13px">Supprimer</button>
+  </div>`).join('');
+}
+function suppr(i){ let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]'); arr.splice(i,1); localStorage.setItem('produits_complets',JSON.stringify(arr)); afficher(); }
 </script>
 </body>
 </html>
