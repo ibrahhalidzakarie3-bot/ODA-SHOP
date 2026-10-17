@@ -1,85 +1,56 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ODA SHOP NIGER - Agadez</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODA SHOP - Agadez</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#EFE7DD;display:flex;justify-content:center}
-.app{width:100%;max-width:430px;background:#EFE7DD;min-height:100vh;padding:0 14px 80px 14px;background-image: radial-gradient(#00000008 1px, transparent 1px);background-size:22px 22px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui}
+body{background:#F6F6F6;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;background:white;min-height:100vh;position:relative;padding-bottom:80px}
+.header{padding:20px;display:flex;justify-content:center;background:white;box-shadow:0 1px 10px #0001;position:sticky;top:0;z-index:5}
+.header img{height:70px}
+.search{margin:12px 16px;background:#F2F2F2;border-radius:12px;padding:12px;display:flex;gap:8px}
+.search input{border:none;background:transparent;width:100%;outline:none}
+.list{padding:0 16px;display:flex;flex-direction:column;gap:16px;margin-top:10px}
+.card{display:flex;gap:14px;align-items:center;background:white;border:1px solid #EAEAEA;border-radius:14px;padding:16px;box-shadow:0 4px 12px #0000000A;cursor:pointer}
+.card:active{transform:scale(0.98)}
+.card .ico{width:44px;height:44px;background:#FFF7D6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.card b{font-size:12.5px} .card small{color:#888;font-size:11px}
+.num{margin-left:auto;background:#111;color:#FFB700;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
 
-/* HEADER */
-.header{background:white;margin:12px 0;padding:12px 14px;border-radius:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px #00000012;position:sticky;top:10px;z-index:100}
-.logo{display:flex;align-items:center;gap:10px}
-.o{width:42px;height:42px;background:#111;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px}
-.header b{font-size:14px} .header small{font-size:11px;color:#666}
-.h-icons{display:flex;gap:8px} .hi{width:36px;height:36px;background:#F6F3EB;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
-
-/* VILLE */
-.ville{background:white;padding:14px;border-radius:16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;box-shadow:0 2px 8px #0000000F}
-.ville b{font-size:14px} .ville p{font-size:11px;color:#666;line-height:1.3;margin-top:2px}
-.ville button{background:#111;color:white;border:none;padding:11px 14px;border-radius:22px;font-weight:700;font-size:11px;line-height:1.2}
-
-/* SEARCH */
-.search{background:white;border-radius:24px;padding:12px 16px;display:flex;gap:10px;align-items:center;margin-bottom:12px;box-shadow:0 2px 8px #0000000F}
-.search input{border:none;outline:none;width:100%;font-size:14px;background:transparent}
-
-/* BARRE */
-.bar{background:#111;color:white;text-align:center;padding:13px;border-radius:14px;font-weight:900;font-size:14px;margin-bottom:16px;letter-spacing:0.5px}
-
-/* SECTIONS - ALTERNANCE NOIR / BLANC EXACTEMENT COMME TON SITE */
-.sections{display:flex;flex-direction:column;gap:10px}
-.sec{border-radius:18px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:0.2s;box-shadow:0 2px 10px #00000012}
-.sec:active{transform:scale(0.98)}
-.sec .n{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0}
-.sec .txt b{font-size:13.5px;display:block;line-height:1.2;letter-spacing:-0.2px} 
-.sec .txt span{font-size:11.5px;display:block;margin-top:4px;line-height:1.3}
-
-.black{background:#111;color:white;border:1.5px solid #111}
-.black .n{background:white;color:#111}
-.black span{color:#A1A1AA}
-
-.white{background:white;color:#111;border:1.5px solid #111}
-.white .n{background:#111;color:white}
-.white span{color:#666}
-
-/* PAGES INTERNES */
-.page{display:none}.page.active{display:block}
-.back{background:#111;color:white;border:none;padding:10px 16px;border-radius:22px;font-weight:800;font-size:13px;margin:12px 0;display:flex;align-items:center;gap:6px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.prod{background:white;border-radius:14px;padding:10px;box-shadow:0 1px 4px #00000010;text-align:center}
-.prod .img{height:90px;background:#F2F2F2;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:6px}
-.prod b{font-size:12px;display:block} .prod p{font-size:11px;color:#E11D48;font-weight:700;margin-top:2px}
-
-.empty{text-align:center;padding:40px 20px;color:#999}
-.empty .big{font-size:48px;margin-bottom:10px}
-
-.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:white;padding:10px 0;border-top:1px solid #eee;display:flex;justify-content:space-around;box-shadow:0 -2px 10px #00000010}
-.bn{display:flex;flex-direction:column;align-items:center;font-size:10px;color:#999} .bn.active{color:#111;font-weight:800} .bn i{font-size:20px;margin-bottom:2px;font-style:normal}
+/* PAGE DETAIL */
+.detail{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:100vh;background:white;z-index:20;display:none;flex-direction:column;overflow:auto}
+.detail.active{display:flex}
+.detail-head{padding:16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #eee;position:sticky;top:0;background:white}
+.detail-head button{border:none;background:#111;color:#FFB700;width:36px;height:36px;border-radius:10px;font-size:18px}
+.subs{padding:16px;display:grid;gap:10px}
+.sub{background:#F8F8F8;border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center;border:1px solid #eee}
+.sub:active{background:#FFFBEB}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:white;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #eee}
 </style>
 </head>
 <body>
 <div class="app">
-
-<!-- ACCUEIL -->
-<div id="accueil" class="page active">
-<div class="header">
-<div class="logo"><div class="o">O</div><div><b>ODA SHOP</b><br><small>Bienvenue à Agadez</small></div></div>
-<div class="h-icons"><div class="hi">🛒</div><div class="hi">👤</div></div>
+<div class="header"><img src="logo.png"></div>
+<div class="search">🔍<input placeholder="Rechercher service..."></div>
+<div class="list" id="list"></div>
 </div>
 
-<div class="ville"><div><b>📍 Ville: Agadez</b><p>Livraison partout au<br>Niger - 24h/24</p></div><button>Changer<br>de ville</button></div>
+<div class="detail" id="detail">
+<div class="detail-head"><button onclick="closeDetail()">‹</button><b id="detailTitle"></b></div>
+<div class="subs" id="subs"></div>
+</div>
 
-<div class="search">🔍<input id="searchInput" placeholder="Que cherchez-vous ? Téléphone, meuble..." oninput="filterSec()"></div>
+<div class="nav">🏠 Accueil</div>
 
-<div class="bar">🛍️ COMMANDER À AGADEZ</div>
-
-<div class="sections" id="sectionsList">
-<div class="sec black" onclick="openSec(1)"><div class="n">1</div><div class="txt"><b>SECTION 1 - BOUTIQUE NEUVE</b><span>Téléphones, ordinateurs, meubles, électroménager neufs</span></div></div>
-<div class="sec white" onclick="openSec(2)"><div class="n">2</div><div class="txt"><b>SECTION 2 - MARCHÉ OCCASION</b><span>Achetez et vendez des produits d'occasion à Agadez</span></div></div>
-<div class="sec black" onclick="openSec(3)"><div class="n">3</div><div class="txt"><b>SECTION 3 - LIVRAISON NOURRITURE</b><span>Restaurants, grillades, fast-food livrés chez vous</span></div></div>
-<div class="sec white" onclick="openSec(4)"><div class="n">4</div><div class="txt"><b>SECTION 4 - PHARMACIE</b><span>Médicaments, produits santé, parapharmacie Agadez</span></div></div>
-<div class="sec black" onclick="openSec(5)"><div class="n">5</div><div class="txt"><b>SECTION 5 - IMMOBILIER</b><span>Maisons, terrains, locations, ventes à Agadez</span></div></div>
-<div class="sec white" onclick="openSec(6)"><div class="n">6</div><div class="txt"><b>SECTION 6 - TRANSPORT</b><span>Taxis, bus, location véhicules, motos</span></div></div>
-<div class="sec black" onclick="openSec(7)"><div class="
+<script>
+const data = {
+"1 BOUTIQUE NEUVE": ["Téléphones neufs","Ordinateurs","Électroménager","Accessoires"],
+"2 MARCHE OCCASION": ["Téléphones occasion","Meubles","Vêtements","Tout vendre"],
+"3 LIVRAISON NOURRITURE": ["Restaurants Agadez","Fast-food","Épicerie","Boissons"],
+"4 PHARMACIE": ["Médicaments","Parapharmacie","Livraison 24h","Conseil"],
+"5 IMMOBILIER": ["Maison à vendre","Location maison","Terrain","Appartement"],
+"6 TRANSPORT": ["Taxi ville","Voyage Agadez-Niamey","Location voiture","Moto"],
+"7 TRAVAUX DOMICILE": ["Électricien","Plombier","Maçon","Peintre","Menuisier","Climatisation"],
+"8 SERVICE COLIS": ["Envoi Niamey","Envoi Arlit","Suivi colis","Stockage"],
+"9 ODA EXPRESS": ["Livraison -60min","Course
