@@ -1,1 +1,33 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ODA SHOP</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,-apple-system,sans-serif}body{background:#F2F2F7;display:flex;justify-content:center}.app{width:100%;max-width:430px;background:#F2F2F7;min-height:100vh;padding:0 16px 90px} .logo{width:180px;margin:28px auto 8px;display:block}h2{text-align:center;font-size:13px;color:#111111;font-weight:500}.search{margin:16px 0;background:#FFFFFFD9;backdrop-filter:blur(30px);border:1px solid #fff;border-radius:20px;padding:14px 16px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 20px #0001}.search input{border:none;outline:none;width:100%;background:transparent}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:linear-gradient(180deg,#FFFFFFE6,#FFFFFF99);backdrop-filter:blur(30px);border:1px solid #fff;border-radius:20px;padding:18px 8px;text-align:center;box-shadow:0 10px 30px #00000012;cursor:pointer;transition:.2s}.card:active{transform:scale(.96)}.card i{font-size:34px;display:block}.y{color:#FFB700}.b{color:#000000}.card b{font-size:11px;color:#111111;margin-top:8px;display:block}.nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:92%;max-width:420px;background:#FFFFFFF2;backdrop-filter:blur(25px);border-radius:24px;display:flex;justify-content:space-around;padding:12px 0;border:1px solid #fff;box-shadow:0 8px 30px #0003}.nav div{font-size:10px;text-align:center}.view{display:none;padding:20px}.view.active{display:block}</style></head><body><div class="app"><img class="logo" src="https://i.postimg.cc/8c5V3k1H/logo-oda.png" onerror="this.outerHTML='<h1 style=text-align:center;padding-top:28px><span style=color:#FFB700>ODA</span> SHOP</h1>'"><h2>Tout, en un instant • Services premium</h2><div class="search">🔍<input placeholder="Rechercher un service, produit..."><span>🎙️</span><span>⚙️</span></div><div id="home" class="grid"><div class="card" onclick="openS('Boutique Neuve')"><i class="y">🏪</i><b>Boutique Neuve</b></div><div class="card" onclick="openS('Marché Occasion')"><i class="y">🛍️</i><b>Marché Occasion</b></div><div class="card" onclick="openS('Livraison Nourriture')"><i class="y">🍔</i><b>Livraison Nourriture</b></div><div class="card" onclick="openS('Pharmacie')"><i class="y">💊</i><b>Pharmacie</b></div><div class="card" onclick="openS('Immobilier')"><i class="y">🏠</i><b>Immobilier</b></div><div class="card" onclick="openS('Transport')"><i class="y">🚌</i><b>Transport</b></div><div class="card" onclick="openS('Travaux Domicile')"><i class="y">🔧</i><b>Travaux Domicile</b></div><div class="card" onclick="openS('Service Colis')"><i class="b">📦</i><b>Service Colis</b></div><div class="card" onclick="openS('Oda Express')"><i class="b">🚚</i><b>Oda Express</b></div><div class="card" onclick="openS('Automobile')"><i class="y">🚗</i><b>Automobile</b></div></div><div id="detail" class="view"><button onclick="back()" style="border:none;background:#fff;padding:10px 16px;border-radius:12px">← Retour</button><h3 id="title" style="margin:16px 0"></h3><div style="background:#fff;border-radius:16px;padding:16px">Téléphones, Ordinateurs, Accessoires... ici tu mettras les vrais produits de <span id="cat"></span></div></div></div><div class="nav"><div style="color:#FFB700">🏠<br>Accueil</div><div>♡<br>Favoris</div><div>📋<br>Commandes</div><div>👤<br>Profil</div></div><script>function openS(n){document.getElementById('home').style.display='none';document.getElementById('detail').classList.add('active');document.getElementById('title').innerText=n;document.getElementById('cat').innerText=n}function back(){document.getElementById('home').style.display='grid';document.getElementById('detail').classList.remove('active')}</script></body></html>
+<header>
+  <h1>ODA SHOP</h1>
+  <p>Tout, en un instant</p>
+  <input type="search" placeholder="Rechercher un service..." />
+</header>
+
+<section class="grid">
+  <div class="card yellow">Boutique Neuve</div>
+  <div class="card yellow">Marché Occasion</div>
+  <div class="card yellow">Livraison Nourriture</div>
+  <div class="card yellow">Pharmacie</div>
+  <div class="card yellow">Immobilier</div>
+  <div class="card yellow">Transport</div>
+  <div class="card yellow">Travaux Domicile</div>
+  <div class="card black">Service Colis</div>
+  <div class="card black">Oda Express</div>
+  <div class="card yellow">Automobile</div>
+</section>
+
+<nav>
+  <a>Accueil</a>
+  <a>Favoris</a>
+  <a>Commandes</a>
+  <a>Profil</a>
+</nav>
+
+<style>
+body{background:#F2F2F7}
+.card{background:rgba(255,255,255,.8); backdrop-filter:blur(20px); border-radius:20px; padding:20px; box-shadow:0 10px 30px #0001}
+.yellow{color:#FFB700}
+.black{color:#000}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+</style>
