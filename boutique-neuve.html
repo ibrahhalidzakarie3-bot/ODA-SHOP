@@ -1,31 +1,12 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Boutique Neuve</title>
-<style>body{font-family:Arial;background:#f5f5f5;padding:10px}.card{background:#fff;border-radius:18px;padding:12px;margin:12px 0;display:flex;gap:12px;position:relative}.card img{width:100px;height:100px;border-radius:12px;object-fit:cover;cursor:zoom-in}.price{color:#E9A800;font-weight:900;font-size:18px}.zoom{position:fixed;top:0;left:0;width:100%;height:100%;background:#000d;display:none;align-items:center;justify-content:center;z-index:999}.zoom img{max-width:90%;max-height:90%;border-radius:16px}.btn{padding:10px 14px;border-radius:30px;border:0;font-weight:900;margin-top:6px;margin-right:6px}.btn-cmd{background:#000;color:#E9A800}.btn-share{background:#25D366;color:#fff}.badge{padding:4px 10px;border-radius:20px;font-size:12px;color:#fff}.enstock{background:#22c55e}.reserve{background:#f59e0b}.vendu{background:#ef4444}</style></head><body>
-<h2>🏪 BOUTIQUE NEUVE</h2><div id="liste"></div>
-<div id="zoomBox" class="zoom" onclick="this.style.display='none'"><img id="zoomImg"></div>
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Boutique Neuve - ODA</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui;background:#fcfcfc;padding:16px}h1{font-size:22px;letter-spacing:3px;margin:16px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:#fff;border:1px solid #f0f0f0;border-radius:20px;overflow:hidden}.card img{width:100%;height:160px;object-fit:cover;background:#fafafa}.info{padding:12px}.price{font-weight:900;font-size:16px}.code{font-size:10px;color:#999;letter-spacing:1px}</style></head><body>
+<h1>🏪 BOUTIQUE NEUVE</h1>
+<div id="liste" class="grid"></div>
 <script>
-let all=JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');
-let neuve=all.filter(p=>p.categorie==='neuve');
-let html=''; neuve.reverse().forEach(p=>{
-let orderNum='ODA-'+p.code+'-'+Math.floor(Math.random()*9000+1000);
-html+=`<div class="card">
-<img src="${p.photo}" onclick="zoom('${p.photo}')">
-<div style="flex:1"><b>${p.nom}</b> <small>[${p.code}]</small><br>
-<span class="price">${p.prix} FCFA</span> <span class="badge ${p.statut==='En Stock'?'enstock':p.statut==='Réservé'?'reserve':'vendu'}">${p.statut}</span><br>
-<small>Code: ${p.code} | Série: ${p.numSerie||'-'}</small><br>
-<small>Fournisseur: ${p.nomFour}</small><br>
-<button class="btn btn-cmd" onclick="commander('${p.nom}','${p.code}','${p.telFour}','${orderNum}')">🛒 Commander</button>
-<button class="btn btn-share" onclick="partager('${p.nom}','${p.code}','${p.prix}')">📤 Partager</button>
-<div id="cmd-${p.code}" style="margin-top:8px;color:#000;font-weight:700"></div>
-</div></div>`;
-});
-document.getElementById('liste').innerHTML=html||'<p>Aucun produit. Ajoute dans admin.</p>';
-function zoom(src){document.getElementById('zoomImg').src=src;document.getElementById('zoomBox').style.display='flex';}
-function commander(nom,code,telFour,orderNum){
- document.getElementById('cmd-'+code).innerHTML=`✅ Commande ${orderNum} pour ${nom} [${code}]<br>Admin va appeler fournisseur: ${telFour}<br><a href="tel:${telFour}">📞 Appeler ${telFour}</a> | <a href="https://wa.me/${telFour}?text=Commande ${orderNum} ${nom} ${code}">WhatsApp</a>`;
- alert('Numéro commande: '+orderNum+' - Admin reconnait que c\'est pour '+telFour+' ('+nom+') - Il va appeler le fournisseur');
-}
-function partager(nom,code,prix){
- let text=`ODA SHOP Agadez: ${nom} [${code}] - ${prix} FCFA - https://ibrahhalidzakarie3-bot.github.io/ODA-SHOP/boutique-neuve.html`;
- if(navigator.share){navigator.share({title:nom,text:text});} else {window.open('https://wa.me/?text='+encodeURIComponent(text));}
-}
+let produits = JSON.parse(localStorage.getItem('oda_produits_pro')||localStorage.getItem('oda_produits')||'[]');
+let neuves = produits.filter(p=> (p.categorie||'neuve')==='neuve');
+let h=''; if(neuves.length===0){document.getElementById('liste').innerHTML='<p>Aucun produit. Ajoute dans admin sur CE même téléphone.</p>';} else {
+neuves.reverse().forEach(p=>{h+=`<div class="card"><img src="${p.photo||''}"><div class="info"><div class="code">${p.code}</div><div style="font-weight:700;margin:4px 0">${p.nom}</div><div class="price">${p.prixVente||p.prix||'-'} FCFA</div><div style="font-size:11px;color:#22c55e">${p.statut||'En Stock'}</div></div></div>`;});
+document.getElementById('liste').innerHTML=h;}
 </script></body></html>
