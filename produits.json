@@ -1,0 +1,14 @@
+[
+  {
+    "nom": "Chemise Blanche ODA",
+    "prix": "8000",
+    "description": "Belle chemise coton Agadez",
+    "image": "https://via.placeholder.com/300"
+  },
+  {
+    "nom": "Pantalon Noir Classe",
+    "prix": "12000",
+    "description": "Pantalon pour homme",
+    "image": "https://via.placeholder.com/300"
+  }
+]
