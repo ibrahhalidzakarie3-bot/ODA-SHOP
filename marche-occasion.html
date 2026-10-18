@@ -1,54 +1,31 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Marché Occasion</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:#f5f5f5}
-.top{background:#fff;padding:14px;display:flex;justify-content:space-between;font-weight:900;border-bottom:2px solid #000}
-.top a{text-decoration:none;color:#000;border:1px solid #000;padding:6px 14px;border-radius:20px;font-size:13px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}
-.card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #ddd}
-.card img{width:100%;height:200px;object-fit:cover}
-.info{padding:10px}
-.badge{background:#000;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:900}
-.price{font-weight:900;font-size:16px;margin-top:6px}
-.btns{display:flex;gap:6px;margin-top:10px}
-.btn{flex:1;padding:12px;border-radius:8px;text-align:center;text-decoration:none;font-weight:900;font-size:13px}
-.cmd{background:#25D366;color:#fff}.share{background:#fff;color:#000;border:2px solid #000}
-.zoom{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:999}
-.zoom img{max-width:95%;max-height:95%}
-</style>
-</head>
-<body>
-<div class="top"><a href="index.html">← Retour</a><div>MARCHÉ OCCASION</div><div style="width:60px"></div></div>
-<div class="grid" id="grid"></div>
-<div class="zoom" id="zoom" onclick="this.style.display='none'"><img id="zImg"></div>
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Boutique Neuve</title>
+<style>body{font-family:Arial;background:#f5f5f5;padding:10px}.card{background:#fff;border-radius:18px;padding:12px;margin:12px 0;display:flex;gap:12px;position:relative}.card img{width:100px;height:100px;border-radius:12px;object-fit:cover;cursor:zoom-in}.price{color:#E9A800;font-weight:900;font-size:18px}.zoom{position:fixed;top:0;left:0;width:100%;height:100%;background:#000d;display:none;align-items:center;justify-content:center;z-index:999}.zoom img{max-width:90%;max-height:90%;border-radius:16px}.btn{padding:10px 14px;border-radius:30px;border:0;font-weight:900;margin-top:6px;margin-right:6px}.btn-cmd{background:#000;color:#E9A800}.btn-share{background:#25D366;color:#fff}.badge{padding:4px 10px;border-radius:20px;font-size:12px;color:#fff}.enstock{background:#22c55e}.reserve{background:#f59e0b}.vendu{background:#ef4444}</style></head><body>
+<h2>🏪 BOUTIQUE NEUVE</h2><div id="liste"></div>
+<div id="zoomBox" class="zoom" onclick="this.style.display='none'"><img id="zoomImg"></div>
 <script>
-function get(){try{return JSON.parse(localStorage.getItem('produits_complets')||'[]')}catch{return[]}}
-function show(){
- let all=get().filter(p=>p.cat==='occasion');
- let g=document.getElementById('grid');
- if(!all.length){g.innerHTML='<div style="grid-column:1/-1;padding:60px;text-align:center">Aucun produit occasion<br>Va dans admin.html sur ce laptop<br>et ajoute catégorie = occasion</div>';return;}
- g.innerHTML=all.map(p=>{
-  let col=p.statut==='En Stock'?'green':p.statut==='Vendue'?'red':'orange';
-  let num=p.numero||'001';
-  return `<div class=card>
-   <img src="${p.photo||''}" onclick="document.getElementById('zImg').src=this.src;document.getElementById('zoom').style.display='flex'">
-   <div class=info>
-    <span class=badge>#${num}</span> <span style="color:${col};font-size:11px;font-weight:900">${p.statut||'En Stock'}</span>
-    <div style="font-weight:800;margin-top:6px">${p.nomMarch||''}</div>
-    <div style="font-size:12px;color:#666">${p.description||''}</div>
-    <div class=price>${p.pVente||''} FCFA</div>
-    <div class=btns>
-     <a class="btn cmd" href="https://wa.me/22777174950?text=ODA SHOP - N°${num} ${p.nomMarch} ${p.pVente}FCFA">Commander</a>
-     <a class="btn share" href="#" onclick="window.open('https://wa.me/?text='+encodeURIComponent('ODA SHOP OCCASION N°${num} - ${p.nomMarch} - ${p.pVente} FCFA'),' _blank');return false;">↗️ Partager</a>
-    </div>
-   </div>
-  </div>`;
- }).join('');
+let all=JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');
+let neuve=all.filter(p=>p.categorie==='neuve');
+let html=''; neuve.reverse().forEach(p=>{
+let orderNum='ODA-'+p.code+'-'+Math.floor(Math.random()*9000+1000);
+html+=`<div class="card">
+<img src="${p.photo}" onclick="zoom('${p.photo}')">
+<div style="flex:1"><b>${p.nom}</b> <small>[${p.code}]</small><br>
+<span class="price">${p.prix} FCFA</span> <span class="badge ${p.statut==='En Stock'?'enstock':p.statut==='Réservé'?'reserve':'vendu'}">${p.statut}</span><br>
+<small>Code: ${p.code} | Série: ${p.numSerie||'-'}</small><br>
+<small>Fournisseur: ${p.nomFour}</small><br>
+<button class="btn btn-cmd" onclick="commander('${p.nom}','${p.code}','${p.telFour}','${orderNum}')">🛒 Commander</button>
+<button class="btn btn-share" onclick="partager('${p.nom}','${p.code}','${p.prix}')">📤 Partager</button>
+<div id="cmd-${p.code}" style="margin-top:8px;color:#000;font-weight:700"></div>
+</div></div>`;
+});
+document.getElementById('liste').innerHTML=html||'<p>Aucun produit. Ajoute dans admin.</p>';
+function zoom(src){document.getElementById('zoomImg').src=src;document.getElementById('zoomBox').style.display='flex';}
+function commander(nom,code,telFour,orderNum){
+ document.getElementById('cmd-'+code).innerHTML=`✅ Commande ${orderNum} pour ${nom} [${code}]<br>Admin va appeler fournisseur: ${telFour}<br><a href="tel:${telFour}">📞 Appeler ${telFour}</a> | <a href="https://wa.me/${telFour}?text=Commande ${orderNum} ${nom} ${code}">WhatsApp</a>`;
+ alert('Numéro commande: '+orderNum+' - Admin reconnait que c\'est pour '+telFour+' ('+nom+') - Il va appeler le fournisseur');
 }
-show();
-</script>
-</body>
-</html>
+function partager(nom,code,prix){
+ let text=`ODA SHOP Agadez: ${nom} [${code}] - ${prix} FCFA - https://ibrahhalidzakarie3-bot.github.io/ODA-SHOP/boutique-neuve.html`;
+ if(navigator.share){navigator.share({title:nom,text:text});} else {window.open('https://wa.me/?text='+encodeURIComponent(text));}
+}
+</script></body></html>
