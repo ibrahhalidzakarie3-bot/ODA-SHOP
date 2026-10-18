@@ -1,1 +1,33 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Livraison Nourriture</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:#f5f5f5}.top{background:#E9A800;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-weight:900}.top a{text-decoration:none}.btn-retour{color:#000;border:1.5px solid #000;padding:7px 14px;border-radius:20px;background:#fff;font-size:13px;font-weight:800}.title-top{font-size:15px}.btn-call{width:42px;height:42px;background:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2)}.info{margin:14px;background:#fff;border-radius:16px;padding:16px;border-left:5px solid #E9A800}.info b{color:#000}.info p{font-size:14px;color:#555;margin-top:6px;line-height:1.4}.formWrap{padding:0 14px 14px}.form{background:#fff;border-radius:20px;padding:18px;max-width:480px;margin:auto;box-shadow:0 2px 12px rgba(0,0,0,.08)}.form h2{margin-bottom:6px}.form small{color:#888;display:block;margin-bottom:14px}.form input,.form textarea{width:100%;padding:14px;border-radius:12px;border:1.5px solid #ddd;margin-bottom:12px;font-size:15px}.form textarea{min-height:90px}.btn{width:100%;padding:16px;border-radius:12px;border:0;font-weight:900;font-size:17px;cursor:pointer}.green{background:#000;color:#E9A800;margin-top:8px;border:2px solid #E9A800}.green span{color:#fff}label{font-size:13px;font-weight:700;margin-bottom:4px;display:block}.or-call{margin-top:18px;background:#fff3cd;border:1.5px dashed #E9A800;border-radius:14px;padding:14px;text-align:center}.or-call b{font-size:14px}.or-call p{font-size:12px;color:#666;margin:4px 0 8px}.or-call a{display:inline-block;background:#000;color:#E9A800;padding:12px 22px;border-radius:30px;text-decoration:none;font-weight:900;border:2px solid #E9A800}</style></head><body><div class="top"><a href="index.html" class="btn-retour">← Retour</a><div class="title-top">🍔 LIVRAISON</div><a href="tel:+22777174950" class="btn-call">📞</a></div><div class="info"><b>🍽️ Tu choisis ton restaurant à Agadez !</b><p>C'est toi qui choisis ton restaurant préféré. Tu écris le nom du restaurant, ton plat, et on te livre.</p><p style="margin-top:8px;color:#000;font-weight:700">📢 Tu ne sais pas écrire ? Appelle direct en haut
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Livraison Nourriture - ODA SHOP</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:#fff;padding-bottom:130px}.top{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee;position:sticky;top:0;background:#fff;z-index:10}.left{display:flex;align-items:center;gap:12px}.back{width:40px;height:40px;border-radius:50%;border:1.5px solid #000;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer}.title-top{font-weight:900;font-size:18px}.call-top{width:44px;height:44px;background:#E9A800;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none}.form{padding:16px}.label-yellow{color:#E9A800;font-weight:900;font-size:14px;letter-spacing:1px;margin:18px 0 10px;text-transform:uppercase}.input{background:#f5f5f5;border:1.5px solid #e5e5e5;border-radius:18px;padding:16px;font-size:14px;width:100%;outline:none}.input:focus{border-color:#E9A800;background:#fff}textarea.input{height:120px;resize:none}.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:12px 16px;display:flex;gap:10px}.btn-call{flex:1;background:#fff;border:2.5px solid #E9A800;border-radius:14px;padding:16px;text-align:center;font-weight:900;color:#000;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px}.btn-order{flex:1.8;background:#000;color:#E9A800;border-radius:14px;padding:16px;text-align:center;font-weight:900;font-size:15px;border:0;cursor:pointer}.btn-order span{background:#E9A800;color:#000;padding:4px 8px;border-radius:50%;margin-left:6px}</style></head><body>
+<div class="top"><div class="left"><div class="back" onclick="history.back()">←</div><div class="title-top">🍔 Livraison</div></div><a href="tel:+22777174950" class="call-top">📞</a></div>
+
+<div class="form">
+<div class="label-yellow">1. TON RESTAURANT PRÉFÉRÉ</div>
+<input id="resto" class="input" placeholder="Ex: Maquis Le Sahel, Pizza King">
+<div class="label-yellow">2. DIS-NOUS LES PLATS QUE TU VEUX</div>
+<textarea id="plats" class="input" placeholder="Ex: 2 Shawarma poulet, 1 Pizza 4 fromages"></textarea>
+<div class="label-yellow">3. INFOS DE LIVRAISON</div>
+<input id="nom" class="input" placeholder="Votre nom" style="margin-bottom:12px">
+<input id="tel" class="input" placeholder="Votre téléphone WhatsApp" style="margin-bottom:12px">
+<input id="adresse" class="input" placeholder="Adresse / Quartier (Agadez)" style="margin-bottom:12px">
+<textarea id="note" class="input" placeholder="Note spéciale (sans piment, etc.)" style="height:90px"></textarea>
+</div>
+
+<div class="bottom">
+<a href="tel:+22777174950" class="btn-call">📞 Appeler</a>
+<button class="btn-order" onclick="commander()">Commander <span>→</span></button>
+</div>
+
+<script>
+function commander(){
+let r=document.getElementById('resto').value;
+let p=document.getElementById('plats').value;
+let n=document.getElementById('nom').value;
+let t=document.getElementById('tel').value;
+let ad=document.getElementById('adresse').value;
+let no=document.getElementById('note').value;
+if(!r||!p||!n||!t){alert('Remplis resto, plats, nom et tel Abee !');return;}
+let msg=`*ODA SHOP - COMMANDE NOURRITURE*%0A%0A🍔 Restaurant: ${r}%0A🍽️ Plats: ${p}%0A%0A👤 Nom: ${n}%0A📞 Tel: ${t}%0A📍 Adresse: ${ad}%0A📝 Note: ${no}`;
+window.open(`https://wa.me/22777174950?text=${msg}`,'_blank');
+}
+</script></body></html>
