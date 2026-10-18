@@ -55,3 +55,58 @@ body{font-family:Inter,Arial,sans-serif;background:#fff}
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODA SHOP - BOUTIQUE NEUVE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#fff}
+.top{background:#0a0f2c;color:#E9A800;padding:16px;text-align:center;font-weight:900;font-size:16px}
+.wrap{padding:14px}
+.grid-img{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;max-width:340px}
+.grid-img img{width:100%;height:75px;object-fit:cover;border-radius:6px;cursor:pointer}
+.stock{color:#0a8a0a;font-size:12px;font-weight:700;margin-top:10px}
+.name{font-weight:700;font-size:15px;margin-top:3px}
+.price{font-weight:900;font-size:15px;margin-top:2px}
+.btn{display:block;background:#2ecc71;color:#fff;text-align:center;padding:11px;border-radius:8px;margin-top:10px;text-decoration:none;font-weight:800;max-width:340px}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.93);display:none;align-items:center;justify-content:center;z-index:999}
+#zoom.active{display:flex}
+#zoom img{max-width:96%;max-height:92vh;border-radius:10px;background:#fff}
+</style>
+</head>
+<body>
+<div class="top">ODA SHOP - BOUTIQUE NEUVE</div>
+
+<div class="wrap">
+<h3 style="font-size:16px">Produits Neufs Disponibles</h3>
+<p style="font-size:11px;color:#888;margin-top:4px">👆 Clique sur la photo pour zoomer</p>
+<br>
+
+<div class="grid-img">
+  <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400" onclick="zoom(this.src)">
+  <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400" onclick="zoom(this.src)">
+  <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=400" onclick="zoom(this.src)">
+  <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400" onclick="zoom(this.src)">
+  <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" onclick="zoom(this.src)">
+</div>
+
+<div style="max-width:340px">
+  <div class="stock">🟢 En Stock</div>
+  <div class="name">chemise</div>
+  <div class="price">5000 FCFA</div>
+  <a class="btn" href="https://wa.me/22780000000?text=Je veux commander chemise">🛒 Commander</a>
+</div>
+</div>
+
+<div id="zoom" onclick="this.classList.remove('active')"><img id="zImg" src=""></div>
+<script>
+function zoom(src){
+  document.getElementById('zImg').src=src;
+  document.getElementById('zoom').classList.add('active');
+}
+</script>
+</body>
+</html>
