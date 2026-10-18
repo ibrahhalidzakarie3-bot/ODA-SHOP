@@ -9,7 +9,7 @@
 body{font-family:Inter,Arial,sans-serif;background:#fff}
 .header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff}
 .header .logo img{height:56px}
-.header .center{text-align:center;line-height:1.1;cursor:pointer}
+.header .center{text-align:center;line-height:1.1}
 .header .center b{font-size:24px;font-weight:900;color:#000}.header .center b span{color:#E9A800}
 .header .center p{color:#555;font-size:16px;margin-top:4px}
 .header .right{display:flex;gap:12px}
@@ -31,8 +31,8 @@ body{font-family:Inter,Arial,sans-serif;background:#fff}
 </head>
 <body>
 <div class="header">
- <div class="logo"><img src="logo.png" onerror="this.style.display='none'"></div>
- <div class="center" id="secretAdmin"><b>Bienvenue <span>Zara</span></b><p>Agadez</p></div>
+ <div class="logo" id="secretAdmin"><img src="logo.png" onerror="this.style.display='none'"></div>
+ <div class="center"><b>Bienvenue</b><p>Agadez</p></div>
  <div class="right">
    <a href="tel:+22780000000" style="text-decoration:none"><div class="circle c-yellow">📞</div></a>
    <div class="circle c-white">☰</div>
@@ -42,7 +42,6 @@ body{font-family:Inter,Arial,sans-serif;background:#fff}
 <div class="search-wrap"><span>🔍</span><input class="search" placeholder="Que cherchez-vous ?"></div>
 <div class="black">🚚 <div><span>Commander à Agadez</span> · Payez et faites-vous livrer</div></div>
 
-<!-- DOUBLE-CLIQUE POUR ENTRER - COMME LA PAIX ET COMME APPEL -->
 <div class="card" id="boutiqueCard">
  <div class="icon">🏪</div>
  <div class="card-text">
@@ -53,21 +52,14 @@ body{font-family:Inter,Arial,sans-serif;background:#fff}
 </div>
 
 <script>
-// 2 CLICS RAPIDES = RENTRE DANS BOUTIQUE NEUVE (comme bouton Appel)
+// 2 CLICS RAPIDES SUR LA CARTE = RENTRE DANS BOUTIQUE NEUVE
 let clicks=0;
 document.getElementById('boutiqueCard').addEventListener('click',()=>{
   clicks++;
   if(clicks===2){ window.location.href='boutique-neuve.html'; }
-  setTimeout(()=>{clicks=0}, 700);
+  setTimeout(()=>{clicks=0},700);
 });
-
-// ADMIN CACHÉ : 7 CLICS SUR "Bienvenue Zara" = OUVRE ADMIN
+// ADMIN CACHÉ : 7 CLICS SUR LE LOGO
 let admin=0;
 document.getElementById('secretAdmin').addEventListener('click',()=>{
   admin++;
-  if(admin>=7){ window.location.href='admin.html'; admin=0; }
-  setTimeout(()=>admin=0, 3000);
-});
-</script>
-</body>
-</html>
