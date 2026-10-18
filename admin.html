@@ -1,23 +1,94 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ADMIN ODA - Secret</title>
-<style>body{font-family:Arial;background:#111;color:#fff;padding:20px}input,select{width:100%;padding:14px;margin:8px 0;border-radius:10px;border:0;font-size:16px}button{width:100%;padding:15px;background:#E9A800;border:0;border-radius:30px;font-weight:900;font-size:18px;margin-top:10px} .box{max-width:400px;margin:50px auto;background:#222;padding:20px;border-radius:20px}</style>
-</head><body>
-<div id="login" class="box"><h2>ODA SHOP ADMIN</h2><p>Mot de passe secret</p><input type="password" id="pass" placeholder="Mot de passe"><button onclick="check()">ENTRER</button><p id="err" style="color:red"></p></div>
-<div id="admin" style="display:none" class="box"><h2>Ajouter Produit</h2>
-<input id="nom" placeholder="Nom produit"><input id="prix" placeholder="Prix ex: 85000 FCFA">
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ADMIN ODA PRO FINAL</title>
+<style>
+body{font-family:Arial;background:#0f172a;color:#fff;padding:10px}
+.box{max-width:540px;margin:10px auto;background:#1e293b;padding:18px;border-radius:20px}
+input,select{width:100%;padding:13px;margin:6px 0;border-radius:10px;border:0;font-size:15px;background:#334155;color:#fff}
+label{font-size:11px;color:#E9A800;margin-top:12px;display:block;letter-spacing:1px;font-weight:900}
+button{width:100%;padding:14px;background:#E9A800;border:0;border-radius:30px;font-weight:900;margin-top:12px;font-size:16px;color:#000}
+.searchTop{width:100%;padding:14px;border-radius:30px;border:0;background:#fff;color:#000;margin-bottom:15px;font-size:16px}
+.item{background:#0f172a;padding:12px;border-radius:14px;margin:10px 0;display:flex;gap:10px}
+.item img{width:70px;height:70px;border-radius:10px;object-fit:cover;background:#334155}
+.badge{padding:3px 8px;border-radius:20px;font-size:11px;font-weight:900;color:#fff}
+.enstock{background:#22c55e}.reserve{background:#f59e0b}.vendu{background:#ef4444}
+small{color:#94a3b8}
+</style></head><body>
+
+<div class="box" id="loginBox">
+<h2>ODA ADMIN PRO</h2>
+<input type="password" id="pass" placeholder="Mot de passe : ODA shop 123?">
+<button onclick="checkPass()">ENTRER</button><p id="err" style="color:#ef4444"></p>
+</div>
+
+<div class="box" id="adminBox" style="display:none">
+<h2>Ajouter Produit</h2>
+<input type="text" id="search" class="searchTop" placeholder="🔍 Rechercher code, nom, fournisseur..." onkeyup="filtrer()">
+
+<label>CODE MARCHANDISE * (Ex: CHEM-001)</label>
+<input id="code" placeholder="CHEM-001">
+
+<label>NOM MARCHANDISE *</label>
+<input id="nom" placeholder="Chemise">
+
+<label>PRIX *</label>
+<input id="prix" placeholder="5000">
+
+<label>CATEGORIE *</label>
 <select id="cat"><option value="neuve">BOUTIQUE NEUVE</option><option value="occasion">MARCHÉ OCCASION</option></select>
-<input id="ville" value="Agadez"><input id="tel" value="22777174950">
-<button onclick="ajouter()">AJOUTER - Tout Agadez va voir</button><div id="msg"></div></div>
+
+<label>PHOTO (avec zoom pour client)</label>
+<input type="file" id="photo" accept="image/*">
+
+<label>NOM DU FOURNISSEUR *</label>
+<input id="nomFour" placeholder="Moussa - Marché Agadez">
+
+<label>NUMÉRO FOURNISSEUR * (pour appeler quand client commande)</label>
+<input id="telFour" placeholder="85924233">
+
+<label>NUMÉRO SÉRIE / CNI / CARTE</label>
+<input id="numSerie" placeholder="Série ou CNI">
+
+<label>STATUT *</label>
+<select id="statut"><option value="En Stock">✅ En Stock</option><option value="Réservé">🟡 Réservé</option><option value="Vendu">🔴 Vendu</option></select>
+
+<label>VILLE</label>
+<input id="ville" value="Agadez">
+
+<button onclick="ajouterPro()">✅ ENREGISTRER - Ça sort dans Boutique Neuve / Occasion</button>
+<p id="msg" style="color:#E9A800"></p>
+
+<hr style="margin:20px 0;border-color:#334155">
+<h3>📦 Tous les produits (<span id="count">0</span>)</h3>
+<div id="liste"></div>
+</div>
+
 <script>
-function check(){
-let p=document.getElementById('pass').value;
-if(p==="ODA shop 123?"||p==="ODA shop 123 ?"||p==="ODA2025"||p==="ODA 2025"||p==="oda shop 123?"){
-document.getElementById('login').style.display='none';document.getElementById('admin').style.display='block';
-}else{document.getElementById('err').innerText='Mot de passe faux';}
+let produits = JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');
+let base64Photo="";
+document.getElementById('photo').addEventListener('change',e=>{
+ let r=new FileReader(); r.onload=ev=>base64Photo=ev.target.result; r.readAsDataURL(e.target.files[0]);
+});
+function checkPass(){
+ let p=document.getElementById('pass').value;
+ if(p==="ODA shop 123?"||p==="ODA shop 123 ?"||p==="ODA2025"||p==="oda shop 123?"){loginBox.style.display='none';adminBox.style.display='block';afficher();}
+ else err.innerText='Mot de passe faux';
 }
-function ajouter(){
-let pr={nom:nom.value,prix:prix.value,categorie:cat.value,ville:ville.value,tel:tel.value};
-let all=JSON.parse(localStorage.getItem('oda_produits')||'[]');all.push(pr);localStorage.setItem('oda_produits',JSON.stringify(all));
-document.getElementById('msg').innerHTML='<p style="color:#E9A800">✅ Ajouté ! Dans Boutique '+cat.value+'</p>';
+function ajouterPro(){
+ if(!code.value||!nom.value){alert('Code et Nom obligatoires');return;}
+ let pr={code:code.value,nom:nom.value,prix:prix.value,categorie:cat.value,nomFour:nomFour.value,telFour:telFour.value,numSerie:numSerie.value,statut:statut.value,ville:ville.value,photo:base64Photo,date:Date.now()};
+ produits.push(pr); localStorage.setItem('oda_produits_pro',JSON.stringify(produits)); localStorage.setItem('oda_produits',JSON.stringify(produits));
+ msg.innerHTML='✅ ENREGISTRÉ ! '+nom.value+' ['+code.value+'] → va dans '+(cat.value==='neuve'?'BOUTIQUE NEUVE':'MARCHÉ OCCASION');
+ code.value='';nom.value='';prix.value='';nomFour.value='';telFour.value='';numSerie.value='';base64Photo='';afficher();
 }
+function afficher(){
+ let h=''; produits.slice().reverse().forEach((p,i)=>{
+  h+=`<div class="item"><img src="${p.photo}"><div style="flex:1"><b>${p.nom}</b> [${p.code}]<br><small>${p.prix} FCFA - ${p.statut}</small><br><small>Fournisseur: ${p.nomFour} - ${p.telFour}</small><br><small>${p.categorie}</small></div><button style="width:auto;background:#ef4444" onclick="supp(${produits.length-1-i})">X</button></div>`;
+ }); liste.innerHTML=h; count.innerText=produits.length;
+}
+function filtrer(){
+ let q=search.value.toLowerCase(); let f=produits.filter(p=>(p.nom+p.code+p.nomFour+p.telFour+p.numSerie).toLowerCase().includes(q));
+ let h=''; f.slice().reverse().forEach(p=>{h+=`<div class="item"><img src="${p.photo}"><div><b>${p.nom}</b> [${p.code}] - ${p.nomFour} - ${p.statut}</div></div>`;}); if(q) liste.innerHTML=h; else afficher();
+}
+function supp(i){if(confirm('Supprimer ?')){produits.splice(i,1);localStorage.setItem('oda_produits_pro',JSON.stringify(produits));localStorage.setItem('oda_produits',JSON.stringify(produits));afficher();}}
 </script></body></html>
