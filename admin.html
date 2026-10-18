@@ -2,93 +2,158 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODA SHOP</title>
+<title>Admin ODA - 2 Secteurs</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial;background:#fff}
-.header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
-.logo img{height:50px}
-.center{text-align:center;cursor:pointer;user-select:none}
-.center b{font-size:22px;font-weight:900}
-.center p{color:#777;font-size:14px}
-.searchBox{padding:12px 16px;border-top:1px solid #eee;border-bottom:1px solid #eee;position:relative}
-.searchBox input{width:100%;padding:16px 16px 16px 50px;border-radius:30px;border:2px solid #E9A800;background:#f5f5f5;font-size:16px}
-.searchBox span{position:absolute;left:36px;top:50%;transform:translateY(-50%);font-size:20px}
-.tabs{display:flex;gap:10px;padding:12px 16px}
-.tab{flex:1;padding:12px;border-radius:30px;border:2px solid #000;text-align:center;font-weight:900;cursor:pointer}
+body{font-family:Arial;background:#eef2f7;padding:12px}
+.top{background:#000;color:#E9A800;padding:14px;text-align:center;font-weight:900;border-radius:12px;font-size:18px}
+.tabs{display:flex;gap:10px;margin:14px 0}
+.tab{flex:1;padding:14px;border-radius:12px;border:2px solid #000;text-align:center;font-weight:900;cursor:pointer;background:#fff}
 .tab.active{background:#000;color:#E9A800}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}
-.card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid #eee}
-.card img{width:100%;height:160px;object-fit:cover;cursor:zoom-in}
-.info{padding:10px}
-.code{color:#E9A800;font-weight:900;font-size:11px;background:#000;display:inline-block;padding:2px 6px;border-radius:4px}
-.name{font-weight:800;font-size:14px;margin-top:4px}
-.desc{font-size:12px;color:#666;height:32px;overflow:hidden;margin:4px 0}
-.price{font-weight:900}
-.btns{display:flex;gap:6px;margin-top:8px}
-.btn{flex:1;display:block;text-align:center;padding:10px;border-radius:8px;text-decoration:none;font-weight:800;font-size:13px}
-.btn-cmd{background:#2ecc71;color:#fff}
-.btn-share{background:#fff;color:#000;border:2px solid #000}
-.zoom{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:999}
-.zoom img{max-width:95%;max-height:95%;border-radius:12px}
-.empty{grid-column:1/-1;padding:40px;text-align:center;color:#888}
+.searchTop{width:100%;padding:14px 18px;border-radius:30px;border:2px solid #E9A800;font-size:16px;background:#fff;margin-bottom:12px}
+.box{background:#fff;padding:16px;border-radius:14px;border:1px solid #ddd}
+label{font-size:12px;font-weight:800;color:#333;margin-top:12px;display:block}
+input,textarea,select{width:100%;padding:12px;margin-top:4px;border-radius:8px;border:1px solid #ccc;font-size:14px}
+textarea{height:60px}
+.codeAuto{background:#000;color:#E9A800;padding:12px;border-radius:8px;font-weight:900;text-align:center;font-size:22px;letter-spacing:2px;margin-top:6px}
+.btn{width:100%;padding:15px;margin-top:14px;border:0;border-radius:10px;font-weight:900;background:#E9A800;font-size:16px;cursor:pointer}
+.preview{width:100px;height:100px;object-fit:cover;border-radius:10px;margin-top:8px;display:none;border:2px solid #E9A800}
+.prod{background:#f9f9f9;border:1px solid #eee;padding:12px;border-radius:10px;margin-top:10px;display:flex;gap:10px}
+.prod img{width:70px;height:70px;object-fit:cover;border-radius:8px}
 </style>
 </head>
 <body>
-<div class="header">
- <div class="logo"><img src="logo.png" onerror="this.style.display='none'"></div>
- <div class="center" id="adminAccess"><b>Bienvenue</b><p>Agadez</p></div>
- <div class="right"><div style="font-size:24px">☰</div></div>
-</div>
-
-<div class="searchBox"><span>🔍</span><input id="search" placeholder="Chercher ODA001, chemise..." oninput="render()"></div>
+<div class="top">ODA SHOP - ADMIN - 2 SECTEURS</div>
 
 <div class="tabs">
- <div class="tab active" id="t1" onclick="setFilter('neuve')">🏪 NEUVE</div>
- <div class="tab" id="t2" onclick="setFilter('occasion')">♻️ OCCASION</div>
- <div class="tab" id="t3" onclick="setFilter('all')">📦 TOUT</div>
+  <div class="tab active" id="tNeuve" onclick="setCat('neuve')">🏪 BOUTIQUE NEUVE</div>
+  <div class="tab" id="tOcc" onclick="setCat('occasion')">♻️ MARCHÉ OCCASION</div>
 </div>
 
-<div class="grid" id="grid"></div>
-<div class="zoom" id="zoom" onclick="this.style.display='none'"><img id="zoomImg"></div>
+<input class="searchTop" id="searchTop" placeholder="🔍 Rechercher dans ce secteur : ODA001, nom, carte... " oninput="render()">
+
+<div class="box">
+  <h3 id="titreSecteur">Ajouter dans Boutique Neuve</h3>
+  
+  <label>NUMÉRO AUTO MARCHANDISE</label>
+  <div class="codeAuto" id="codeAuto">001</div>
+  
+  <label>Numéro du Sachet</label>
+  <input id="sachet" placeholder="Ex: SACH-001">
+
+  <label>Numéro de la Carte de la Personne</label>
+  <input id="carte" placeholder="Ex: 123456">
+
+  <label>Nom de la Personne</label>
+  <input id="nomPers" placeholder="Ex: Ibrahim">
+
+  <label>Nom de la Marchandise</label>
+  <input id="nomMarch" placeholder="Ex: Chemise">
+
+  <label>Description</label>
+  <textarea id="desc" placeholder="Description..."></textarea>
+
+  <label>Prix d'Achat</label>
+  <input id="pAchat" placeholder="Ex: 3000">
+
+  <label>Prix de Vente</label>
+  <input id="pVente" placeholder="Ex: 5000 FCFA">
+
+  <label>Photo de la Personne / Marchandise</label>
+  <input id="photo" type="file" accept="image/*" onchange="previewImg(this)">
+  <img id="preview" class="preview">
+
+  <label>État de la marchandise</label>
+  <select id="statut">
+    <option value="En Stock">🟢 En Stock</option>
+    <option value="Réservée">🟡 Réservée</option>
+    <option value="Vendue">🔴 Vendue</option>
+  </select>
+
+  <button class="btn" onclick="ajouter()">✅ AJOUTER DANS <span id="btnCat">NEUVE</span></button>
+  <a href="index.html" style="display:block;text-align:center;margin-top:12px;color:#000;font-weight:700">← Retour Boutique Client</a>
+</div>
+
+<div class="box" style="margin-top:12px">
+  <h3>Liste <span id="listeTitre">Boutique Neuve</span></h3>
+  <div id="liste"></div>
+</div>
 
 <script>
-let filter='neuve';
+let cat='neuve';
+let photoBase64='';
+function setCat(c){
+ cat=c;
+ tNeuve.classList.toggle('active',c==='neuve');
+ tOcc.classList.toggle('active',c==='occasion');
+ titreSecteur.innerText = c==='neuve' ? 'Ajouter dans Boutique Neuve' : 'Ajouter dans Marché Occasion';
+ btnCat.innerText = c==='neuve' ? 'NEUVE' : 'OCCASION';
+ listeTitre.innerText = c==='neuve' ? 'Boutique Neuve' : 'Marché Occasion';
+ genCode();
+ render();
+}
 function getAll(){return JSON.parse(localStorage.getItem('produits_complets')||'[]')}
-function setFilter(f){filter=f; t1.classList.toggle('active',f==='neuve'); t2.classList.toggle('active',f==='occasion'); t3.classList.toggle('active',f==='all'); render();}
-function render(){
- let q=document.getElementById('search').value.toLowerCase();
- let all=getAll().filter(p=>{
-  let okCat = filter==='all' ? true : (p.cat||'neuve')===filter;
-  let okSearch = q==='' || (p.codeODA||'').toLowerCase().includes(q) || (p.nomMarch||'').toLowerCase().includes(q);
-  return okCat && okSearch;
+function saveAll(a){localStorage.setItem('produits_complets',JSON.stringify(a))}
+function genCode(){
+ let all=getAll().filter(p=>p.cat===cat);
+ let num=all.length+1;
+ let code=String(num).padStart(3,'0');
+ codeAuto.innerText=code;
+ return code;
+}
+function previewImg(inp){
+ if(inp.files && inp.files[0]){
+  let r=new FileReader();
+  r.onload=e=>{photoBase64=e.target.result; preview.src=photoBase64; preview.style.display='block';};
+  r.readAsDataURL(inp.files[0]);
+ }
+}
+function ajouter(){
+ if(!nomMarch.value.trim()){alert('Nom marchandise obligatoire');return;}
+ let all=getAll();
+ let numAuto=genCode();
+ all.push({
+  numero:numAuto,
+  codeODA:'ODA'+numAuto,
+  sachet:sachet.value.trim(),
+  carte:carte.value.trim(),
+  nomPers:nomPers.value.trim(),
+  nomMarch:nomMarch.value.trim(),
+  desc:desc.value.trim(),
+  pAchat:pAchat.value.trim(),
+  pVente:pVente.value.trim(),
+  photo:photoBase64,
+  statut:statut.value,
+  cat:cat,
+  date:Date.now()
  });
- let g=document.getElementById('grid');
- if(!all.length){g.innerHTML='<div class=empty>Aucun produit</div>';return;}
- g.innerHTML=all.map(p=>`
-  <div class=card>
-   <img src="${p.photo||'https://via.placeholder.com/300'}" onclick="zoomIt('${p.photo||''}')">
-   <div class=info>
-    <div class=code>${p.codeODA||''}</div>
-    <div class=name>${p.nomMarch||''}</div>
-    <div class=desc>${p.desc||''}</div>
-    <div class=price>${p.pVente||''}</div>
-    <div class=btns>
-     <a class="btn btn-cmd" href="https://wa.me/22780000000?text=Bonjour ODA SHOP, je veux commander ${encodeURIComponent(p.codeODA||'')} - ${encodeURIComponent(p.nomMarch||'')} à ${encodeURIComponent(p.pVente||'')}"">🛒 Commander</a>
-     <a class="btn btn-share" href="#" onclick="partager('${p.codeODA||''}','${(p.nomMarch||'').replace(/'/g,'')}','${(p.pVente||'').replace(/'/g,'')}');return false;">↗️ Partager</a>
-    </div>
+ saveAll(all);
+ sachet.value=''; carte.value=''; nomPers.value=''; nomMarch.value=''; desc.value=''; pAchat.value=''; pVente.value=''; photo.value=''; preview.style.display='none'; photoBase64='';
+ genCode(); render();
+ alert('Ajouté '+cat+' N°'+numAuto);
+}
+function suppr(date){
+ let all=getAll(); let i=all.findIndex(x=>x.date===date);
+ if(i>-1){ all.splice(i,1); saveAll(all); render(); }
+}
+function render(){
+ let q=searchTop.value.toLowerCase();
+ let all=getAll().filter(p=>p.cat===cat && (q==='' || (p.numero||'').includes(q) || (p.codeODA||'').toLowerCase().includes(q) || (p.nomMarch||'').toLowerCase().includes(q) || (p.carte||'').toLowerCase().includes(q) || (p.nomPers||'').toLowerCase().includes(q) ));
+ if(!all.length){ liste.innerHTML='<div style=padding:20px;text-align:center;color:#888>Aucun produit dans ce secteur</div>'; return; }
+ liste.innerHTML=all.map(x=>`
+  <div class=prod>
+   <img src="${x.photo||'https://via.placeholder.com/70'}">
+   <div style=flex:1>
+    <b style=color:#E9A800>#${x.numero} - ${x.codeODA}</b> <b>${x.nomMarch}</b> <span style="font-size:11px;color:${x.statut==='En Stock'?'green': x.statut==='Vendue'?'red':'orange'}">${x.statut}</span><br>
+    <small>Carte: ${x.carte||'-'} | Pers: ${x.nomPers||'-'} | Sachet: ${x.sachet||'-'}</small><br>
+    <small>Achat: ${x.pAchat||'-'} | Vente: ${x.pVente||'-'}</small><br>
+    <small>${x.desc||''}</small><br>
+    <button onclick="suppr(${x.date})" style="background:#ff4444;color:#fff;border:0;padding:4px 8px;border-radius:5px;margin-top:4px;cursor:pointer">Supprimer</button>
    </div>
-  </div>`).join('');
+  </div>
+ `).join('');
 }
-function zoomIt(src){ if(!src) return; document.getElementById('zoomImg').src=src; document.getElementById('zoom').style.display='flex'; }
-function partager(code, nom, prix){
- let texte = `🔥 ODA SHOP Agadez\n📦 ${code} - ${nom}\n💰 ${prix}\n\nVoir sur : ${location.origin+location.pathname}\nCherche : ${code}`;
- let urlWa = `https://wa.me/?text=${encodeURIComponent(texte)}`;
- if(navigator.share){ navigator.share({title:'ODA SHOP', text:texte}).catch(()=>{ window.open(urlWa,'_blank'); }); }
- else { window.open(urlWa,'_blank'); }
-}
-let c=0; adminAccess.addEventListener('click',()=>{c++; if(c>=7){location.href='admin.html'} setTimeout(()=>c=0,3000);});
-render();
+genCode(); render();
 </script>
 </body>
 </html>
