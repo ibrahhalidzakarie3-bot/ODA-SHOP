@@ -4,24 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ODA SHOP</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#E9A800">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Arial;background:#fff}
 .header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px}
-.center{text-align:center;cursor:pointer;flex:1}
+.center{text-align:center;flex:1}
 .center b{font-size:26px;font-weight:900}
 .center p{font-size:15px;color:#555}
 .circle{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px}
 .c-yellow{background:#E9A800}
 .c-white{border:2.5px solid #E9A800}
-.ville{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.ville{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:1px solid #eee;border-bottom:1px solid #eee;flex-wrap:wrap;gap:10px}
 .btn-ville{background:#E9A800;border:0;padding:12px 18px;border-radius:30px;font-weight:800}
 .search-wrap{padding:14px 16px;border-bottom:1px solid #eee;position:relative}
 .search{width:100%;background:#f2f2f2;border-radius:30px;padding:16px 16px 16px 50px;border:1px solid #e6e6e6;font-size:17px}
 .search-wrap span{position:absolute;left:34px;top:50%;transform:translateY(-50%)}
 .black{margin:18px 16px;background:#000;border-radius:20px;padding:18px;color:#fff;display:flex;gap:10px}
 .black span{color:#E9A800;font-weight:700}
-.card{margin:14px 16px;background:#000;border-radius:24px;padding:20px;display:flex;gap:18px;align-items:center;cursor:pointer;min-height:110px}
+.card{margin:14px 16px;background:#000;border-radius:24px;padding:20px;display:flex;gap:18px;align-items:center;min-height:110px}
 .card.white{background:#fff;border:2.5px solid #000}
 .icon{width:84px;height:84px;min-width:84px;background:#E9A800;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px}
 .title{color:#fff;font-size:22px;font-weight:900}
@@ -37,7 +39,7 @@ body{font-family:Arial;background:#fff}
 
 <div class="header">
 <img src="logo.png" class="logo" alt="ODA">
-<div class="center" id="admin"><b>Bienvenue <span style="color:#E9A800">Zara</span></b><p>Agadez</p></div>
+<div class="center"><b>Bienvenue <span style="color:#E9A800">Zara</span></b><p>Agadez</p></div>
 <div style="display:flex;gap:10px">
 <a href="tel:+22777174950" style="text-decoration:none"><div class="circle c-yellow">📞</div></a>
 <div class="circle c-white">☰</div>
@@ -48,22 +50,16 @@ body{font-family:Arial;background:#fff}
 <div class="search-wrap"><span>🔍</span><input class="search" placeholder="Que cherchez-vous ?"></div>
 <div class="black">🚚 <div><span>Commander à Agadez</span> · Payez et faites-vous livrer</div></div>
 
-<div class="card" id="cardNeuve"><div class="icon">🏪</div><div><div class="label">SECTION 1</div><div class="title">BOUTIQUE NEUVE</div><div class="sub">Téléphones, ordinateurs, meubles neufs</div></div></div>
-<div class="card white" id="cardOccas"><div class="icon" style="background:#000;color:#E9A800">♻️</div><div><div class="label">SECTION 2</div><div class="title">MARCHÉ OCCASION</div><div class="sub">Achetez et vendez des articles d'occasion</div></div></div>
-<div class="card" id="cardFood"><div class="icon">🍔</div><div><div class="label">SECTION 3</div><div class="title">LIVRAISON NOURRITURE</div><div class="sub">Restaurants d'Agadez, commandez et on livre</div></div></div>
-<div class="card white" id="c4"><div class="icon">💊</div><div><div class="label">SECTEUR 4</div><div class="title">PHARMACIE</div><div class="sub">Pharmacie Agadez · Maison Longrich</div></div></div>
-<div class="card" id="c5"><div class="icon">🏢</div><div><div class="label">SECTEUR 5</div><div class="title">IMMOBILIER</div><div class="sub">Maisons, boutiques et terrains à Agadez</div></div></div>
-<div class="card white" id="c6"><div class="icon">🚚</div><div><div class="label">SECTEUR 6</div><div class="title">TRANSPORT</div><div class="sub">Camions et motos à 3 roues</div></div></div>
-<div class="card" id="c7"><div class="icon">🔧</div><div><div class="label">SECTEUR 7</div><div class="title">TRAVAUX À DOMICILE</div><div class="sub">Électricien, plombier, soudeur</div></div></div>
-<div class="card white" id="c8"><div class="icon">📦</div><div><div class="label">SECTEUR 8</div><div class="title">SERVICE COLIS ODA</div><div class="sub">Envoyez et récupérez vos colis</div></div></div>
-<div class="card" id="c9"><div class="icon">⚡</div><div><div class="label">SECTEUR 9</div><div class="title">Oda Express</div><div class="sub">Gaz, eau, services rapides</div></div></div>
-<div class="card white" id="c10"><div class="icon">🚗</div><div><div class="label">SECTEUR 10</div><div class="title">Automobile</div><div class="sub">Motos, voitures, pièces</div></div></div>
+<a href="boutique-neuve.html" style="text-decoration:none"><div class="card"><div class="icon">🏪</div><div><div class="label">SECTION 1</div><div class="title">BOUTIQUE NEUVE</div><div class="sub">Téléphones, ordinateurs, meubles neufs</div></div></div></a>
+<a href="marche-occasion.html" style="text-decoration:none"><div class="card white"><div class="icon" style="background:#000;color:#E9A800">♻️</div><div><div class="label">SECTION 2</div><div class="title">MARCHÉ OCCASION</div><div class="sub">Achetez et vendez des articles d'occasion</div></div></div></a>
+<a href="livraison-nourriture.html" style="text-decoration:none"><div class="card"><div class="icon">🍔</div><div><div class="label">SECTION 3</div><div class="title">LIVRAISON NOURRITURE</div><div class="sub">Restaurants d'Agadez, commandez et on livre</div></div></div></a>
+<a href="pharmacie.html" style="text-decoration:none"><div class="card white"><div class="icon">💊</div><div><div class="label">SECTEUR 4</div><div class="title">PHARMACIE</div><div class="sub">Pharmacie Agadez · Maison Longrich</div></div></div></a>
+<a href="immobilier.html" style="text-decoration:none"><div class="card"><div class="icon">🏢</div><div><div class="label">SECTEUR 5</div><div class="title">IMMOBILIER</div><div class="sub">Maisons, boutiques et terrains à Agadez</div></div></div></a>
+<a href="transport.html" style="text-decoration:none"><div class="card white"><div class="icon">🚚</div><div><div class="label">SECTEUR 6</div><div class="title">TRANSPORT</div><div class="sub">Camions et motos à 3 roues</div></div></div></a>
+<a href="travaux.html" style="text-decoration:none"><div class="card"><div class="icon">🔧</div><div><div class="label">SECTEUR 7</div><div class="title">TRAVAUX À DOMICILE</div><div class="sub">Électricien, plombier, soudeur</div></div></div></a>
+<a href="colis.html" style="text-decoration:none"><div class="card white"><div class="icon">📦</div><div><div class="label">SECTEUR 8</div><div class="title">SERVICE COLIS ODA</div><div class="sub">Envoyez et récupérez vos colis</div></div></div></a>
+<a href="oda-express.html" style="text-decoration:none"><div class="card"><div class="icon">⚡</div><div><div class="label">SECTEUR 9</div><div class="title">Oda Express</div><div class="sub">Gaz, eau, services rapides</div></div></div></a>
+<a href="automobile.html" style="text-decoration:none"><div class="card white"><div class="icon">🚗</div><div><div class="label">SECTEUR 10</div><div class="title">Automobile</div><div class="sub">Motos, voitures, pièces</div></div></div></a>
 
-<script>
-function dbl(id,url){let c=0;const e=document.getElementById(id);if(!e)return;e.addEventListener('click',()=>{c++;if(c===2)location.href=url;setTimeout(()=>c=0,700);});}
-dbl('cardNeuve','boutique-neuve.html');dbl('cardOccas','marche-occasion.html');dbl('cardFood','livraison-nourriture.html');
-dbl('c4','pharmacie.html');dbl('c5','immobilier.html');dbl('c6','transport.html');dbl('c7','travaux.html');dbl('c8','colis.html');dbl('c9','oda-express.html');dbl('c10','automobile.html');
-let a=0;document.getElementById('admin').addEventListener('click',()=>{a++;if(a>=7)location.href='admin.html';setTimeout(()=>a=0,3000);});
-</script>
 </body>
 </html>
