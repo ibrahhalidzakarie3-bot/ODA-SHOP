@@ -2,132 +2,53 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Boutique Neuve - ODA SHOP</title>
+<title>Boutique Neuve</title>
 <style>
-body{font-family:Arial;background:#fff;margin:0;padding:0}
-.header{background:#000;color:#E9A800;padding:12px;text-align:center;position:sticky;top:0;z-index:10}
-.header a{color:#fff;text-decoration:none;margin:0 8px;font-size:13px}
-.grid{max-width:900px;margin:auto;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(min-width:600px){.grid{grid-template-columns:1fr 1fr 1fr}}
-.card{border:1px solid #eee;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.05)}
-.card img{width:100%;height:180px;object-fit:cover;background:#f5f5f5;cursor:zoom-in}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:#f5f5f5}
+.top{background:#E9A800;padding:14px;display:flex;justify-content:space-between;font-weight:900;border-bottom:2px solid #000}
+.top a{text-decoration:none;color:#000;border:1px solid #000;padding:6px 14px;border-radius:20px;font-size:13px;background:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}
+.card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #ddd}
+.card img{width:100%;height:200px;object-fit:cover;cursor:zoom-in}
 .info{padding:10px}
-.badge{font-size:11px;padding:3px 8px;border-radius:20px;display:inline-block;font-weight:800}
-.en-stock{background:#e6ffe6;color:#008000}
-.reserve{background:#fff3cd;color:#8a6d00}
-.vendu{background:#ffe6e6;color:#a00}
-.prix{font-weight:900;font-size:17px;color:#000;margin:5px 0}
-.btn{width:100%;padding:11px;background:#25D366;border:0;border-radius:10px;font-weight:900;color:#fff;cursor:pointer;margin-top:6px}
-.small{font-size:12px;color:#666}
-
-/* ZOOM MODAL */
-#zoomModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:9999;justify-content:center;align-items:center;flex-direction:column}
-#zoomModal.active{display:flex}
-#zoomImg{max-width:95%;max-height:80%;object-fit:contain;touch-action:none;transition:transform .2s;border-radius:10px;background:#fff}
-#zoomBar{color:#fff;text-align:center;padding:12px;font-size:13px}
-#zoomBar span{background:#333;padding:6px 14px;border-radius:20px;margin:0 4px}
-#closeZoom{position:absolute;top:15px;right:15px;background:#fff;color:#000;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;cursor:pointer;font-size:18px}
-.zoom-hint{color:#ccc;font-size:12px;margin-top:8px}
+.badge{background:#E9A800;color:#000;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:900}
+.price{font-weight:900;font-size:16px;margin-top:6px}
+.btns{display:flex;gap:6px;margin-top:10px}
+.btn{flex:1;padding:12px;border-radius:8px;text-align:center;text-decoration:none;font-weight:900;font-size:13px}
+.cmd{background:#25D366;color:#fff}.share{background:#fff;color:#000;border:2px solid #000}
+.zoom{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:999}
+.zoom img{max-width:95%;max-height:95%}
 </style>
 </head>
 <body>
-<div class="header">
-  <div style="font-weight:900;font-size:18px">ODA SHOP - BOUTIQUE NEUVE</div>
-  <div style="margin-top:6px">
-    <a href="index.html">🏠 Accueil</a>
-    <a href="boutique-neuve.html">🆕 Neuve</a>
-    <a href="admin.html">🔐 Admin</a>
-  </div>
-</div>
-
-<div style="max-width:900px;margin:10px auto;padding:0 10px">
-  <h3 style="margin:8px 0">Produits Neufs Disponibles</h3>
-  <div id="count" class="small"></div>
-  <div class="small" style="margin-top:4px">👆 Clique sur la photo pour zoomer</div>
-</div>
-
+<div class="top"><a href="index.html">← Retour</a><div>BOUTIQUE NEUVE</div><div style="width:60px"></div></div>
 <div class="grid" id="grid"></div>
-
-<!-- ZOOM VIEWER CLIENT -->
-<div id="zoomModal" onclick="if(event.target==this) closeZoom()">
-  <div id="closeZoom" onclick="closeZoom()">✕</div>
-  <img id="zoomImg" src="">
-  <div id="zoomBar"><span id="zoomName"></span></div>
-  <div class="zoom-hint">Pince avec 2 doigts pour zoomer • Glisse pour déplacer • Clique X pour fermer</div>
-</div>
-
+<div class="zoom" id="zoom" onclick="this.style.display='none'"><img id="zImg"></div>
 <script>
-let scale=1, posX=0, posY=0, lastDist=0, isDrag=false, startX=0, startY=0;
-
-function afficher(){
- let arr = JSON.parse(localStorage.getItem('produits_complets')||'[]');
- document.getElementById('count').innerText = arr.length + ' produits trouvés';
- if(arr.length==0){
-   document.getElementById('grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999">Aucun produit encore.<br>Va dans Admin pour ajouter.</div>';
-   return;
- }
- document.getElementById('grid').innerHTML = arr.map((p,i)=>{
-   let badgeClass = p.statut==='en-stock'?'en-stock':p.statut==='reserve'?'reserve':'vendu';
-   let badgeText = p.statut==='en-stock'?'🟢 En Stock':p.statut==='reserve'?'🟡 Réservé':'🔴 Vendu';
-   let photo = p.photo || 'https://via.placeholder.com/300x300?text=ODA+SHOP';
-   let waMsg = encodeURIComponent(`Salam ODA SHOP, je veux commander: ${p.nom} - ${p.prixVente} FCFA`);
-   return `
-   <div class="card">
-     <img src="${photo}" onclick="openZoom(${i})">
-     <div class="info">
-       <span class="badge ${badgeClass}">${badgeText}</span>
-       <div style="font-weight:800;margin-top:6px">${p.nom}</div>
-       <div class="small">Vendeur: ${p.vendeur}</div>
-       <div class="prix">${p.prixVente} FCFA</div>
-       <div class="small">${p.desc||''}</div>
-       <button class="btn" onclick="window.open('https://wa.me/22700000000?text=${waMsg}')">📲 Commander</button>
-     </div>
-   </div>`
+function get(){try{return JSON.parse(localStorage.getItem('produits_complets')||'[]')}catch{return[]}}
+function show(){
+ let all=get().filter(p=>p.cat==='neuve');
+ let g=document.getElementById('grid');
+ if(!all.length){g.innerHTML='<div style="grid-column:1/-1;padding:60px;text-align:center">Aucun produit neuf<br>Va dans admin.html<br>et ajoute catégorie = neuve</div>';return;}
+ g.innerHTML=all.map(p=>{
+  let col=p.statut==='En Stock'?'green':p.statut==='Vendue'?'red':'orange';
+  let num=p.numero||'001';
+  return `<div class=card>
+   <img src="${p.photo||''}" onclick="document.getElementById('zImg').src=this.src;document.getElementById('zoom').style.display='flex'">
+   <div class=info>
+    <span class=badge>#${num}</span> <span style="color:${col};font-size:11px;font-weight:900">${p.statut||'En Stock'}</span>
+    <div style="font-weight:800;margin-top:6px">${p.nomMarch||''}</div>
+    <div style="font-size:12px;color:#666">${p.description||''}</div>
+    <div class=price>${p.pVente||''} FCFA</div>
+    <div class=btns>
+     <a class="btn cmd" href="https://wa.me/22777174950?text=ODA SHOP NEUF - N°${num} ${p.nomMarch} ${p.pVente}FCFA">Commander</a>
+     <a class="btn share" href="#" onclick="window.open('https://wa.me/?text='+encodeURIComponent('ODA SHOP NEUF N°${num} - ${p.nomMarch} - ${p.pVente} FCFA'),' _blank');return false;">↗️ Partager</a>
+    </div>
+   </div>
+  </div>`;
  }).join('');
 }
-
-function openZoom(i){
- let arr = JSON.parse(localStorage.getItem('produits_complets')||'[]');
- let p = arr[i];
- document.getElementById('zoomImg').src = p.photo;
- document.getElementById('zoomName').innerText = p.nom + ' - ' + p.prixVente + ' FCFA';
- document.getElementById('zoomModal').classList.add('active');
- scale=1; posX=0; posY=0; updateTransform();
-}
-function closeZoom(){ document.getElementById('zoomModal').classList.remove('active'); }
-function updateTransform(){
- let img = document.getElementById('zoomImg');
- img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
-}
-
-// ZOOM 2 DOIGTS + DRAG
-let imgEl = document.getElementById('zoomImg');
-imgEl.addEventListener('touchstart', e=>{
- if(e.touches.length==2){
-  lastDist = Math.hypot(e.touches[0].pageX-e.touches[1].pageX, e.touches[0].pageY-e.touches[1].pageY);
- }else if(e.touches.length==1 && scale>1){
-  isDrag=true; startX=e.touches[0].pageX-posX; startY=e.touches[0].pageY-posY;
- }
-});
-imgEl.addEventListener('touchmove', e=>{
- e.preventDefault();
- if(e.touches.length==2){
-  let dist = Math.hypot(e.touches[0].pageX-e.touches[1].pageX, e.touches[0].pageY-e.touches[1].pageY);
-  if(lastDist>0){ scale *= dist/lastDist; scale=Math.min(Math.max(1,scale),4); updateTransform(); }
-  lastDist=dist;
- }else if(e.touches.length==1 && isDrag){
-  posX=e.touches[0].pageX-startX; posY=e.touches[0].pageY-startY; updateTransform();
- }
-},{passive:false});
-imgEl.addEventListener('touchend', ()=>{ lastDist=0; isDrag=false; });
-imgEl.addEventListener('dblclick', ()=>{
- if(scale==1){ scale=2.5; }else{ scale=1; posX=0; posY=0; } updateTransform();
-});
-imgEl.addEventListener('wheel', e=>{
- e.preventDefault(); scale+= e.deltaY*-0.001; scale=Math.min(Math.max(1,scale),4); updateTransform();
-},{passive:false});
-
-afficher();
+show();
 </script>
 </body>
 </html>
