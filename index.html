@@ -73,3 +73,97 @@ document.getElementById('adminAccess').addEventListener('click',()=>{
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODA SHOP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#fff}
+.header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
+.logo img{height:50px}
+.center{text-align:center;cursor:pointer;user-select:none}
+.center b{font-size:22px;font-weight:900}
+.center p{color:#777;font-size:14px}
+.searchBox{padding:12px 16px;border-top:1px solid #eee;border-bottom:1px solid #eee;position:relative}
+.searchBox input{width:100%;padding:16px 16px 16px 50px;border-radius:30px;border:2px solid #E9A800;background:#f5f5f5;font-size:16px}
+.searchBox span{position:absolute;left:36px;top:50%;transform:translateY(-50%);font-size:20px}
+.tabs{display:flex;gap:10px;padding:12px 16px}
+.tab{flex:1;padding:12px;border-radius:30px;border:2px solid #000;text-align:center;font-weight:900;cursor:pointer}
+.tab.active{background:#000;color:#E9A800}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}
+.card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid #eee}
+.card img{width:100%;height:160px;object-fit:cover;cursor:zoom-in}
+.info{padding:10px}
+.code{color:#E9A800;font-weight:900;font-size:11px;background:#000;display:inline-block;padding:2px 6px;border-radius:4px}
+.name{font-weight:800;font-size:14px;margin-top:4px}
+.desc{font-size:12px;color:#666;height:32px;overflow:hidden;margin:4px 0}
+.price{font-weight:900}
+.btns{display:flex;gap:6px;margin-top:8px}
+.btn{flex:1;display:block;text-align:center;padding:10px;border-radius:8px;text-decoration:none;font-weight:800;font-size:13px}
+.btn-cmd{background:#2ecc71;color:#fff}
+.btn-share{background:#fff;color:#000;border:2px solid #000}
+.zoom{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:999}
+.zoom img{max-width:95%;max-height:95%;border-radius:12px}
+.empty{grid-column:1/-1;padding:40px;text-align:center;color:#888}
+</style>
+</head>
+<body>
+<div class="header">
+ <div class="logo"><img src="logo.png" onerror="this.style.display='none'"></div>
+ <div class="center" id="adminAccess"><b>Bienvenue</b><p>Agadez</p></div>
+ <div class="right"><div style="font-size:24px">☰</div></div>
+</div>
+
+<div class="searchBox"><span>🔍</span><input id="search" placeholder="Chercher ODA001, chemise..." oninput="render()"></div>
+
+<div class="tabs">
+ <div class="tab active" id="t1" onclick="setFilter('neuve')">🏪 NEUVE</div>
+ <div class="tab" id="t2" onclick="setFilter('occasion')">♻️ OCCASION</div>
+ <div class="tab" id="t3" onclick="setFilter('all')">📦 TOUT</div>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="zoom" id="zoom" onclick="this.style.display='none'"><img id="zoomImg"></div>
+
+<script>
+let filter='neuve';
+function getAll(){return JSON.parse(localStorage.getItem('produits_complets')||'[]')}
+function setFilter(f){filter=f; t1.classList.toggle('active',f==='neuve'); t2.classList.toggle('active',f==='occasion'); t3.classList.toggle('active',f==='all'); render();}
+function render(){
+ let q=document.getElementById('search').value.toLowerCase();
+ let all=getAll().filter(p=>{
+  let okCat = filter==='all' ? true : (p.cat||'neuve')===filter;
+  let okSearch = q==='' || (p.codeODA||'').toLowerCase().includes(q) || (p.nomMarch||'').toLowerCase().includes(q);
+  return okCat && okSearch;
+ });
+ let g=document.getElementById('grid');
+ if(!all.length){g.innerHTML='<div class=empty>Aucun produit</div>';return;}
+ g.innerHTML=all.map(p=>`
+  <div class=card>
+   <img src="${p.photo||'https://via.placeholder.com/300'}" onclick="zoomIt('${p.photo||''}')">
+   <div class=info>
+    <div class=code>${p.codeODA||''}</div>
+    <div class=name>${p.nomMarch||''}</div>
+    <div class=desc>${p.desc||''}</div>
+    <div class=price>${p.pVente||''}</div>
+    <div class=btns>
+     <a class="btn btn-cmd" href="https://wa.me/22780000000?text=Bonjour ODA SHOP, je veux commander ${encodeURIComponent(p.codeODA||'')} - ${encodeURIComponent(p.nomMarch||'')} à ${encodeURIComponent(p.pVente||'')}"">🛒 Commander</a>
+     <a class="btn btn-share" href="#" onclick="partager('${p.codeODA||''}','${(p.nomMarch||'').replace(/'/g,'')}','${(p.pVente||'').replace(/'/g,'')}');return false;">↗️ Partager</a>
+    </div>
+   </div>
+  </div>`).join('');
+}
+function zoomIt(src){ if(!src) return; document.getElementById('zoomImg').src=src; document.getElementById('zoom').style.display='flex'; }
+function partager(code, nom, prix){
+ let texte = `🔥 ODA SHOP Agadez\n📦 ${code} - ${nom}\n💰 ${prix}\n\nVoir sur : ${location.origin+location.pathname}\nCherche : ${code}`;
+ let urlWa = `https://wa.me/?text=${encodeURIComponent(texte)}`;
+ if(navigator.share){ navigator.share({title:'ODA SHOP', text:texte}).catch(()=>{ window.open(urlWa,'_blank'); }); }
+ else { window.open(urlWa,'_blank'); }
+}
+let c=0; adminAccess.addEventListener('click',()=>{c++; if(c>=7){location.href='admin.html'} setTimeout(()=>c=0,3000);});
+render();
+</script>
+</body>
+</html>
