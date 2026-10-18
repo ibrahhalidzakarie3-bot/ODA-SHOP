@@ -23,6 +23,74 @@ body{font-family:Inter,Arial,sans-serif;background:#fff}
 .search-wrap span{position:absolute;left:36px;top:50%;transform:translateY(-50%);font-size:22px}
 .black{margin:18px 16px 0 16px;background:#000;border-radius:20px;padding:18px 20px;color:#fff;display:flex;align-items:center;gap:12px;font-size:17px;position:relative;overflow:hidden}
 .black span{color:#E9A800;font-weight:700}
+ <!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Boutique Neuve - ODA SHOP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#f5f5f5}
+.top{background:#000;color:#E9A800;padding:14px;display:flex;justify-content:space-between;align-items:center;font-weight:900}
+.top a{color:#E9A800;text-decoration:none;border:1px solid #E9A800;padding:6px 14px;border-radius:20px;font-size:13px}
+.searchBox{padding:12px;background:#fff;border-bottom:1px solid #eee}
+.searchBox input{width:100%;padding:14px 18px;border-radius:30px;border:2px solid #E9A800;font-size:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}
+.card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee}
+.card img{width:100%;height:180px;object-fit:cover;cursor:zoom-in}
+.info{padding:10px}
+.num{font-size:12px;font-weight:900;color:#fff;background:#000;padding:2px 8px;border-radius:20px;display:inline-block}
+.statut{font-size:11px;font-weight:900;margin-top:4px}
+.name{font-weight:800;font-size:14px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.price{font-weight:900;font-size:16px;color:#000;margin-top:4px}
+.btns{display:flex;gap:6px;margin-top:10px}
+.btn{flex:1;padding:11px;border-radius:8px;text-align:center;text-decoration:none;font-weight:900;font-size:13px}
+.btn-cmd{background:#25D366;color:#fff}
+.btn-share{background:#fff;color:#000;border:2px solid #000}
+.zoom{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;z-index:9999}
+.zoom img{max-width:98%;max-height:98%;border-radius:10px}
+.empty{grid-column:1/-1;padding:40px;text-align:center;color:#888}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html">← Accueil</a><div>BOUTIQUE NEUVE</div><div style="width:60px"></div></div>
+<div class="searchBox"><input id="search" placeholder="🔍 Chercher 001, 002..." oninput="render()"></div>
+<div class="grid" id="grid"></div>
+<div class="zoom" id="zoom" onclick="this.style.display='none'"><img id="zoomImg"></div>
+<script>
+function getAll(){return JSON.parse(localStorage.getItem('produits_complets')||'[]')}
+function render(){
+ let q=document.getElementById('search').value.toLowerCase();
+ let all=getAll().filter(p=> (p.cat||'neuve')==='neuve' && (q==='' || (p.numero||'').includes(q) || (p.codeODA||'').toLowerCase().includes(q) || (p.nomMarch||'').toLowerCase().includes(q) ));
+ let g=document.getElementById('grid');
+ if(!all.length){ g.innerHTML='<div class=empty>Aucun produit neuf</div>'; return; }
+ g.innerHTML=all.map(p=>{
+  let col = p.statut==='En Stock' ? 'green' : p.statut==='Vendue' ? 'red' : 'orange';
+  let numAff = p.numero || '001';
+  return `<div class=card>
+   <img src="${p.photo||'https://via.placeholder.com/300'}" onclick="zoom('${p.photo||''}')">
+   <div class=info>
+    <span class=num>#${numAff}</span> <span class=statut style="color:${col}">${p.statut||'En Stock'}</span>
+    <div class=name>${p.nomMarch||'Produit'}</div>
+    <div class=price>${p.pVente||''}</div>
+    <div class=btns>
+     <a class="btn btn-cmd" href="https://wa.me/22777174950?text=Salut ODA SHOP, je veux N°${numAff} - ${p.nomMarch}">Commander</a>
+     <a class="btn btn-share" href="#" onclick="partage('${numAff}','${(p.nomMarch||'').replace(/'/g,'')}','${(p.pVente||'').replace(/'/g,'')}');return false;">↗️</a>
+    </div>
+   </div>
+  </div>`;
+ }).join('');
+}
+function zoom(src){ if(!src) return; document.getElementById('zoomImg').src=src; document.getElementById('zoom').style.display='flex'; }
+function partage(num,nom,prix){
+ let texte = `ODA SHOP - Boutique Neuve\n📦 N°${num} - ${nom}\n💰 ${prix}\nCommande: https://wa.me/22777174950`;
+ if(navigator.share){ navigator.share({title:'ODA SHOP', text:texte}).catch(()=>window.open('https://wa.me/?text='+encodeURIComponent(texte),'_blank')); }
+ else { window.open('https://wa.me/?text='+encodeURIComponent(texte),'_blank'); }
+}
+render();
+</script>
+</body>
+</html>
 .card{margin:18px 16px;background:#000;border-radius:24px;padding:20px;display:flex;gap:18px;align-items:center;position:relative;overflow:hidden;cursor:pointer}
 .card::after{content:'';position:absolute;right:-20px;top:-20px;width:180px;height:180px;background:radial-gradient(circle,#3a2a00 0%,transparent 70%);opacity:0.6}
 .icon{width:84px;height:84px;background:#E9A800;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;z-index:1}
