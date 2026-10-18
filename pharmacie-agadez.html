@@ -1,16 +1,92 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ODA Pharmacie</title></head>
-<body style="font-family:Arial;padding:20px">
-<a href="pharmacie.html">← Retour</a>
-<h1>💊 BIENVENUE CHEZ ODA PHARMACIE</h1>
-<p>Marre de faire la queue ? ODA s'occupe de tout à Agadez.</p>
-<h3>Comment ça marche:</h3>
-<p>1. Envoie photo ordonnance</p>
-<p>2. On achète tes médicaments</p>
-<p>3. Livraison discrète</p>
-<p><b>IMPORTANT: Photo ordonnance obligatoire</b></p>
-<input id="nom" placeholder="Nom" style="width:90%;padding:10px;margin:5px"><br>
-<input id="tel" placeholder="Tel" style="width:90%;padding:10px;margin:5px"><br>
-<input id="adr" placeholder="Adresse" style="width:90%;padding:10px;margin:5px"><br>
-<button onclick="alert('Commande envoyée ' + document.getElementById('nom').value)" style="background:#000;color:#FFB800;padding:14px;width:90%;margin-top:10px">Commander sur WhatsApp</button>
-</body></html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODA Pharmacie</title>
+<style>
+*{box-sizing:border-box;font-family:system-ui,sans-serif}
+body{margin:0;background:#f2f2f2}
+.top{padding:12px 16px;background:#fff;position:sticky;top:0;border-bottom:1px solid #eee}
+.top a{color:#000;text-decoration:none;font-weight:700}
+.wrap{padding:12px}
+.card{background:#fff;border-radius:20px;padding:16px;margin-bottom:12px;border:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.h1{font-size:20px;font-weight:900;margin:0}
+.sub{font-size:13px;color:#666;margin-top:4px}
+.step{display:flex;gap:12px;align-items:center;padding:10px;background:#fafafa;border-radius:14px;margin:8px 0;border:1px solid #f0f0f0}
+.step .ic{width:36px;height:36px;background:#111;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}
+.step b{font-size:13px}
+.step span{font-size:12px;color:#666}
+.upload{border:2px dashed #FFB800;background:#FFFBEB;border-radius:16px;padding:20px;text-align:center;margin:10px 0;cursor:pointer}
+.upload b{display:block;font-size:14px;margin-top:6px}
+.upload small{color:#888;font-size:11px}
+.upload input{display:none}
+input,textarea{width:100%;padding:14px;border:1px solid #e5e5e5;border-radius:12px;margin:6px 0;font-size:14px;background:#fafafa}
+textarea{min-height:80px}
+.btn{width:100%;padding:16px;border:none;border-radius:14px;font-weight:900;font-size:14px;margin:8px 0;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-w{background:#25D366;color:#fff}
+.btn-call{background:#111;color:#fff}
+.label{font-size:11px;font-weight:800;color:#999;letter-spacing:.5px;margin:10px 0 4px}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html">← Retour</a> 💊 ODA PHARMACIE</div>
+<div class="wrap">
+
+<div class="card">
+<div class="h1">BIENVENUE CHEZ ODA PHARMACIE</div>
+<div class="sub">Marre de faire la queue ? ODA s'occupe de tout à Agadez</div>
+
+<div class="step"><div class="ic">1</div><div><b>Envoie photo ordonnance</b><br><span>Clique ci-dessous pour ajouter</span></div></div>
+<div class="step"><div class="ic">2</div><div><b>On achète tes médicaments</b><br><span>Pharmacie Agadez + Longrich</span></div></div>
+<div class="step"><div class="ic">3</div><div><b>Livraison discrète</b><br><span>Partout à Agadez</span></div></div>
+</div>
+
+<div class="card">
+<div class="label">VOS INFOS</div>
+<input id="nom" placeholder="Nom complet">
+<input id="tel" placeholder="Téléphone (93...)">
+<input id="adresse" placeholder="Quartier / Adresse">
+
+<div class="label">📸 PHOTO ORDONNANCE (OBLIGATOIRE)</div>
+<label class="upload" id="upBox">
+<div style="font-size:32px">📷</div>
+<b id="upText">Ajouter photo ordonnance</b>
+<small>Clique pour choisir dans galerie</small>
+<input type="file" id="file" accept="image/*" onchange="showFile(this)">
+</label>
+<div id="preview" style="display:none;font-size:12px;color:green;font-weight:700;margin:6px 0">✅ Photo ajoutée</div>
+
+<div class="label">💊 PAS D'ORDONNANCE ? ÉCRIS LA LISTE ICI</div>
+<textarea id="liste" placeholder="Ex: Doliprane 1000, Amoxicilline, Vitamine C Longrich..."></textarea>
+
+<button class="btn btn-w" onclick="whatsapp()">🟢 Commander sur WhatsApp</button>
+<button class="btn btn-call" onclick="appeler()">📞 Appeler ODA maintenant</button>
+
+<div style="text-align:center;font-size:11px;color:#999;margin-top:8px">IMPORTANT: Photo ordonnance ou liste obligatoire</div>
+</div>
+
+</div>
+<script>
+function showFile(i){
+if(i.files[0]){
+document.getElementById('upText').innerText=i.files[0].name;
+document.getElementById('preview').style.display='block';
+document.getElementById('upBox').style.borderColor='#25D366';
+document.getElementById('upBox').style.background='#f0fff4';
+}
+}
+function whatsapp(){
+let n=document.getElementById('nom').value;
+let t=document.getElementById('tel').value;
+let a=document.getElementById('adresse').value;
+let l=document.getElementById('liste').value;
+let f=document.getElementById('file').files[0]?'✅ Photo ordonnance jointe':'❌ Pas de photo';
+if(!n||!t){alert('Mets Nom et Tel Abee');return}
+let txt=`Bonjour ODA PHARMACIE 💊%0A%0ANom: ${n}%0ATel: ${t}%0AAdresse: ${a}%0A%0A${f}%0A%0AListe médicaments:%0A${l}%0A%0A(J'envoie la photo ordonnance juste après)`;
+window.open(`https://wa.me/22793849012?text=${txt}`,'_blank');
+}
+function appeler(){window.open('tel:+22793849012','_self')}
+</script>
+</body>
+</html>
