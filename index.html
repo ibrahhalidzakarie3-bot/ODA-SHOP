@@ -3,63 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODA SHOP</title>
+<title>Boutique Neuve - ODA SHOP</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Inter,Arial,sans-serif;background:#fff}
-.header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff}
-.header .logo img{height:56px}
-.header .center{text-align:center;line-height:1.1}
-.header .center b{font-size:24px;font-weight:900;color:#000}.header .center b span{color:#E9A800}
-.header .center p{color:#555;font-size:16px;margin-top:4px}
-.header .right{display:flex;gap:12px}
-.circle{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px}
-.c-yellow{background:#E9A800}.c-white{background:#fff;border:2.5px solid #E9A800}
-.ville{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:1px solid #eee;border-bottom:1px solid #eee;flex-wrap:wrap;gap:10px}
-.ville strong{font-size:18px;display:flex;align-items:center;gap:6px}
-.btn-ville{background:#E9A800;border:0;padding:13px 20px;border-radius:30px;font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
-.search-wrap{padding:14px 16px;border-bottom:1px solid #eee;position:relative}
-.search{width:100%;background:#f2f2f2;border:1px solid #e6e6e6;border-radius:30px;padding:18px 18px 18px 54px;font-size:18px}
-.search-wrap span{position:absolute;left:36px;top:50%;transform:translateY(-50%);font-size:22px}
-.black{margin:18px 16px 0 16px;background:#000;border-radius:20px;padding:18px 20px;color:#fff;display:flex;align-items:center;gap:12px;font-size:17px;position:relative;overflow:hidden}
-.black span{color:#E9A800;font-weight:700}
-.card{margin:18px 16px;background:#000;border-radius:24px;padding:20px;display:flex;gap:18px;align-items:center;position:relative;overflow:hidden;cursor:pointer}
-.card::after{content:'';position:absolute;right:-20px;top:-20px;width:180px;height:180px;background:radial-gradient(circle,#3a2a00 0%,transparent 70%);opacity:0.6}
-.icon{width:84px;height:84px;background:#E9A800;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;z-index:1}
-.card-text{z-index:1}
+body{font-family:Arial,sans-serif;background:#fff}
+.top{background:#0a0f2c;color:#E9A800;padding:12px;text-align:center;font-weight:900}
+.wrap{padding:12px 14px}
+.prod-img{width:180px}
+.prod-img img{width:100%;height:60px;object-fit:cover;display:block}
+.stock{color:green;font-size:12px;margin-top:8px;font-weight:700}
+.name{font-weight:700;margin-top:4px}
+.price{font-weight:900;margin-top:2px}
+.btn{background:#2ecc71;color:#fff;border:0;padding:8px 18px;border-radius:6px;margin-top:10px;font-weight:700}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:999}
+#zoom.active{display:flex}
+#zoom img{max-width:95%;max-height:90vh}
 </style>
 </head>
 <body>
-<div class="header">
- <div class="logo" id="secretAdmin"><img src="logo.png" onerror="this.style.display='none'"></div>
- <div class="center"><b>Bienvenue</b><p>Agadez</p></div>
- <div class="right">
-   <a href="tel:+22780000000" style="text-decoration:none"><div class="circle c-yellow">📞</div></a>
-   <div class="circle c-white">☰</div>
- </div>
-</div>
-<div class="ville"><strong>📍 Ville : Agadez</strong><button class="btn-ville">👜 📍 Commander vers une autre ville</button></div>
-<div class="search-wrap"><span>🔍</span><input class="search" placeholder="Que cherchez-vous ?"></div>
-<div class="black">🚚 <div><span>Commander à Agadez</span> · Payez et faites-vous livrer</div></div>
+<div class="top">ODA SHOP - BOUTIQUE NEUVE</div>
 
-<div class="card" id="boutiqueCard">
- <div class="icon">🏪</div>
- <div class="card-text">
-  <div style="color:#E9A800;letter-spacing:2px;font-size:14px;margin-bottom:6px">SECTION 1</div>
-  <div style="color:#fff;font-size:23px;font-weight:900">BOUTIQUE NEUVE</div>
-  <div style="color:#bbb;font-size:15px;margin-top:6px;line-height:1.3">Téléphones, ordinateurs, meubles,<br>électroménager neufs</div>
- </div>
+<div class="wrap">
+<h3>Produits Neufs Disponibles</h3>
+<p style="font-size:12px;color:#666">1 produits trouvés<br>👆 Clique sur la photo pour zoomer</p>
+
+<div class="prod" onclick="document.getElementById('zoom').classList.add('active');document.getElementById('zImg').src=this.querySelectorAll('img')[0].src">
+  <div class="prod-img">
+    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300">
+    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=300">
+    <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300">
+    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300">
+    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=300">
+  </div>
+  <div class="stock">🟢 En Stock</div>
+  <div class="name">chemise</div>
+  <div class="price">5000 FCFA</div>
+  <button class="btn">🛒 Commander</button>
+</div>
 </div>
 
-<script>
-// 2 CLICS RAPIDES SUR LA CARTE = RENTRE DANS BOUTIQUE NEUVE
-let clicks=0;
-document.getElementById('boutiqueCard').addEventListener('click',()=>{
-  clicks++;
-  if(clicks===2){ window.location.href='boutique-neuve.html'; }
-  setTimeout(()=>{clicks=0},700);
-});
-// ADMIN CACHÉ : 7 CLICS SUR LE LOGO
-let admin=0;
-document.getElementById('secretAdmin').addEventListener('click',()=>{
-  admin++;
+<div id="zoom" onclick="this.classList.remove('active')"><img id="zImg" src=""></div>
+</body>
+</html>
