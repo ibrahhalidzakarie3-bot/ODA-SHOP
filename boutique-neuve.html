@@ -1,12 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Boutique Neuve - ODA</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui;background:#fcfcfc;padding:16px}h1{font-size:22px;letter-spacing:3px;margin:16px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:#fff;border:1px solid #f0f0f0;border-radius:20px;overflow:hidden}.card img{width:100%;height:160px;object-fit:cover;background:#fafafa}.info{padding:12px}.price{font-weight:900;font-size:16px}.code{font-size:10px;color:#999;letter-spacing:1px}</style></head><body>
-<h1>🏪 BOUTIQUE NEUVE</h1>
-<div id="liste" class="grid"></div>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Boutique Neuve</title>
+<style>body{font-family:Arial;background:#f5f5f5;margin:0}header{background:#000;color:#fff;padding:15px;text-align:center}header a{color:#E9A800;text-decoration:none}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}.card{background:#fff;border-radius:15px;padding:10px}.card img{width:100%;height:150px;object-fit:cover;border-radius:10px}.price{color:green;font-weight:bold}</style>
+</head><body>
+<header><a href="index.html">← Retour</a><br><b>BOUTIQUE NEUVE - ODA SHOP</b></header>
+<div id="shop" class="grid">Chargement...</div>
 <script>
-let produits = JSON.parse(localStorage.getItem('oda_produits_pro')||localStorage.getItem('oda_produits')||'[]');
-let neuves = produits.filter(p=> (p.categorie||'neuve')==='neuve');
-let h=''; if(neuves.length===0){document.getElementById('liste').innerHTML='<p>Aucun produit. Ajoute dans admin sur CE même téléphone.</p>';} else {
-neuves.reverse().forEach(p=>{h+=`<div class="card"><img src="${p.photo||''}"><div class="info"><div class="code">${p.code}</div><div style="font-weight:700;margin:4px 0">${p.nom}</div><div class="price">${p.prixVente||p.prix||'-'} FCFA</div><div style="font-size:11px;color:#22c55e">${p.statut||'En Stock'}</div></div></div>`;});
-document.getElementById('liste').innerHTML=h;}
-</script></body></html>
+fetch('produits.json')
+.then(r=>r.json())
+.then(products=>{
+  let html='';
+  products.forEach(p=>{
+    html+=`<div class="card"><img src="${p.image}"><h3>${p.nom}</h3><p style="font-size:12px">${p.description}</p><div class="price">${p.prix} FCFA</div><button onclick="location.href='https://wa.me/22777174950?text=Je veux ${p.nom}'" style="background:#000;color:#E9A800;border:0;padding:8px;width:100%;border-radius:20px;margin-top:5px">Commander</button></div>`;
+  });
+  document.getElementById('shop').innerHTML=html;
+});
+</script>
+</body></html>
