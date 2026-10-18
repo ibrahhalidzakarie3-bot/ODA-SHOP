@@ -1,189 +1,102 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin ODA SHOP</title>
-<style>
-body{font-family:Arial;background:#f5f5f5;padding:12px;margin:0}
-.box{max-width:600px;margin:10px auto;background:#fff;padding:18px;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-input,select,textarea{width:100%;padding:13px;margin:7px 0;border:1.5px solid #ddd;border-radius:10px;box-sizing:border-box;font-size:15px}
-label{font-size:13px;font-weight:800;margin-top:10px;display:block;color:#222}
-button{width:100%;padding:14px;background:#E9A800;border:0;border-radius:12px;font-weight:900;cursor:pointer;font-size:16px;margin-top:8px}
-.item{border:1px solid #eee;padding:12px;border-radius:12px;margin-top:12px;background:#fafafa}
-.top{display:flex;justify-content:space-between;font-size:13px}
-.photo-preview{width:100%;height:160px;object-fit:cover;border-radius:10px;margin-top:8px;display:none;border:1px solid #eee}
-</style>
-</head>
-<body>
-<div class="box" id="loginBox">
-<h2 style="text-align:center">🔐 ODA SHOP Admin</h2>
-<p style="text-align:center;color:#888;font-size:13px">Accès sécurisé</p>
-<input id="email" placeholder="Email">
-<input id="pass" type="password" placeholder="Mot de passe">
-<button onclick="login()">Entrer</button>
-</div>
-
-<div class="box" id="adminBox" style="display:none">
-<h3>📦 Ajouter Produit Neuf - Boutique Neuve</h3>
-
-<label>Numéro de série carte d'identité (anti-vol)</label>
-<input id="serie" placeholder="Ex: NIN 1234...">
-
-<label>Nom du vendeur</label>
-<input id="vendeur" placeholder="Ex: Ibrahim">
-
-<label>Nom de la marchandise</label>
-<input id="nom" placeholder="Ex: Chemise Zara">
-
-<label>Prix d'achat (toi seul vois, client ne voit pas)</label>
-<input id="prixAchat" type="number" placeholder="Ex: 5000">
-
-<label>Prix de vente (client va voir dans Boutique Neuve)</label>
-<input id="prixVente" type="number" placeholder="Ex: 7500">
-
-<label>Description de la marchandise</label>
-<textarea id="desc" placeholder="Taille, couleur, état..."></textarea>
-
-<label>Photo de la marchandise</label>
-<input type="file" id="photoFile" accept="image/*" onchange="previewPhoto()">
-<img id="preview" class="photo-preview">
-
-<label>Statut du stock</label>
-<select id="statut">
-<option value="en-stock">🟢 En Stock</option>
-<option value="reserve">🟡 Réservé</option>
-<option value="vendu">🔴 Vendu</option>
-</select>
-
-<button onclick="ajouter()">💾 ENREGISTRER DANS BOUTIQUE NEUVE</button>
-<div id="liste"></div>
-
-<button onclick="location.href='index.html'" style="background:#000;color:#fff;margin-top:15px">← Retour boutique</button>
-<button onclick="location.href='boutique-neuve.html'" style="background:#fff;border:2px solid #E9A800;margin-top:8px">Voir Boutique Neuve →</button>
-</div>
-
-<script>
-const GMAIL="odashop215@gmail.com"; const MDP="Oda2025";
-let photoBase64="";
-function login(){ 
- if(email.value.trim()===GMAIL && pass.value===MDP){ 
-  loginBox.style.display='none'; adminBox.style.display='block'; afficher(); 
- } else alert('Email ou mot de passe incorrect'); 
-}
-function previewPhoto(){
- let f=document.getElementById('photoFile').files[0];
- if(!f) return;
- let r=new FileReader();
- r.onload=e=>{
-  photoBase64=e.target.result;
-  let img=document.getElementById('preview');
-  img.src=photoBase64; img.style.display='block';
- }
- r.readAsDataURL(f);
-}
-function ajouter(){
- if(!nom.value || !prixVente.value || !vendeur.value || !serie.value) return alert('Remplis: série carte, nom vendeur, nom marchandise, prix vente');
- let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]');
- arr.push({
-  nom:nom.value, prixAchat:prixAchat.value, prixVente:prixVente.value,
-  vendeur:vendeur.value, serie:serie.value, desc:desc.value,
-  statut:statut.value, photo:photoBase64, date:new Date().toLocaleDateString()
- });
- localStorage.setItem('produits_complets',JSON.stringify(arr));
- nom.value='';prixAchat.value='';prixVente.value='';vendeur.value='';serie.value='';desc.value='';photoBase64='';document.getElementById('photoFile').value='';document.getElementById('preview').style.display='none';
- afficher(); alert('✅ Produit ajouté dans Boutique Neuve !');
-}
-function afficher(){
- let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]');
- if(arr.length==0) liste.innerHTML='<p style="text-align:center;color:#999;margin-top:15px">Aucun produit encore</p>';
- else liste.innerHTML=arr.map((p,i)=>`
-  <div class="item">
-   <div class="top"><b>${p.nom}</b><span>${p.statut}</span></div>
-   <div style="font-size:13px;margin-top:6px">
-    Vendeur: ${p.vendeur} | Série: ${p.serie}<br>
-    Achat: ${p.prixAchat} | Vente: <b>${p.prixVente}</b><br>
-    ${p.desc}<br><small>${p.date}</small>
-   </div>
-   ${p.photo?`<img src="${p.photo}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-top:6px">`:''}
-   <button onclick="suppr(${i})" style="background:#ffe6e6;padding:8px;margin-top:6px;font-size:13px">Supprimer</button>
-  </div>`).join('');
-}
- <!DOCTYPE html>
-<html lang="fr">
-<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODA SHOP</title>
+<title>Admin ODA SHOP</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Inter,Arial,sans-serif;background:#fff}
-.header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
-.header .logo img{height:56px}
-.center{text-align:center;line-height:1.1;cursor:pointer;user-select:none}
-.center b{font-size:24px;font-weight:900;color:#000}
-.center p{color:#555;font-size:16px;margin-top:4px}
-.right{display:flex;gap:12px}
-.circle{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px}
-.c-yellow{background:#E9A800}.c-white{background:#fff;border:2.5px solid #E9A800}
-.ville{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:1px solid #eee;border-bottom:1px solid #eee}
-.ville strong{font-size:18px}
-.btn-ville{background:#E9A800;border:0;padding:13px 20px;border-radius:30px;font-weight:800;font-size:15px}
-.search-wrap{padding:14px 16px;border-bottom:1px solid #eee;position:relative}
-.search{width:100%;background:#f2f2f2;border:1px solid #e6e6e6;border-radius:30px;padding:18px 18px 18px 54px;font-size:18px}
-.search-wrap span{position:absolute;left:36px;top:50%;transform:translateY(-50%);font-size:22px}
-.black{margin:18px 16px 0 16px;background:#000;border-radius:20px;padding:18px 20px;color:#fff;display:flex;gap:12px;font-size:17px}
-.black span{color:#E9A800;font-weight:700}
-.card{margin:18px 16px;border-radius:24px;padding:20px;display:flex;gap:18px;align-items:center;text-decoration:none}
-.card-black{background:#000;color:#fff}.card-white{background:#fff;border:2.5px solid #000;color:#000}
-.icon{width:84px;height:84px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0}
-.icon-yellow{background:#E9A800}.icon-black{background:#000}
+body{font-family:Arial;background:#eef2f7;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px}
+.login{width:100%;max-width:420px;background:#fff;padding:24px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center}
+.login h2{font-weight:900;margin-bottom:4px}
+.login p{color:#888;font-size:13px;margin-bottom:16px}
+.login input{width:100%;padding:14px;border-radius:10px;border:1px solid #cbd5e1;background:#dbeafe;margin-top:10px;font-size:15px}
+.login button{width:100%;padding:14px;border-radius:10px;border:0;background:#E9A800;font-weight:900;font-size:16px;margin-top:14px;cursor:pointer}
+#dashboard{display:none;width:100%;max-width:700px;background:#fff;padding:16px;border-radius:16px}
+.tabs{display:flex;gap:10px;margin:14px 0}
+.tab{flex:1;padding:12px;border-radius:10px;border:2px solid #000;text-align:center;font-weight:900;cursor:pointer}
+.tab.active{background:#000;color:#E9A800}
+.box{border:1px solid #ddd;padding:14px;border-radius:12px;margin-bottom:12px}
+.box input{width:100%;padding:12px;margin-top:8px;border-radius:8px;border:1px solid #ccc}
+.btn{width:100%;padding:13px;margin-top:10px;border:0;border-radius:10px;font-weight:900;background:#E9A800;cursor:pointer}
+.prod{border:1px solid #eee;padding:10px;border-radius:8px;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
 </style>
 </head>
 <body>
-<div class="header">
- <div class="logo"><img src="logo.png" onerror="this.style.display='none'"></div>
- <div class="center" id="adminAccess"><b>Bienvenue</b><p>Agadez</p></div>
- <div class="right">
-   <a href="tel:+22780000000" style="text-decoration:none"><div class="circle c-yellow">📞</div></a>
-   <div class="circle c-white">☰</div>
- </div>
-</div>
-<div class="ville"><strong>📍 Ville : Agadez</strong><button class="btn-ville">👜 📍 Commander vers une autre ville</button></div>
-<div class="search-wrap"><span>🔍</span><input class="search" placeholder="Que cherchez-vous ?"></div>
-<div class="black">🚚 <div><span>Commander à Agadez</span> · Payez et faites-vous livrer</div></div>
 
-<a href="boutique-neuve.html" style="text-decoration:none">
-<div class="card card-black">
- <div class="icon icon-yellow">🏪</div>
- <div>
-  <div style="color:#E9A800;letter-spacing:2px;font-size:14px;margin-bottom:6px">SECTION 1</div>
-  <div style="font-size:23px;font-weight:900">BOUTIQUE NEUVE</div>
-  <div style="color:#bbb;font-size:15px;margin-top:6px">Téléphones, ordinateurs, meubles,<br>électroménager neufs</div>
- </div>
+<div class="login" id="loginBox">
+  <div style="font-size:28px">📦</div>
+  <h2>ODA SHOP Admin</h2>
+  <p>Accès sécurisé</p>
+  <input id="email" type="email" value="odashop215@gmail.com">
+  <input id="pass" type="password" placeholder="Mot de passe" value="123456">
+  <button onclick="entrer()">Entrer</button>
 </div>
-</a>
 
-<a href="marche-occasion.html" style="text-decoration:none">
-<div class="card card-white">
- <div class="icon icon-black">♻️</div>
- <div>
-  <div style="color:#777;letter-spacing:2px;font-size:14px;margin-bottom:6px">SECTION 2</div>
-  <div style="font-size:23px;font-weight:900">MARCHÉ OCCASION</div>
-  <div style="color:#666;font-size:15px;margin-top:6px">Friperie, occasion, bonnes affaires<br>à Agadez</div>
- </div>
+<div id="dashboard">
+  <div style="background:#000;color:#E9A800;padding:12px;text-align:center;font-weight:900;border-radius:10px">ODA SHOP - ADMIN 2 SECTEURS</div>
+  <div class="tabs">
+    <div class="tab active" id="t1" onclick="setCat('neuve')">🏪 BOUTIQUE NEUVE</div>
+    <div class="tab" id="t2" onclick="setCat('occasion')">♻️ MARCHÉ OCCASION</div>
+  </div>
+  <div class="box">
+    <h3 id="catTitle">Ajouter Produit Neuf</h3>
+    <input id="nom" placeholder="Nom produit">
+    <input id="prix" placeholder="Prix ex: 5000 FCFA">
+    <input id="img" placeholder="Lien image (optionnel)">
+    <button class="btn" onclick="ajouter()">✅ Ajouter</button>
+    <a href="index.html" style="display:block;text-align:center;margin-top:10px;color:#000;text-decoration:none">← Retour Accueil</a>
+  </div>
+  <div class="box"><h3>Produits</h3><div id="liste"></div></div>
 </div>
-</a>
 
 <script>
-// ACCES ADMIN CACHÉ : 7 clics rapides sur Bienvenue
-let c=0;
-document.getElementById('adminAccess').addEventListener('click',()=>{
-  c++; if(c>=7){location.href='admin.html';} setTimeout(()=>c=0,3000);
-});
-</script>
-</body>
-</html>
-function suppr(i){ let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]'); arr.splice(i,1); localStorage.setItem('produits_complets',JSON.stringify(arr)); afficher(); }
+function entrer(){
+  // simple vérif - tu peux changer le mdp ici
+  if(email.value.trim()!==''){ 
+    loginBox.style.display='none'; 
+    dashboard.style.display='block'; 
+    render();
+  } else { alert('Entre email'); }
+}
+let cat='neuve';
+function setCat(c){
+  cat=c;
+  t1.classList.toggle('active',c==='neuve');
+  t2.classList.toggle('active',c==='occasion');
+  catTitle.innerText= c==='neuve' ? 'Ajouter Produit Neuf' : 'Ajouter Produit Occasion';
+  render();
+}
+function getData(){
+  // on utilise ta clé existante produits_complets
+  let all = JSON.parse(localStorage.getItem('produits_complets')||'[]');
+  return all.filter(p=> (p.cat||'neuve')===cat);
+}
+function getAll(){ return JSON.parse(localStorage.getItem('produits_complets')||'[]'); }
+function saveAll(a){ localStorage.setItem('produits_complets', JSON.stringify(a)); }
+
+function ajouter(){
+  let n=nom.value.trim(), p=prix.value.trim(), im=img.value.trim()||'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=400';
+  if(!n||!p){ alert('Nom et prix'); return; }
+  let all=getAll();
+  all.push({nom:n,prix:p,img:im,cat:cat});
+  saveAll(all);
+  nom.value='';prix.value='';img.value='';
+  render();
+}
+function suppr(indexDansCat){
+  // supprime le bon produit dans le tableau global
+  let all=getAll();
+  let filtrés=getData();
+  let item=filtrés[indexDansCat];
+  let globalIndex = all.findIndex(x=> x.nom===item.nom && x.prix===item.prix && x.cat===item.cat);
+  if(globalIndex>-1){ all.splice(globalIndex,1); saveAll(all); render(); }
+}
+function afficher(){ render(); } // pour compatibilité avec ton ancien code
+function render(){
+  let list=getData();
+  liste.innerHTML = list.length ? list.map((x,i)=>`<div class="prod"><div><b>${x.nom}</b> - ${x.prix}</div><button onclick="suppr(${i})" style="background:#ff4444;color:#fff;border:0;padding:6px 10px;border-radius:6px;cursor:pointer">X</button></div>`).join('') : 'Aucun produit dans '+cat;
+}
 </script>
 </body>
 </html>
