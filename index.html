@@ -110,3 +110,70 @@ function zoom(src){
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODA SHOP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,Arial,sans-serif;background:#fff}
+.header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff}
+.header .logo img{height:52px}
+.header .center{text-align:center;line-height:1.1}
+.header .center b{font-size:22px;font-weight:900;color:#000}
+.header .center p{color:#555;font-size:14px;margin-top:3px}
+.header .right{display:flex;gap:10px}
+.circle{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px}
+.c-yellow{background:#E9A800}.c-white{background:#fff;border:2.5px solid #E9A800}
+.ville{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-top:1px solid #eee;border-bottom:1px solid #eee;flex-wrap:wrap;gap:8px}
+.ville strong{font-size:16px}
+.btn-ville{background:#E9A800;border:0;padding:11px 16px;border-radius:30px;font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px}
+.search-wrap{padding:12px 14px;border-bottom:1px solid #eee;position:relative}
+.search{width:100%;background:#f2f2f2;border:1px solid #e6e6e6;border-radius:30px;padding:16px 16px 16px 48px;font-size:16px}
+.search-wrap span{position:absolute;left:30px;top:50%;transform:translateY(-50%);font-size:20px}
+.black{margin:16px 14px 0 14px;background:#000;border-radius:20px;padding:16px 18px;color:#fff;display:flex;align-items:center;gap:10px;font-size:15px}
+.black span{color:#E9A800;font-weight:700}
+.card{margin:16px 14px;background:#000;border-radius:22px;padding:18px;display:flex;gap:16px;align-items:center;text-decoration:none}
+.card2{background:#fff;border:2px solid #000}
+.icon{width:74px;height:74px;background:#E9A800;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0}
+.icon2{background:#000}
+</style>
+</head>
+<body>
+<div class="header">
+ <div class="logo"><img src="logo.png" onerror="this.style.display='none'"></div>
+ <div class="center"><b>Bienvenue</b><p>Agadez</p></div>
+ <div class="right">
+   <a href="tel:+22780000000" style="text-decoration:none"><div class="circle c-yellow">📞</div></a>
+   <div class="circle c-white">☰</div>
+ </div>
+</div>
+<div class="ville"><strong>📍 Ville : Agadez</strong><button class="btn-ville">👜 📍 Commander vers une autre ville</button></div>
+<div class="search-wrap"><span>🔍</span><input class="search" placeholder="Que cherchez-vous ?"></div>
+<div class="black">🚚 <div><span>Commander à Agadez</span> · Payez et faites-vous livrer</div></div>
+
+<a href="boutique-neuve.html" style="text-decoration:none">
+<div class="card">
+ <div class="icon">🏪</div>
+ <div>
+  <div style="color:#E9A800;letter-spacing:2px;font-size:13px;margin-bottom:5px">SECTION 1</div>
+  <div style="color:#fff;font-size:21px;font-weight:900">BOUTIQUE NEUVE</div>
+  <div style="color:#bbb;font-size:13px;margin-top:5px">Téléphones, ordinateurs, meubles,<br>électroménager neufs</div>
+ </div>
+</div>
+</a>
+
+<a href="marche-occasion.html" style="text-decoration:none">
+<div class="card card2">
+ <div class="icon icon2">🏷️</div>
+ <div>
+  <div style="color:#555;letter-spacing:2px;font-size:13px;margin-bottom:5px">SECTION 2</div>
+  <div style="color:#000;font-size:21px;font-weight:900">MARCHÉ OCCASION</div>
+  <div style="color:#555;font-size:13px;margin-top:5px">Achetez et vendez des produits d'occasion</div>
+ </div>
+</div>
+</a>
+</body>
+</html>
