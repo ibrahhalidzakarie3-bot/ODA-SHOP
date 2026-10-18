@@ -2,100 +2,115 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODA - Admin Chic</title>
+<title>ODA - Espace Admin</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui;background:#fcfcfc;color:#111;min-height:100vh}
-.header{padding:28px 22px 18px;background:#fff;border-bottom:1px solid #f0f0f0;position:sticky;top:0;z-index:5}
-.header h1{font-size:28px;font-weight:300;letter-spacing:4px} .header h1 b{font-weight:900}
-.header p{color:#999;font-size:13px;letter-spacing:2px;margin-top:6px;text-transform:uppercase}
-.login{height:85vh;display:flex;align-items:center;justify-content:center;padding:24px}
-.login-card{background:#fff;border:1px solid #f0f0f0;border-radius:28px;padding:40px 28px;width:100%;max-width:380px;text-align:center}
-.login-card h2{font-weight:300;letter-spacing:3px;font-size:22px} .login-card h2 b{font-weight:900}
-.login-card input{width:100%;padding:18px;margin-top:20px;border-radius:16px;border:1px solid #eee;background:#fafafa;text-align:center;font-size:16px}
-.btn{width:100%;padding:18px;background:#111;color:#fff;border:0;border-radius:100px;font-weight:600;letter-spacing:2px;margin-top:16px;font-size:15px}
-.wrap{max-width:640px;margin:0 auto;padding:18px 18px 80px}
-.welcome{background:#fff;border-radius:24px;padding:28px 24px;border:1px solid #f2f2f2;margin-bottom:20px}
-.welcome h2{font-size:26px;font-weight:300;line-height:1.2} .welcome h2 b{font-weight:900;display:block;margin-top:4px;font-size:32px}
-.welcome p{color:#999;margin-top:10px;font-size:14px}
-.card{background:#fff;border-radius:26px;padding:26px 22px;border:1px solid #f0f0f0;margin-bottom:18px}
-.card h3{font-size:12px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:18px}
-label{font-size:10px;letter-spacing:2.5px;color:#bbb;text-transform:uppercase;margin-top:20px;display:block;font-weight:700}
-input,select{width:100%;padding:18px;margin-top:8px;border-radius:16px;border:1px solid #eee;background:#fafafa;font-size:16px;color:#111}
-.auto{background:#111!important;color:#fff!important;text-align:center;font-size:22px!important;letter-spacing:4px;font-weight:900;border-color:#111!important}
-.small-green{font-size:12px;color:#22c55e;margin-top:8px;display:block}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.search-wrap{background:#fff;border-radius:100px;padding:6px 6px 6px 20px;border:1px solid #eee;display:flex;align-items:center;gap:10px;margin-bottom:22px}
-.search-wrap input{border:0;background:transparent;padding:14px 10px;margin:0}
-.btn-black{width:100%;padding:20px;background:#111;color:#fff;border:0;border-radius:100px;font-weight:700;letter-spacing:2px;margin-top:22px;font-size:15px}
-.item{background:#fafafa;border-radius:20px;padding:14px;display:flex;gap:14px;margin-bottom:12px;align-items:center;border:1px solid #f5f5f5}
-.item img{width:66px;height:66px;border-radius:16px;object-fit:cover}
-.pass-wrap{position:relative} .eye{position:absolute;right:16px;top:50%;transform:translateY(-20%);background:#fff;border:1px solid #eee;border-radius:50%;width:36px;height:36px;cursor:pointer}
+body{font-family:'Segoe UI',system-ui;background:#fcfcfc;color:#111}
+.header{padding:22px;background:#fff;border-bottom:1px solid #f0f0f0;position:sticky;top:0;z-index:10}
+.header h1{font-size:24px;font-weight:300;letter-spacing:4px} .header h1 b{font-weight:900}
+.header p{color:#999;font-size:11px;letter-spacing:3px;margin-top:4px}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 100px}
+.welcome{background:#fff;border-radius:24px;padding:28px 24px;border:1px solid #f0f0f0;margin-bottom:16px;text-align:center}
+.welcome h2{font-size:22px;font-weight:300;letter-spacing:3px} .welcome h2 b{font-weight:900;display:block;font-size:30px;margin-top:6px;letter-spacing:4px}
+.welcome p{color:#999;margin-top:8px;font-size:12px;letter-spacing:2px}
+.card{background:#fff;border-radius:26px;padding:24px;border:1px solid #f0f0f0;margin-bottom:16px}
+label{font-size:10px;letter-spacing:2px;color:#bbb;text-transform:uppercase;margin-top:18px;display:block;font-weight:700}
+input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1px solid #eee;background:#fafafa;font-size:15px}
+.auto{background:#111!important;color:#fff!important;text-align:center;font-size:20px!important;letter-spacing:3px;font-weight:900}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.search-wrap{background:#fff;border-radius:100px;padding:6px 6px 6px 18px;border:1px solid #eee;display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.search-wrap input{border:0;background:transparent;padding:12px 10px;margin:0}
+.btn-black{width:100%;padding:18px;background:#111;color:#fff;border:0;border-radius:100px;font-weight:700;margin-top:20px}
+.item{background:#fff;border:1px solid #f0f0f0;border-radius:20px;padding:14px;margin-bottom:10px}
+.item-top{display:flex;gap:12px;align-items:center}
+.item img{width:64px;height:64px;border-radius:14px;object-fit:cover}
+.btns{display:flex;gap:8px;margin-top:10px}
+.btns button{flex:1;padding:10px;border-radius:100px;border:0;font-weight:700;font-size:12px}
+.btn-view{background:#111;color:#fff} .btn-edit{background:#E9A800;color:#000} .btn-del{background:#fff;border:1px solid #ff3b3b!important;color:#ff3b3b}
+.modal{position:fixed;inset:0;background:#00000090;display:none;align-items:center;justify-content:center;padding:16px;z-index:100}
+.modal-box{background:#fff;border-radius:28px;padding:26px;width:100%;max-width:440px;max-height:90vh;overflow:auto}
+.login{height:80vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{background:#fff;border:1px solid #f0f0f0;border-radius:28px;padding:36px 24px;width:100%;max-width:360px;text-align:center}
 </style>
 </head>
 <body>
-<div class="header"><h1>ODA <b>SHOP</b></h1><p>Agadez • Admin Chic</p></div>
+<div class="header"><h1>ODA <b>SHOP</b></h1><p>ESPACE ADMIN</p></div>
+
 <div id="loginBox" class="login">
 <div class="login-card">
-<h2>BIENVENUE <b>ADMIN</b></h2>
-<p style="color:#aaa;font-size:13px;margin-top:8px">Espace privé</p>
-<div class="pass-wrap">
-<input type="password" id="pass" placeholder="••••••••">
-<button class="eye" onclick="togglePass()">👁️</button>
-</div>
-<button class="btn" onclick="checkPass()">ENTRER</button>
-<p id="err" style="color:#ff3b3b;margin-top:12px;font-size:13px"></p>
-<p style="color:#999;font-size:11px;margin-top:12px">Mot de passe actuel: ODA2025</p>
+<h2>BIENVENUE<br><b>ESPACE ADMIN</b></h2>
+<input type="password" id="pass" placeholder="••••••••" style="margin-top:20px;padding:16px;border-radius:14px;border:1px solid #eee;width:100%;text-align:center">
+<button onclick="checkPass()" style="width:100%;padding:16px;background:#111;color:#fff;border:0;border-radius:100px;margin-top:12px;font-weight:700">ENTRER</button>
+<p id="err" style="color:red;margin-top:10px"></p>
 </div>
 </div>
-<div id="adminBox" style="display:none" class="wrap">
-<div class="welcome"><h2>Bienvenue,<br><b>Abee</b></h2><p>Ajoute ta marchandise. Chic et spacieux comme Zara.</p></div>
-<div class="search-wrap"><span>🔍</span><input type="text" id="search" placeholder="Rechercher..." onkeyup="filtrer()"></div>
-<div class="card">
-<h3>Nouvelle marchandise</h3>
-<label>Code marchandise</label>
-<input id="code" class="auto" disabled>
-<span class="small-green">✦ Auto ODA-0001 → ODA-0002 → jusqu'à 1 million</span>
-<label>Nom *</label><input id="nom" placeholder="Chemise, iPhone...">
-<div class="grid"><div><label>Prix *</label><input id="prix" type="number" placeholder="5000"></div><div><label>Catégorie *</label><select id="cat"><option value="neuve">Boutique Neuve</option><option value="occasion">Marché Occasion</option></select></div></div>
-<label>Photo</label><input type="file" id="photo" accept="image/*">
-<div class="grid"><div><label>Nom fournisseur *</label><input id="nomFour" placeholder="Moussa"></div><div><label>Numéro fournisseur *</label><input id="telFour" placeholder="85924233"></div></div>
-<label>Numéro série / CNI</label><input id="numSerie" placeholder="IMEI, CNI...">
-<div class="grid"><div><label>Statut</label><select id="statut"><option>En Stock</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Ville</label><input id="ville" value="Agadez"></div></div>
-<button class="btn-black" onclick="ajouterPro()">ENREGISTRER — ODA</button>
-<p id="msg" style="text-align:center;margin-top:14px;font-weight:700"></p>
-</div>
-<div class="card"><h3>Stock — <span id="count">0</span> articles</h3><div id="liste"></div></div>
-</div>
-<script>
-// ===== ICI TU CHANGES TON MOT DE PASSE FACILEMENT =====
-const MON_NOUVEAU_MOT_DE_PASSE = "ODA2025";
-// Tu peux aussi mettre plusieurs mots de passe qui marchent :
-const AUTRES_MOTS_DE_PASSE = ["ODA2025", "ODA shop 123?", "ODA shop 123 ?", "abee", "1234"];
 
-let produits=JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');let base64Photo="";
+<div id="adminBox" style="display:none" class="wrap">
+<div class="welcome"><h2>Bienvenue<br><b>ESPACE ADMIN</b></h2><p>Espace privé • Sécurisé</p></div>
+
+<div class="search-wrap"><span>🔍</span><input type="text" id="search" placeholder="Rechercher ODA-0001, ODA-0002..." onkeyup="filtrer()"></div>
+
+<div class="card">
+<h3 style="font-size:11px;letter-spacing:3px;color:#999">NOUVELLE MARCHANDISE</h3>
+<label>Code auto</label><input id="code" class="auto" disabled>
+<label>Nom *</label><input id="nom" placeholder="Chemise...">
+<div class="grid">
+<div><label>Prix d'achat (PRIVÉ)</label><input id="prixAchat" type="number" placeholder="3000"></div>
+<div><label>Prix de vente (PUBLIC)</label><input id="prixVente" type="number" placeholder="5000"></div>
+</div>
+<div class="grid">
+<div><label>Catégorie *</label><select id="cat"><option value="neuve">Boutique Neuve</option><option value="occasion">Marché Occasion</option></select></div>
+<div><label>Photo</label><input type="file" id="photo" accept="image/*"></div>
+</div>
+<div class="grid">
+<div><label>Nom fournisseur *</label><input id="nomFour" placeholder="Moussa"></div>
+<div><label>Numéro fournisseur *</label><input id="telFour" placeholder="85924233"></div>
+</div>
+<label>CNI / Série</label><input id="numSerie" placeholder="CNI, IMEI...">
+<div class="grid">
+<div><label>Statut</label><select id="statut"><option>En Stock</option><option>Réservé</option><option>Vendu</option></select></div>
+<div><label>Ville</label><input id="ville" value="Agadez"></div>
+</div>
+<button class="btn-black" onclick="ajouterPro()" id="btnSave">ENREGISTRER — ODA</button>
+<p id="msg" style="text-align:center;margin-top:12px;font-weight:700"></p>
+</div>
+
+<div class="card"><h3>STOCK — <span id="count">0</span></h3><div id="liste"></div></div>
+</div>
+
+<div id="modal" class="modal" onclick="if(event.target==this)closeModal()"><div class="modal-box" id="modalContent"></div></div>
+
+<script>
+const MOTS_DE_PASSE = ["ODA2025","abee","1234","ODA shop 123?"];
+let produits=JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');
+let base64Photo=""; let editIndex=-1;
 document.getElementById('photo').addEventListener('change',e=>{let r=new FileReader();r.onload=ev=>base64Photo=ev.target.result;r.readAsDataURL(e.target.files[0]);});
 function getNextCode(){return "ODA-"+String(produits.length+1).padStart(4,'0');}
-function togglePass(){let i=document.getElementById('pass');i.type=i.type==='password'?'text':'password';}
-function checkPass(){
- let p=document.getElementById('pass').value.trim();
- // On accepte le nouveau + les anciens pour ne plus être bloqué
- if(p===MON_NOUVEAU_MOT_DE_PASSE || AUTRES_MOTS_DE_PASSE.includes(p)){
-  document.getElementById('loginBox').style.display='none';
-  document.getElementById('adminBox').style.display='block';
-  document.getElementById('code').value=getNextCode();
-  afficher();
- }else{ document.getElementById('err').innerText='❌ Mot de passe faux. Essaie: ODA2025'; }
-}
+function checkPass(){let p=pass.value.trim();if(MOTS_DE_PASSE.includes(p)){loginBox.style.display='none';adminBox.style.display='block';code.value=getNextCode();afficher();}else err.innerText='Faux';}
 function ajouterPro(){
- if(!nom.value||!prix.value){alert('Nom et prix');return;}
- let pr={code:getNextCode(),nom:nom.value,prix:prix.value,categorie:cat.value,nomFour:nomFour.value,telFour:telFour.value,numSerie:numSerie.value,statut:statut.value,ville:ville.value,photo:base64Photo,date:Date.now()};
- produits.push(pr);localStorage.setItem('oda_produits_pro',JSON.stringify(produits));localStorage.setItem('oda_produits',JSON.stringify(produits));
- msg.innerHTML='✓ '+pr.code+' enregistré';nom.value='';prix.value='';nomFour.value='';telFour.value='';numSerie.value='';base64Photo='';code.value=getNextCode();afficher();window.scrollTo({top:0,behavior:'smooth'});
+ if(!nom.value||!prixVente.value){alert('Nom + Prix vente');return;}
+ if(editIndex>=0){
+   produits[editIndex].nom=nom.value; produits[editIndex].prixAchat=prixAchat.value; produits[editIndex].prixVente=prixVente.value;
+   produits[editIndex].categorie=cat.value; produits[editIndex].nomFour=nomFour.value; produits[editIndex].telFour=telFour.value;
+   produits[editIndex].numSerie=numSerie.value; produits[editIndex].statut=statut.value; produits[editIndex].ville=ville.value;
+   if(base64Photo) produits[editIndex].photo=base64Photo; editIndex=-1; btnSave.innerText='ENREGISTRER — ODA';
+ }else{
+   let pr={code:getNextCode(),nom:nom.value,prixAchat:prixAchat.value,prixVente:prixVente.value,categorie:cat.value,nomFour:nomFour.value,telFour:telFour.value,numSerie:numSerie.value,statut:statut.value,ville:ville.value,photo:base64Photo,date:Date.now()};
+   produits.push(pr);
+ }
+ localStorage.setItem('oda_produits_pro',JSON.stringify(produits)); localStorage.setItem('oda_produits',JSON.stringify(produits));
+ nom.value='';prixAchat.value='';prixVente.value='';nomFour.value='';telFour.value='';numSerie.value='';base64Photo='';code.value=getNextCode();afficher();
 }
-function afficher(){let h='';produits.slice().reverse().forEach((p,i)=>{h+=`<div class="item"><img src="${p.photo}"><div style="flex:1"><b>${p.code}</b> — ${p.nom}<br><small style="color:#999">${p.prix} FCFA • ${p.nomFour}</small></div><button onclick="supp(${produits.length-1-i})" style="border:0;background:#fff;border-radius:10px;padding:8px 10px">✕</button></div>`;});liste.innerHTML=h||'<p style="color:#bbb;text-align:center;padding:20px">Aucun produit</p>';count.innerText=produits.length;}
-function filtrer(){let q=search.value.toLowerCase();if(!q){afficher();return;}let f=produits.filter(p=>(p.nom+p.code+p.nomFour).toLowerCase().includes(q));let h='';f.reverse().forEach(p=>{h+=`<div class="item"><img src="${p.photo}"><div><b>${p.code}</b> - ${p.nom}</div></div>`;});liste.innerHTML=h;}
+function afficher(list=produits){
+ let h=''; [...list].reverse().forEach((p)=>{let i=produits.findIndex(x=>x.code===p.code);
+ h+=`<div class="item"><div class="item-top"><img src="${p.photo||''}"><div style="flex:1"><b>${p.code}</b> — ${p.nom}<br><small>Achat: ${p.prixAchat||'-'} • Vente: ${p.prixVente||'-'} FCFA</small></div></div><div class="btns"><button class="btn-view" onclick="voirPro(${i})">VOIR</button><button class="btn-edit" onclick="modifierPro(${i})">MODIFIER</button><button class="btn-del" onclick="supp(${i})">SUPPRIMER</button></div></div>`;});
+ liste.innerHTML=h||'<p style="color:#bbb;text-align:center">Aucun produit</p>';count.innerText=produits.length;
+}
+function filtrer(){let q=search.value.toLowerCase().trim();if(!q){afficher();return;}let f=produits.filter(p=>(p.code+' '+p.nom).toLowerCase().includes(q));afficher(f);}
+function voirPro(i){let p=produits[i];modal.style.display='flex';modalContent.innerHTML=`<h2>${p.code} — ${p.nom}</h2><img src="${p.photo||''}" style="width:100%;height:200px;object-fit:cover;border-radius:16px;margin:12px 0"><p><b>Achat (privé):</b> ${p.prixAchat} FCFA</p><p><b>Vente (public):</b> ${p.prixVente} FCFA</p><p><b>Fournisseur:</b> ${p.nomFour} — ${p.telFour}</p><p><b>CNI:</b> ${p.numSerie}</p><p><b>Statut:</b> ${p.statut}</p><div style="display:flex;gap:10px;margin-top:16px"><a href="tel:${p.telFour}" style="flex:1;padding:14px;background:#22c55e;color:#fff;border-radius:100px;text-align:center;text-decoration:none;font-weight:900">APPELER</a><button onclick="closeModal()" style="flex:1;padding:14px;background:#111;color:#fff;border-radius:100px;border:0">FERMER</button></div>`;}
+function modifierPro(i){let p=produits[i];editIndex=i;nom.value=p.nom;prixAchat.value=p.prixAchat;prixVente.value=p.prixVente;cat.value=p.categorie;nomFour.value=p.nomFour;telFour.value=p.telFour;numSerie.value=p.numSerie;statut.value=p.statut;ville.value=p.ville;btnSave.innerText='MODIFIER '+p.code;window.scrollTo({top:0,behavior:'smooth'});}
 function supp(i){if(confirm('Supprimer '+produits[i].code+' ?')){produits.splice(i,1);localStorage.setItem('oda_produits_pro',JSON.stringify(produits));localStorage.setItem('oda_produits',JSON.stringify(produits));code.value=getNextCode();afficher();}}
+function closeModal(){modal.style.display='none';}
 </script>
 </body>
 </html>
