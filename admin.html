@@ -108,6 +108,81 @@ function afficher(){
    <button onclick="suppr(${i})" style="background:#ffe6e6;padding:8px;margin-top:6px;font-size:13px">Supprimer</button>
   </div>`).join('');
 }
+ <!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODA SHOP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,Arial,sans-serif;background:#fff}
+.header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
+.header .logo img{height:56px}
+.center{text-align:center;line-height:1.1;cursor:pointer;user-select:none}
+.center b{font-size:24px;font-weight:900;color:#000}
+.center p{color:#555;font-size:16px;margin-top:4px}
+.right{display:flex;gap:12px}
+.circle{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px}
+.c-yellow{background:#E9A800}.c-white{background:#fff;border:2.5px solid #E9A800}
+.ville{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.ville strong{font-size:18px}
+.btn-ville{background:#E9A800;border:0;padding:13px 20px;border-radius:30px;font-weight:800;font-size:15px}
+.search-wrap{padding:14px 16px;border-bottom:1px solid #eee;position:relative}
+.search{width:100%;background:#f2f2f2;border:1px solid #e6e6e6;border-radius:30px;padding:18px 18px 18px 54px;font-size:18px}
+.search-wrap span{position:absolute;left:36px;top:50%;transform:translateY(-50%);font-size:22px}
+.black{margin:18px 16px 0 16px;background:#000;border-radius:20px;padding:18px 20px;color:#fff;display:flex;gap:12px;font-size:17px}
+.black span{color:#E9A800;font-weight:700}
+.card{margin:18px 16px;border-radius:24px;padding:20px;display:flex;gap:18px;align-items:center;text-decoration:none}
+.card-black{background:#000;color:#fff}.card-white{background:#fff;border:2.5px solid #000;color:#000}
+.icon{width:84px;height:84px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0}
+.icon-yellow{background:#E9A800}.icon-black{background:#000}
+</style>
+</head>
+<body>
+<div class="header">
+ <div class="logo"><img src="logo.png" onerror="this.style.display='none'"></div>
+ <div class="center" id="adminAccess"><b>Bienvenue</b><p>Agadez</p></div>
+ <div class="right">
+   <a href="tel:+22780000000" style="text-decoration:none"><div class="circle c-yellow">📞</div></a>
+   <div class="circle c-white">☰</div>
+ </div>
+</div>
+<div class="ville"><strong>📍 Ville : Agadez</strong><button class="btn-ville">👜 📍 Commander vers une autre ville</button></div>
+<div class="search-wrap"><span>🔍</span><input class="search" placeholder="Que cherchez-vous ?"></div>
+<div class="black">🚚 <div><span>Commander à Agadez</span> · Payez et faites-vous livrer</div></div>
+
+<a href="boutique-neuve.html" style="text-decoration:none">
+<div class="card card-black">
+ <div class="icon icon-yellow">🏪</div>
+ <div>
+  <div style="color:#E9A800;letter-spacing:2px;font-size:14px;margin-bottom:6px">SECTION 1</div>
+  <div style="font-size:23px;font-weight:900">BOUTIQUE NEUVE</div>
+  <div style="color:#bbb;font-size:15px;margin-top:6px">Téléphones, ordinateurs, meubles,<br>électroménager neufs</div>
+ </div>
+</div>
+</a>
+
+<a href="marche-occasion.html" style="text-decoration:none">
+<div class="card card-white">
+ <div class="icon icon-black">♻️</div>
+ <div>
+  <div style="color:#777;letter-spacing:2px;font-size:14px;margin-bottom:6px">SECTION 2</div>
+  <div style="font-size:23px;font-weight:900">MARCHÉ OCCASION</div>
+  <div style="color:#666;font-size:15px;margin-top:6px">Friperie, occasion, bonnes affaires<br>à Agadez</div>
+ </div>
+</div>
+</a>
+
+<script>
+// ACCES ADMIN CACHÉ : 7 clics rapides sur Bienvenue
+let c=0;
+document.getElementById('adminAccess').addEventListener('click',()=>{
+  c++; if(c>=7){location.href='admin.html';} setTimeout(()=>c=0,3000);
+});
+</script>
+</body>
+</html>
 function suppr(i){ let arr=JSON.parse(localStorage.getItem('produits_complets')||'[]'); arr.splice(i,1); localStorage.setItem('produits_complets',JSON.stringify(arr)); afficher(); }
 </script>
 </body>
