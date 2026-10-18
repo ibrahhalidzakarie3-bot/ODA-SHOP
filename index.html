@@ -139,3 +139,58 @@ document.getElementById('secretAdmin').addEventListener('click',()=>{
 </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODA SHOP - Agadez</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#fff;text-align:center}
+.header{padding:20px}
+.logo img{height:60px}
+.header h1{font-size:26px;font-weight:900;margin-top:10px}
+.header p{color:#777;margin-top:4px}
+.secteurs{padding:20px;display:flex;flex-direction:column;gap:16px;max-width:400px;margin:20px auto}
+.btn-secteur{padding:22px;border-radius:16px;text-decoration:none;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.btn-neuve{background:#000;color:#E9A800;border:2px solid #000}
+.btn-occ{background:#fff;color:#000;border:2px solid #000}
+.btn-secteur span.icon{font-size:28px}
+.footer{margin-top:30px;color:#888;font-size:13px}
+.adminHint{margin-top:20px;font-size:12px;color:#ccc}
+</style>
+</head>
+<body>
+<div class="header">
+ <div class="logo"><img src="logo.png" onerror="this.style.display='none'"></div>
+ <h1 id="adminAccess">Bienvenue Zara</h1>
+ <p>Agadez</p>
+ <p style="font-size:14px;margin-top:8px">📍 Ville : Agadez</p>
+</div>
+
+<div class="secteurs">
+ <a href="boutique-neuve.html" class="btn-secteur btn-neuve">
+  <span><span class="icon">🏪</span> BOUTIQUE NEUVE</span>
+  <span>→</span>
+ </a>
+ <a href="marche-occasion.html" class="btn-secteur btn-occ">
+  <span><span class="icon">♻️</span> MARCHÉ OCCASION</span>
+  <span>→</span>
+ </a>
+</div>
+
+<div class="footer">
+ <p>👕 ODA SHOP - Vêtements & Plus</p>
+ <p style="margin-top:10px">📞 77 17 49 50</p>
+ <div class="adminHint">7 clics sur Bienvenue = Admin</div>
+</div>
+
+<script>
+let c=0;
+document.getElementById('adminAccess').addEventListener('click',()=>{
+ c++; if(c>=7){location.href='admin.html'} setTimeout(()=>c=0,3000);
+});
+</script>
+</body>
+</html>
