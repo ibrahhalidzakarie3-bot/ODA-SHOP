@@ -3,58 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Boutique Neuve - ODA Shop Niger</title>
+<title>ODA SHOP</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#E9A800">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial;background:#f5f5f5}
-.header{padding:14px;background:#fff;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee}
-.header b{font-size:20px}
-.btn-retour{background:#000;color:#E9A800;padding:8px 14px;border-radius:20px;text-decoration:none;font-weight:bold}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px;padding:12px}
-.card{background:#fff;border-radius:16px;padding:10px;box-shadow:0 2px 5px rgba(0,0,0,0.08)}
-.card img{width:100%;height:170px;object-fit:cover;border-radius:12px;background:#eee}
-.card h3{font-size:15px;margin:8px 0 4px}
-.desc{font-size:12px;color:#666;margin-bottom:4px;min-height:18px}
-.price{color:green;font-weight:900;font-size:15px}
-.stock{font-size:11px;color:#888;margin:4px 0}
-.btn-cmd{background:#000;color:#E9A800;border:0;padding:10px;border-radius:25px;width:100%;font-weight:800;margin-top:6px;cursor:pointer}
-.loading{text-align:center;padding:40px;color:#666}
+body{font-family:Arial;background:#fff}
+.header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px}
+.center{text-align:center;flex:1}
+.center b{font-size:26px;font-weight:900}
+.center p{font-size:15px;color:#555}
+.circle{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px}
+.c-yellow{background:#E9A800}
+.c-white{border:2.5px solid #E9A800}
+.ville{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:1px solid #eee;border-bottom:1px solid #eee;flex-wrap:wrap;gap:10px}
+.btn-ville{background:#E9A800;border:0;padding:12px 18px;border-radius:30px;font-weight:800}
+.search-wrap{padding:14px 16px;border-bottom:1px solid #eee;position:relative}
+.search{width:100%;background:#f2f2f2;border-radius:30px;padding:16px 16px 16px 50px;border:1px solid #e6e6e6;font-size:17px}
+.search-wrap span{position:absolute;left:34px;top:50%;transform:translateY(-50%)}
+.black{margin:18px 16px;background:#000;border-radius:20px;padding:18px;color:#fff;display:flex;gap:10px}
+.black span{color:#E9A800;font-weight:700}
+.card{margin:14px 16px;background:#000;border-radius:24px;padding:20px;display:flex;gap:18px;align-items:center;min-height:110px}
+.card.white{background:#fff;border:2.5px solid #000}
+.icon{width:84px;height:84px;min-width:84px;background:#E9A800;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px}
+.title{color:#fff;font-size:22px;font-weight:900}
+.card.white .title{color:#000}
+.sub{color:#bbb;font-size:14px;margin-top:5px}
+.card.white .sub{color:#666}
+.label{font-size:13px;letter-spacing:2px;color:#E9A800}
+.card.white .label{color:#666}
+.logo{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid #E9A800}
 </style>
 </head>
 <body>
-<div class="header"><b>🏪 BOUTIQUE NEUVE</b><a href="index.html" class="btn-retour">← Accueil</a></div>
-<div id="shop" class="loading">Chargement du stock ODA Shop Niger...<br>Connecté à Google Sheet...</div>
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbyfuAKsPbozLAV-2jaqOrs3UxqmB1j6o_w0HUO2bNDOtIPAcC6ydkKF3VIU7VKky-vc/exec";
-async function loadShop(){
- try{
-  const r = await fetch(API_URL);
-  const products = await r.json();
-  const shop = document.getElementById('shop');
-  if(!products || products.length===0){
-    shop.innerHTML='<div class="loading">Aucun produit dans Google Sheet. Ajoute dans ton Sheet.</div>';
-    return;
-  }
-  shop.className='grid';
-  shop.innerHTML='';
-  products.forEach(p=>{
-    if(!p.nom) return;
-    if(p.quantite!==undefined && Number(p.quantite)<=0) return;
-    shop.innerHTML+=`
-      <div class="card">
-        <img src="${p.image||'https://via.placeholder.com/300x300?text=ODA+Shop'}" alt="">
-        <h3>${p.nom}</h3>
-        <div class="desc">${p.description||''}</div>
-        <div class="price">${p.prix||0} FCFA</div>
-        <div class="stock">Stock: ${p.quantite||''} | Taille: ${p.taille||''}</div>
-        <button class="btn-cmd" onclick="window.open('https://wa.me/22777174950?text=Salam ODA Shop, je veux commander: ${encodeURIComponent(p.nom)} - ${p.prix} FCFA','_blank')">Commander WhatsApp</button>
-      </div>`;
-  });
- }catch(e){
-  document.getElementById('shop').innerHTML='<div class="loading">Erreur chargement. Vérifie que ton Google Sheet est publié.<br><br>'+e+'</div>';
- }
-}
-loadShop();
-</script>
+
+<div class="header">
+<img src="logo.png" class="logo" alt="ODA">
+<div class="center"><b>Bienvenue <span style="color:#E9A800">Zara</span></b><p>Agadez</p></div>
+<div style="display:flex;gap:10px">
+<a href="tel:+22777174950" style="text-decoration:none"><div class="circle c-yellow">📞</div></a>
+<div class="circle c-white">☰</div>
+</div>
+</div>
+
+<div class="ville"><strong>📍 Ville : Agadez</strong><button class="btn-ville">📍 Commander vers une autre ville</button></div>
+<div class="search-wrap"><span>🔍</span><input class="search" placeholder="Que cherchez-vous ?"></div>
+<div class="black">🚚 <div><span>Commander à Agadez</span> · Payez et faites-vous livrer</div></div>
+
+<a href="boutique-neuve.html" style="text-decoration:none"><div class="card"><div class="icon">🏪</div><div><div class="label">SECTION 1</div><div class="title">BOUTIQUE NEUVE</div><div class="sub">Téléphones, ordinateurs, meubles neufs</div></div></div></a>
+<a href="marche-occasion.html" style="text-decoration:none"><div class="card white"><div class="icon" style="background:#000;color:#E9A800">♻️</div><div><div class="label">SECTION 2</div><div class="title">MARCHÉ OCCASION</div><div class="sub">Achetez et vendez des articles d'occasion</div></div></div></a>
+<a href="livraison-nourriture.html" style="text-decoration:none"><div class="card"><div class="icon">🍔</div><div><div class="label">SECTION 3</div><div class="title">LIVRAISON NOURRITURE</div><div class="sub">Restaurants d'Agadez, commandez et on livre</div></div></div></a>
+<a href="pharmacie.html" style="text-decoration:none"><div class="card white"><div class="icon">💊</div><div><div class="label">SECTEUR 4</div><div class="title">PHARMACIE</div><div class="sub">Pharmacie Agadez · Maison Longrich</div></div></div></a>
+<a href="immobilier.html" style="text-decoration:none"><div class="card"><div class="icon">🏢</div><div><div class="label">SECTEUR 5</div><div class="title">IMMOBILIER</div><div class="sub">Maisons, boutiques et terrains à Agadez</div></div></div></a>
+<a href="transport.html" style="text-decoration:none"><div class="card white"><div class="icon">🚚</div><div><div class="label">SECTEUR 6</div><div class="title">TRANSPORT</div><div class="sub">Camions et motos à 3 roues</div></div></div></a>
+<a href="travaux.html" style="text-decoration:none"><div class="card"><div class="icon">🔧</div><div><div class="label">SECTEUR 7</div><div class="title">TRAVAUX À DOMICILE</div><div class="sub">Électricien, plombier, soudeur</div></div></div></a>
+<a href="colis.html" style="text-decoration:none"><div class="card white"><div class="icon">📦</div><div><div class="label">SECTEUR 8</div><div class="title">SERVICE COLIS ODA</div><div class="sub">Envoyez et récupérez vos colis</div></div></div></a>
+<a href="oda-express.html" style="text-decoration:none"><div class="card"><div class="icon">⚡</div><div><div class="label">SECTEUR 9</div><div class="title">Oda Express</div><div class="sub">Gaz, eau, services rapides</div></div></div></a>
+<a href="automobile.html" style="text-decoration:none"><div class="card white"><div class="icon">🚗</div><div><div class="label">SECTEUR 10</div><div class="title">Automobile</div><div class="sub">Motos, voitures, pièces</div></div></div></a>
+
 </body>
 </html>
