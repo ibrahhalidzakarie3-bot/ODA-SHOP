@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODA - Admin Chic</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui;background:#fcfcfc;color:#111;min-height:100vh}
+.header{padding:28px 22px 18px;background:#fff;border-bottom:1px solid #f0f0f0;position:sticky;top:0;z-index:5}
+.header h1{font-size:28px;font-weight:300;letter-spacing:4px} .header h1 b{font-weight:900}
+.header p{color:#999;font-size:13px;letter-spacing:2px;margin-top:6px;text-transform:uppercase}
+.login{height:85vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{background:#fff;border:1px solid #f0f0f0;border-radius:28px;padding:40px 28px;width:100%;max-width:380px;text-align:center}
+.login-card h2{font-weight:300;letter-spacing:3px;font-size:22px} .login-card h2 b{font-weight:900}
+.login-card input{width:100%;padding:18px;margin-top:20px;border-radius:16px;border:1px solid #eee;background:#fafafa;text-align:center;font-size:16px}
+.btn{width:100%;padding:18px;background:#111;color:#fff;border:0;border-radius:100px;font-weight:600;letter-spacing:2px;margin-top:16px;font-size:15px}
+.wrap{max-width:640px;margin:0 auto;padding:18px 18px 80px}
+.welcome{background:#fff;border-radius:24px;padding:28px 24px;border:1px solid #f2f2f2;margin-bottom:20px}
+.welcome h2{font-size:26px;font-weight:300;line-height:1.2} .welcome h2 b{font-weight:900;display:block;margin-top:4px;font-size:32px}
+.welcome p{color:#999;margin-top:10px;font-size:14px}
+.card{background:#fff;border-radius:26px;padding:26px 22px;border:1px solid #f0f0f0;margin-bottom:18px}
+.card h3{font-size:12px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:18px}
+label{font-size:10px;letter-spacing:2.5px;color:#bbb;text-transform:uppercase;margin-top:20px;display:block;font-weight:700}
+input,select{width:100%;padding:18px;margin-top:8px;border-radius:16px;border:1px solid #eee;background:#fafafa;font-size:16px;color:#111}
+.auto{background:#111!important;color:#fff!important;text-align:center;font-size:22px!important;letter-spacing:4px;font-weight:900;border-color:#111!important}
+.small-green{font-size:12px;color:#22c55e;margin-top:8px;display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.search-wrap{background:#fff;border-radius:100px;padding:6px 6px 6px 20px;border:1px solid #eee;display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.search-wrap input{border:0;background:transparent;padding:14px 10px;margin:0}
+.btn-black{width:100%;padding:20px;background:#111;color:#fff;border:0;border-radius:100px;font-weight:700;letter-spacing:2px;margin-top:22px;font-size:15px}
+.item{background:#fafafa;border-radius:20px;padding:14px;display:flex;gap:14px;margin-bottom:12px;align-items:center;border:1px solid #f5f5f5}
+.item img{width:66px;height:66px;border-radius:16px;object-fit:cover}
+.pass-wrap{position:relative} .eye{position:absolute;right:16px;top:50%;transform:translateY(-20%);background:#fff;border:1px solid #eee;border-radius:50%;width:36px;height:36px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="header"><h1>ODA <b>SHOP</b></h1><p>Agadez • Admin Chic</p></div>
+<div id="loginBox" class="login">
+<div class="login-card">
+<h2>BIENVENUE <b>ADMIN</b></h2>
+<p style="color:#aaa;font-size:13px;margin-top:8px">Espace privé</p>
+<div class="pass-wrap">
+<input type="password" id="pass" placeholder="••••••••">
+<button class="eye" onclick="togglePass()">👁️</button>
+</div>
+<button class="btn" onclick="checkPass()">ENTRER</button>
+<p id="err" style="color:#ff3b3b;margin-top:12px;font-size:13px"></p>
+<p style="color:#999;font-size:11px;margin-top:12px">Mot de passe actuel: ODA2025</p>
+</div>
+</div>
+<div id="adminBox" style="display:none" class="wrap">
+<div class="welcome"><h2>Bienvenue,<br><b>Abee</b></h2><p>Ajoute ta marchandise. Chic et spacieux comme Zara.</p></div>
+<div class="search-wrap"><span>🔍</span><input type="text" id="search" placeholder="Rechercher..." onkeyup="filtrer()"></div>
+<div class="card">
+<h3>Nouvelle marchandise</h3>
+<label>Code marchandise</label>
+<input id="code" class="auto" disabled>
+<span class="small-green">✦ Auto ODA-0001 → ODA-0002 → jusqu'à 1 million</span>
+<label>Nom *</label><input id="nom" placeholder="Chemise, iPhone...">
+<div class="grid"><div><label>Prix *</label><input id="prix" type="number" placeholder="5000"></div><div><label>Catégorie *</label><select id="cat"><option value="neuve">Boutique Neuve</option><option value="occasion">Marché Occasion</option></select></div></div>
+<label>Photo</label><input type="file" id="photo" accept="image/*">
+<div class="grid"><div><label>Nom fournisseur *</label><input id="nomFour" placeholder="Moussa"></div><div><label>Numéro fournisseur *</label><input id="telFour" placeholder="85924233"></div></div>
+<label>Numéro série / CNI</label><input id="numSerie" placeholder="IMEI, CNI...">
+<div class="grid"><div><label>Statut</label><select id="statut"><option>En Stock</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Ville</label><input id="ville" value="Agadez"></div></div>
+<button class="btn-black" onclick="ajouterPro()">ENREGISTRER — ODA</button>
+<p id="msg" style="text-align:center;margin-top:14px;font-weight:700"></p>
+</div>
+<div class="card"><h3>Stock — <span id="count">0</span> articles</h3><div id="liste"></div></div>
+</div>
+<script>
+// ===== ICI TU CHANGES TON MOT DE PASSE FACILEMENT =====
+const MON_NOUVEAU_MOT_DE_PASSE = "ODA2025";
+// Tu peux aussi mettre plusieurs mots de passe qui marchent :
+const AUTRES_MOTS_DE_PASSE = ["ODA2025", "ODA shop 123?", "ODA shop 123 ?", "abee", "1234"];
+
+let produits=JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');let base64Photo="";
+document.getElementById('photo').addEventListener('change',e=>{let r=new FileReader();r.onload=ev=>base64Photo=ev.target.result;r.readAsDataURL(e.target.files[0]);});
+function getNextCode(){return "ODA-"+String(produits.length+1).padStart(4,'0');}
+function togglePass(){let i=document.getElementById('pass');i.type=i.type==='password'?'text':'password';}
+function checkPass(){
+ let p=document.getElementById('pass').value.trim();
+ // On accepte le nouveau + les anciens pour ne plus être bloqué
+ if(p===MON_NOUVEAU_MOT_DE_PASSE || AUTRES_MOTS_DE_PASSE.includes(p)){
+  document.getElementById('loginBox').style.display='none';
+  document.getElementById('adminBox').style.display='block';
+  document.getElementById('code').value=getNextCode();
+  afficher();
+ }else{ document.getElementById('err').innerText='❌ Mot de passe faux. Essaie: ODA2025'; }
+}
+function ajouterPro(){
+ if(!nom.value||!prix.value){alert('Nom et prix');return;}
+ let pr={code:getNextCode(),nom:nom.value,prix:prix.value,categorie:cat.value,nomFour:nomFour.value,telFour:telFour.value,numSerie:numSerie.value,statut:statut.value,ville:ville.value,photo:base64Photo,date:Date.now()};
+ produits.push(pr);localStorage.setItem('oda_produits_pro',JSON.stringify(produits));localStorage.setItem('oda_produits',JSON.stringify(produits));
+ msg.innerHTML='✓ '+pr.code+' enregistré';nom.value='';prix.value='';nomFour.value='';telFour.value='';numSerie.value='';base64Photo='';code.value=getNextCode();afficher();window.scrollTo({top:0,behavior:'smooth'});
+}
+function afficher(){let h='';produits.slice().reverse().forEach((p,i)=>{h+=`<div class="item"><img src="${p.photo}"><div style="flex:1"><b>${p.code}</b> — ${p.nom}<br><small style="color:#999">${p.prix} FCFA • ${p.nomFour}</small></div><button onclick="supp(${produits.length-1-i})" style="border:0;background:#fff;border-radius:10px;padding:8px 10px">✕</button></div>`;});liste.innerHTML=h||'<p style="color:#bbb;text-align:center;padding:20px">Aucun produit</p>';count.innerText=produits.length;}
+function filtrer(){let q=search.value.toLowerCase();if(!q){afficher();return;}let f=produits.filter(p=>(p.nom+p.code+p.nomFour).toLowerCase().includes(q));let h='';f.reverse().forEach(p=>{h+=`<div class="item"><img src="${p.photo}"><div><b>${p.code}</b> - ${p.nom}</div></div>`;});liste.innerHTML=h;}
+function supp(i){if(confirm('Supprimer '+produits[i].code+' ?')){produits.splice(i,1);localStorage.setItem('oda_produits_pro',JSON.stringify(produits));localStorage.setItem('oda_produits',JSON.stringify(produits));code.value=getNextCode();afficher();}}
+</script>
+</body>
+</html>
