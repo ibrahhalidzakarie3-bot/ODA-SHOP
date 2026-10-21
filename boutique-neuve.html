@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Boutique Neuve</title>
-<style>body{font-family:Arial;background:#f5f5f5;margin:0}header{background:#000;color:#fff;padding:15px;text-align:center}header a{color:#E9A800;text-decoration:none}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}.card{background:#fff;border-radius:15px;padding:10px}.card img{width:100%;height:150px;object-fit:cover;border-radius:10px}.price{color:green;font-weight:bold}</style>
-</head><body>
-<header><a href="index.html">← Retour</a><br><b>BOUTIQUE NEUVE - ODA SHOP</b></header>
-<div id="shop" class="grid">Chargement...</div>
-<script>
-fetch('produits.json')
-.then(r=>r.json())
-.then(products=>{
-  let html='';
-  products.forEach(p=>{
-    html+=`<div class="card"><img src="${p.image}"><h3>${p.nom}</h3><p style="font-size:12px">${p.description}</p><div class="price">${p.prix} FCFA</div><button onclick="location.href='https://wa.me/22777174950?text=Je veux ${p.nom}'" style="background:#000;color:#E9A800;border:0;padding:8px;width:100%;border-radius:20px;margin-top:5px">Commander</button></div>`;
-  });
-  document.getElementById('shop').innerHTML=html;
-});
-</script>
-</body></html>
+// ... garde R2_CONFIG pareil ...
+
+async function uploadProduitsJson(){
+  try{
+    const jsonStr = JSON.stringify(produits);
+    const blob = new Blob([jsonStr], {type: 'application/json'});
+    AWS.config.update({accessKeyId:R2_CONFIG.accessKeyId,secretAccessKey:R2_CONFIG.secretAccessKey});
+    const s3=new AWS.S3({endpoint:R2_CONFIG.endpoint,region:"auto",s3ForcePathStyle:true,signatureVersion:"v4"});
+    await new Promise((res,rej)=>{
+      s3.upload({Bucket:R2_CONFIG.bucket,Key:'produits.json',Body:blob,ContentType:'application/json',ACL:'public-read'},(e,d)=> e?rej(e):res(d));
+    });
+    console.log("✅ produits.json uploadé sur R2 !");
+  }catch(e){ console.log("Erreur produits.json", e); }
+}
+
+// Dans ajouterPro() et supp() après localStorage.setItem, ajoute :
+// uploadProduitsJson();
