@@ -2,8 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODA - Espace Admin</title>
-<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1490.0.min.js"></script>
+<title>ODA - Espace Admin AUTO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',system-ui;background:#fcfcfc;color:#111}
@@ -17,28 +16,18 @@ label{font-size:10px;letter-spacing:2px;color:#bbb;text-transform:uppercase;marg
 input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1px solid #eee;background:#fafafa;font-size:15px}
 .auto{background:#111!important;color:#fff!important;text-align:center;font-size:20px!important;letter-spacing:3px;font-weight:900}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.search-wrap{background:#fff;border-radius:100px;padding:6px 6px 6px 18px;border:1px solid #eee;display:flex;align-items:center;gap:10px;margin-bottom:18px}
-.search-wrap input{border:0;background:transparent;padding:12px 10px;margin:0}
 .btn-black{width:100%;padding:18px;background:#111;color:#fff;border:0;border-radius:100px;font-weight:700;margin-top:20px}
 .btn-sync{width:100%;padding:12px;background:#E9A800;color:#000;border:0;border-radius:100px;font-weight:700;margin-top:10px}
 .btn-export{width:100%;padding:12px;background:#fff;border:1px solid #111;color:#111;border-radius:100px;font-weight:700;margin-top:10px}
 .item{background:#fff;border:1px solid #f0f0f0;border-radius:20px;padding:14px;margin-bottom:10px}
 .item img{width:64px;height:64px;border-radius:14px;object-fit:cover}
-.btns{display:flex;gap:8px;margin-top:10px}
-.btns button{flex:1;padding:10px;border-radius:100px;border:0;font-weight:700;font-size:12px}
-.btn-view{background:#111;color:#fff} .btn-edit{background:#E9A800;color:#000} .btn-del{background:#fff;border:1px solid #ff3b3b!important;color:#ff3b3b}
-.modal{position:fixed;inset:0;background:#00000090;display:none;align-items:center;justify-content:center;padding:16px;z-index:100}
-.modal-box{background:#fff;border-radius:28px;padding:26px;width:100%;max-width:440px;max-height:90vh;overflow:auto}
-.login{height:80vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.login-card{background:#fff;border:1px solid #f0f0f0;border-radius:28px;padding:36px 24px;width:100%;max-width:360px;text-align:center}
 </style>
 </head>
 <body>
-<div class="header"><h1>ODA <b>SHOP</b></h1><p>ESPACE ADMIN - R2 SYNC ✅ V2</p></div>
-<div id="loginBox" class="login"><div class="login-card"><h2>BIENVENUE<br><b>ESPACE ADMIN</b></h2><input type="password" id="pass" placeholder="••••••••" style="margin-top:20px;padding:16px;border-radius:14px;border:1px solid #eee;width:100%;text-align:center"><button onclick="checkPass()" style="width:100%;padding:16px;background:#111;color:#fff;border:0;border-radius:100px;margin-top:12px;font-weight:700">ENTRER</button><p id="err" style="color:red;margin-top:10px"></p></div></div>
+<div class="header"><h1>ODA <b>SHOP</b></h1><p>ESPACE ADMIN - AUTO SYNC ✅ V3</p></div>
+<div id="loginBox" style="height:80vh;display:flex;align-items:center;justify-content:center;padding:20px"><div style="background:#fff;border:1px solid #f0f0f0;border-radius:28px;padding:36px 24px;width:100%;max-width:360px;text-align:center"><h2>BIENVENUE<br><b>ESPACE ADMIN</b></h2><input type="password" id="pass" placeholder="••••••••" style="margin-top:20px;padding:16px;border-radius:14px;border:1px solid #eee;width:100%;text-align:center"><button onclick="checkPass()" style="width:100%;padding:16px;background:#111;color:#fff;border:0;border-radius:100px;margin-top:12px;font-weight:700">ENTRER</button><p id="err" style="color:red;margin-top:10px"></p></div></div>
 <div id="adminBox" style="display:none" class="wrap">
-<div class="welcome"><h2>Bienvenue<br><b>ESPACE ADMIN</b></h2><p id="syncStatus">Prêt à synchroniser sur R2 ✅</p></div>
-<div class="search-wrap"><span>🔍</span><input type="text" id="search" placeholder="Rechercher ODA-0001..." onkeyup="filtrer()"></div>
+<div class="welcome"><h2>Bienvenue<br><b>ESPACE ADMIN</b></h2><p id="syncStatus">Prêt à publier AUTO ✅</p><small style="color:#999">Espace Admin → Clients voient direct</small></div>
 <div class="card">
 <label>Code auto</label><input id="code" class="auto" disabled>
 <label>Nom *</label><input id="nom" placeholder="Chemise...">
@@ -47,79 +36,67 @@ input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1p
 <div class="grid"><div><label>Nom fournisseur</label><input id="nomFour" placeholder="Moussa"></div><div><label>Numéro fournisseur</label><input id="telFour" placeholder="85924233"></div></div>
 <label>CNI / Série</label><input id="numSerie" placeholder="CNI...">
 <div class="grid"><div><label>Statut</label><select id="statut"><option>En Stock</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Ville</label><input id="ville" value="Agadez"></div></div>
-<button class="btn-black" onclick="ajouterPro()" id="btnSave">ENREGISTRER & PUBLIER SUR INTERNET</button>
-<button class="btn-sync" onclick="uploadProduitsJson(true)">🔄 FORCER SYNCHRO VERS R2</button>
-<button class="btn-export" onclick="exportJson()">📥 TÉLÉCHARGER produits.json (SANS CONSOLE)</button>
+<button class="btn-black" onclick="ajouterPro()" id="btnSave">ENREGISTRER & PUBLIER AUTO SUR INTERNET</button>
+<button class="btn-sync" onclick="uploadAuto()">🔄 FORCER PUBLICATION AUTO</button>
+<button class="btn-export" onclick="exportJson()">📥 SECOURS: Télécharger produits.json</button>
 <p id="msg" style="text-align:center;margin-top:12px;font-weight:700"></p></div>
 <div class="card"><h3>STOCK — <span id="count">0</span></h3><div id="liste"></div></div></div>
-<div id="modal" class="modal" onclick="if(event.target==this)closeModal()"><div class="modal-box" id="modalContent"></div></div>
 <script>
-const R2_CONFIG = {
-  accessKeyId: "a76961ccfdad4136b09380127ec2979d",
-  secretAccessKey: "3093e98d0f9b6aa6d64fd77fa9247c33fdd2126f114c9bf55044c279b481f88a",
-  endpoint: "https://4fce81b09986589a4145e6e34b716f0d.r2.cloudflarestorage.com",
-  bucket: "oda-shop-storage",
-  publicUrl: "https://pub-bc19f9072caa47e18a78edafdba2a641.r2.dev"
-};
+const R2_PUBLIC = "https://pub-bc19f9072caa47e18a78edafdba2a641.r2.dev";
 const MOTS_DE_PASSE=["ODA2025","abee","1234","ODA shop 123?"];
 let produits=JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');
 let photoUrl="";let editIndex=-1;
-
-function getS3(){
-  AWS.config.update({accessKeyId:R2_CONFIG.accessKeyId,secretAccessKey:R2_CONFIG.secretAccessKey,region:"auto"});
-  return new AWS.S3({endpoint:R2_CONFIG.endpoint,region:"auto",s3ForcePathStyle:false,signatureVersion:"v4",httpOptions:{timeout:30000}});
-}
-async function uploadToR2(file){
-  const s=document.getElementById('uploadStatus');s.innerText="⏳ Upload photo...";
-  const s3=getS3();const name=Date.now()+"-"+file.name.replace(/\s/g,"_");
-  return new Promise((res,rej)=>{
-    s3.upload({Bucket:R2_CONFIG.bucket,Key:name,Body:file,ContentType:file.type,ACL:"public-read"},(e,d)=>{
-      if(e){s.innerText="❌ "+e.message;console.error(e);rej(e);}else{const url=R2_CONFIG.publicUrl+"/"+name;s.innerText="✅ Photo sur R2 !";preview.src=url;preview.style.display='block';res(url);}
-    });
-  });
-}
-async function uploadProduitsJson(showAlert=false){
+function getNextCode(){return "ODA-"+String(produits.length+1).padStart(4,'0');}
+function checkPass(){let p=pass.value.trim();if(MOTS_DE_PASSE.includes(p)){loginBox.style.display='none';adminBox.style.display='block';code.value=getNextCode();afficher();}else err.innerText='Faux';}
+document.getElementById('photo').addEventListener('change', async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    photoUrl = ev.target.result;
+    preview.src = photoUrl;
+    preview.style.display='block';
+    uploadStatus.innerText = "✅ Photo prête";
+  };
+  reader.readAsDataURL(f);
+});
+async function uploadAuto(){
   const status=document.getElementById('syncStatus');const msg=document.getElementById('msg');
-  status.innerText="⏳ Synchro vers internet...";msg.innerText="⏳ Publication...";
+  status.innerText="⏳ Publication AUTO..."; msg.innerText="⏳ Envoi...";
   try{
-    const s3=getS3();
-    const jsonStr=JSON.stringify(produits);
-    await new Promise((res,rej)=>{
-      s3.putObject({Bucket:R2_CONFIG.bucket,Key:"produits.json",Body:jsonStr,ContentType:"application/json"},(e,d)=> e?rej(e):res(d));
-    });
-    status.innerText="✅ Synchronisé sur R2 ! Clients voient !";
-    msg.innerText="✅ PUBLIÉ SUR INTERNET !";
-    if(showAlert) alert("✅ Produits publiés !");
-    setTimeout(()=>msg.innerText='',4000);
-  }catch(e){status.innerText="❌ Erreur: "+e.message;msg.innerText="❌ "+e.message; if(e.message.includes('CORS') || e.message.includes('SSL')){exportJson(); alert("Erreur R2 - J'ai téléchargé produits.json pour toi. Upload-le manuellement dans R2 > Objects !");}}
+    const jsonStr = JSON.stringify(produits);
+    const res = await fetch(R2_PUBLIC+"/produits.json", {method:"PUT", body:jsonStr, headers:{"Content-Type":"application/json"}});
+    if(!res.ok) throw new Error("CORS pas SAVE");
+    status.innerText="✅ PUBLIÉ AUTO ! Clients voient direct !";
+    msg.innerText="✅ PUBLIÉ - Ouvre boutique-neuve.html !";
+    alert("✅ C'EST EN LIGNE !");
+  }catch(e){
+    status.innerText="⚠️ Mode secours";
+    msg.innerText="⚠️ CORS pas SAVE - Téléchargement";
+    exportJson();
+    alert("⚠️ Ton CORS dans R2 n'est pas SAVE. J'ai téléchargé produits.json. Va dans R2 > Objects > Upload ce fichier !");
+  }
 }
 function exportJson(){
   const blob=new Blob([JSON.stringify(produits)],{type:"application/json"});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download='produits.json';a.click();
   URL.revokeObjectURL(url);
-  alert("Fichier produits.json téléchargé ! Va dans Cloudflare R2 > Objects > Upload et glisse ce fichier !");
 }
-document.getElementById('photo').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{photoUrl=await uploadToR2(f);}catch{alert("Si erreur, clique sur 📥 TÉLÉCHARGER produits.json et upload manuel dans R2");}});
-function getNextCode(){return "ODA-"+String(produits.length+1).padStart(4,'0');}
-function checkPass(){let p=pass.value.trim();if(MOTS_DE_PASSE.includes(p)){loginBox.style.display='none';adminBox.style.display='block';code.value=getNextCode();afficher();if(new URLSearchParams(location.search).has('export'))exportJson();}else err.innerText='Faux';}
 async function ajouterPro(){
   if(!nom.value||!prixVente.value){alert('Nom + Prix vente');return;}
   if(editIndex>=0){
-    let p=produits[editIndex];p.nom=nom.value;p.prixAchat=prixAchat.value;p.prixVente=prixVente.value;p.categorie=cat.value;p.nomFour=nomFour.value;p.telFour=telFour.value;p.numSerie=numSerie.value;p.statut=statut.value;p.ville=ville.value;if(photoUrl)p.photo=photoUrl;editIndex=-1;btnSave.innerText='ENREGISTRER & PUBLIER SUR INTERNET';
+    let p=produits[editIndex];p.nom=nom.value;p.prixAchat=prixAchat.value;p.prixVente=prixVente.value;p.categorie=cat.value;p.nomFour=nomFour.value;p.telFour=telFour.value;p.numSerie=numSerie.value;p.statut=statut.value;p.ville=ville.value;if(photoUrl)p.photo=photoUrl;editIndex=-1;btnSave.innerText='ENREGISTRER & PUBLIER AUTO SUR INTERNET';
   }else{
     produits.push({code:getNextCode(),nom:nom.value,prixAchat:prixAchat.value,prixVente:prixVente.value,categorie:cat.value,nomFour:nomFour.value,telFour:telFour.value,numSerie:numSerie.value,statut:statut.value,ville:ville.value,photo:photoUrl,date:Date.now()});
   }
-  localStorage.setItem('oda_produits_pro',JSON.stringify(produits));localStorage.setItem('oda_produits',JSON.stringify(produits));
+  localStorage.setItem('oda_produits_pro',JSON.stringify(produits));
   nom.value='';prixAchat.value='';prixVente.value='';nomFour.value='';telFour.value='';numSerie.value='';photoUrl='';preview.style.display='none';uploadStatus.innerText='';code.value=getNextCode();afficher();
-  await uploadProduitsJson();
+  await uploadAuto();
 }
-function afficher(list=produits){let h='';[...list].reverse().forEach(p=>{let i=produits.findIndex(x=>x.code===p.code);h+=`<div class="item"><div style="display:flex;gap:12px;align-items:center"><img src="${p.photo||''}" onerror="this.src='https://via.placeholder.com/64'"><div style="flex:1"><b>${p.code}</b> — ${p.nom}<br><small>${p.prixVente} FCFA - ${p.categorie}</small></div></div><div class="btns"><button class="btn-view" onclick="voirPro(${i})">VOIR</button><button class="btn-edit" onclick="modifierPro(${i})">MODIFIER</button><button class="btn-del" onclick="supp(${i})">SUPPRIMER</button></div></div>`;});liste.innerHTML=h||'Aucun produit';count.innerText=produits.length;}
-function filtrer(){let q=search.value.toLowerCase();if(!q){afficher();return;}afficher(produits.filter(p=>(p.code+' '+p.nom).toLowerCase().includes(q)));}
-function voirPro(i){let p=produits[i];modal.style.display='flex';modalContent.innerHTML=`<h2>${p.code} — ${p.nom}</h2><img src="${p.photo||''}" style="width:100%;height:200px;object-fit:cover;border-radius:16px;margin:12px 0"><p>Vente: ${p.prixVente}</p><p>Four: ${p.nomFour} - ${p.telFour}</p><div style="display:flex;gap:10px;margin-top:16px"><a href="tel:${p.telFour}" style="flex:1;padding:14px;background:#22c55e;color:#fff;border-radius:100px;text-align:center;text-decoration:none;font-weight:900">APPELER</a><button onclick="closeModal()" style="flex:1;padding:14px;background:#111;color:#fff;border-radius:100px;border:0">FERMER</button></div>`;}
+function afficher(list=produits){let h='';[...list].reverse().forEach(p=>{let i=produits.findIndex(x=>x.code===p.code);h+=`<div class="item"><div style="display:flex;gap:12px;align-items:center"><img src="${p.photo||''}" onerror="this.src='https://via.placeholder.com/64'"><div style="flex:1"><b>${p.code}</b> — ${p.nom}<br><small>${p.prixVente} FCFA - ${p.categorie}</small></div></div><div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:10px;border-radius:100px;border:0;background:#111;color:#fff" onclick="voirPro(${i})">VOIR</button><button style="flex:1;padding:10px;border-radius:100px;border:0;background:#E9A800" onclick="modifierPro(${i})">MODIFIER</button><button style="flex:1;padding:10px;border-radius:100px;border:1px solid #ff3b3b;color:#ff3b3b;background:#fff" onclick="supp(${i})">SUPPRIMER</button></div></div>`;});liste.innerHTML=h||'Aucun produit';count.innerText=produits.length;}
+function voirPro(i){let p=produits[i];alert(p.code+" - "+p.nom+" - "+p.prixVente+" FCFA");}
 function modifierPro(i){let p=produits[i];editIndex=i;nom.value=p.nom;prixAchat.value=p.prixAchat;prixVente.value=p.prixVente;cat.value=p.categorie;nomFour.value=p.nomFour;telFour.value=p.telFour;numSerie.value=p.numSerie;statut.value=p.statut;ville.value=p.ville;photoUrl=p.photo;if(p.photo){preview.src=p.photo;preview.style.display='block';}btnSave.innerText='MODIFIER '+p.code;window.scrollTo({top:0,behavior:'smooth'});}
-async function supp(i){if(confirm('Supprimer '+produits[i].code+' ?')){produits.splice(i,1);localStorage.setItem('oda_produits_pro',JSON.stringify(produits));localStorage.setItem('oda_produits',JSON.stringify(produits));code.value=getNextCode();afficher();await uploadProduitsJson();}}
-function closeModal(){modal.style.display='none';}
+async function supp(i){if(confirm('Supprimer '+produits[i].code+' ?')){produits.splice(i,1);localStorage.setItem('oda_produits_pro',JSON.stringify(produits));code.value=getNextCode();afficher();await uploadAuto();}}
 </script>
 </body>
 </html>
