@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ODA - Espace Admin</title>
-<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1577.0.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1490.0.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',system-ui;background:#fcfcfc;color:#111}
@@ -21,6 +21,7 @@ input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1p
 .search-wrap input{border:0;background:transparent;padding:12px 10px;margin:0}
 .btn-black{width:100%;padding:18px;background:#111;color:#fff;border:0;border-radius:100px;font-weight:700;margin-top:20px}
 .btn-sync{width:100%;padding:12px;background:#E9A800;color:#000;border:0;border-radius:100px;font-weight:700;margin-top:10px}
+.btn-export{width:100%;padding:12px;background:#fff;border:1px solid #111;color:#111;border-radius:100px;font-weight:700;margin-top:10px}
 .item{background:#fff;border:1px solid #f0f0f0;border-radius:20px;padding:14px;margin-bottom:10px}
 .item img{width:64px;height:64px;border-radius:14px;object-fit:cover}
 .btns{display:flex;gap:8px;margin-top:10px}
@@ -33,7 +34,7 @@ input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1p
 </style>
 </head>
 <body>
-<div class="header"><h1>ODA <b>SHOP</b></h1><p>ESPACE ADMIN - R2 SYNC ✅</p></div>
+<div class="header"><h1>ODA <b>SHOP</b></h1><p>ESPACE ADMIN - R2 SYNC ✅ V2</p></div>
 <div id="loginBox" class="login"><div class="login-card"><h2>BIENVENUE<br><b>ESPACE ADMIN</b></h2><input type="password" id="pass" placeholder="••••••••" style="margin-top:20px;padding:16px;border-radius:14px;border:1px solid #eee;width:100%;text-align:center"><button onclick="checkPass()" style="width:100%;padding:16px;background:#111;color:#fff;border:0;border-radius:100px;margin-top:12px;font-weight:700">ENTRER</button><p id="err" style="color:red;margin-top:10px"></p></div></div>
 <div id="adminBox" style="display:none" class="wrap">
 <div class="welcome"><h2>Bienvenue<br><b>ESPACE ADMIN</b></h2><p id="syncStatus">Prêt à synchroniser sur R2 ✅</p></div>
@@ -48,6 +49,7 @@ input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1p
 <div class="grid"><div><label>Statut</label><select id="statut"><option>En Stock</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Ville</label><input id="ville" value="Agadez"></div></div>
 <button class="btn-black" onclick="ajouterPro()" id="btnSave">ENREGISTRER & PUBLIER SUR INTERNET</button>
 <button class="btn-sync" onclick="uploadProduitsJson(true)">🔄 FORCER SYNCHRO VERS R2</button>
+<button class="btn-export" onclick="exportJson()">📥 TÉLÉCHARGER produits.json (SANS CONSOLE)</button>
 <p id="msg" style="text-align:center;margin-top:12px;font-weight:700"></p></div>
 <div class="card"><h3>STOCK — <span id="count">0</span></h3><div id="liste"></div></div></div>
 <div id="modal" class="modal" onclick="if(event.target==this)closeModal()"><div class="modal-box" id="modalContent"></div></div>
@@ -64,15 +66,15 @@ let produits=JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');
 let photoUrl="";let editIndex=-1;
 
 function getS3(){
-  AWS.config.update({accessKeyId:R2_CONFIG.accessKeyId,secretAccessKey:R2_CONFIG.secretAccessKey});
-  return new AWS.S3({endpoint:R2_CONFIG.endpoint,region:"auto",s3ForcePathStyle:true,signatureVersion:"v4"});
+  AWS.config.update({accessKeyId:R2_CONFIG.accessKeyId,secretAccessKey:R2_CONFIG.secretAccessKey,region:"auto"});
+  return new AWS.S3({endpoint:R2_CONFIG.endpoint,region:"auto",s3ForcePathStyle:false,signatureVersion:"v4",httpOptions:{timeout:30000}});
 }
 async function uploadToR2(file){
   const s=document.getElementById('uploadStatus');s.innerText="⏳ Upload photo...";
   const s3=getS3();const name=Date.now()+"-"+file.name.replace(/\s/g,"_");
   return new Promise((res,rej)=>{
-    s3.upload({Bucket:R2_CONFIG.bucket,Key:name,Body:file,ContentType:file.type},(e,d)=>{
-      if(e){s.innerText="❌ "+e.message;rej(e);}else{const url=R2_CONFIG.publicUrl+"/"+name;s.innerText="✅ Photo sur R2 !";preview.src=url;preview.style.display='block';res(url);}
+    s3.upload({Bucket:R2_CONFIG.bucket,Key:name,Body:file,ContentType:file.type,ACL:"public-read"},(e,d)=>{
+      if(e){s.innerText="❌ "+e.message;console.error(e);rej(e);}else{const url=R2_CONFIG.publicUrl+"/"+name;s.innerText="✅ Photo sur R2 !";preview.src=url;preview.style.display='block';res(url);}
     });
   });
 }
@@ -83,17 +85,24 @@ async function uploadProduitsJson(showAlert=false){
     const s3=getS3();
     const jsonStr=JSON.stringify(produits);
     await new Promise((res,rej)=>{
-      s3.upload({Bucket:R2_CONFIG.bucket,Key:"produits.json",Body:jsonStr,ContentType:"application/json"},(e,d)=> e?rej(e):res(d));
+      s3.putObject({Bucket:R2_CONFIG.bucket,Key:"produits.json",Body:jsonStr,ContentType:"application/json"},(e,d)=> e?rej(e):res(d));
     });
     status.innerText="✅ Synchronisé sur R2 ! Clients voient !";
-    msg.innerText="✅ PUBLIÉ SUR INTERNET ! Tous les clients voient maintenant !";
-    if(showAlert) alert("✅ Produits publiés ! Va sur boutique-neuve.html sur ton téléphone, tu vas les voir !");
+    msg.innerText="✅ PUBLIÉ SUR INTERNET !";
+    if(showAlert) alert("✅ Produits publiés !");
     setTimeout(()=>msg.innerText='',4000);
-  }catch(e){status.innerText="❌ Erreur synchro: "+e.message;msg.innerText="❌ Erreur: "+e.message;}
+  }catch(e){status.innerText="❌ Erreur: "+e.message;msg.innerText="❌ "+e.message; if(e.message.includes('CORS') || e.message.includes('SSL')){exportJson(); alert("Erreur R2 - J'ai téléchargé produits.json pour toi. Upload-le manuellement dans R2 > Objects !");}}
 }
-document.getElementById('photo').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{photoUrl=await uploadToR2(f);}catch{alert("Erreur CORS: Mets CORS dans R2");}});
+function exportJson(){
+  const blob=new Blob([JSON.stringify(produits)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='produits.json';a.click();
+  URL.revokeObjectURL(url);
+  alert("Fichier produits.json téléchargé ! Va dans Cloudflare R2 > Objects > Upload et glisse ce fichier !");
+}
+document.getElementById('photo').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{photoUrl=await uploadToR2(f);}catch{alert("Si erreur, clique sur 📥 TÉLÉCHARGER produits.json et upload manuel dans R2");}});
 function getNextCode(){return "ODA-"+String(produits.length+1).padStart(4,'0');}
-function checkPass(){let p=pass.value.trim();if(MOTS_DE_PASSE.includes(p)){loginBox.style.display='none';adminBox.style.display='block';code.value=getNextCode();afficher();}else err.innerText='Faux';}
+function checkPass(){let p=pass.value.trim();if(MOTS_DE_PASSE.includes(p)){loginBox.style.display='none';adminBox.style.display='block';code.value=getNextCode();afficher();if(new URLSearchParams(location.search).has('export'))exportJson();}else err.innerText='Faux';}
 async function ajouterPro(){
   if(!nom.value||!prixVente.value){alert('Nom + Prix vente');return;}
   if(editIndex>=0){
