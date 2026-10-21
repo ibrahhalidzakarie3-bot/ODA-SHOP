@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ODA - Espace Admin</title>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1577.0.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',system-ui;background:#fcfcfc;color:#111}
@@ -34,7 +35,7 @@ input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1p
 </style>
 </head>
 <body>
-<div class="header"><h1>ODA <b>SHOP</b></h1><p>ESPACE ADMIN</p></div>
+<div class="header"><h1>ODA <b>SHOP</b></h1><p>ESPACE ADMIN - R2 ✅</p></div>
 
 <div id="loginBox" class="login">
 <div class="login-card">
@@ -46,7 +47,7 @@ input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1p
 </div>
 
 <div id="adminBox" style="display:none" class="wrap">
-<div class="welcome"><h2>Bienvenue<br><b>ESPACE ADMIN</b></h2><p>Espace privé • Sécurisé</p></div>
+<div class="welcome"><h2>Bienvenue<br><b>ESPACE ADMIN</b></h2><p>Espace privé • Cloudflare R2 Connecté ✅</p></div>
 
 <div class="search-wrap"><span>🔍</span><input type="text" id="search" placeholder="Rechercher ODA-0001, ODA-0002..." onkeyup="filtrer()"></div>
 
@@ -60,7 +61,7 @@ input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1p
 </div>
 <div class="grid">
 <div><label>Catégorie *</label><select id="cat"><option value="neuve">Boutique Neuve</option><option value="occasion">Marché Occasion</option></select></div>
-<div><label>Photo</label><input type="file" id="photo" accept="image/*"></div>
+<div><label>Photo</label><input type="file" id="photo" accept="image/*"><p id="uploadStatus" style="font-size:11px;color:#E9A800;margin-top:6px"></p><img id="preview" style="width:100%;height:120px;object-fit:cover;border-radius:12px;margin-top:8px;display:none"></div>
 </div>
 <div class="grid">
 <div><label>Nom fournisseur *</label><input id="nomFour" placeholder="Moussa"></div>
@@ -81,10 +82,36 @@ input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1p
 <div id="modal" class="modal" onclick="if(event.target==this)closeModal()"><div class="modal-box" id="modalContent"></div></div>
 
 <script>
+const R2_CONFIG = {
+  accessKeyId: "a76961ccfdad4136b09380127ec2979d",
+  secretAccessKey: "3093e98d0f9b6aa6d64fd77fa9247c33fdd2126f114c9bf55044c279b481f88a",
+  endpoint: "https://4fce81b09986589a4145e6e34b716f0d.r2.cloudflarestorage.com",
+  bucket: "oda-shop-storage",
+  publicUrl: "https://pub-bc19f9072caa47e18a78edafdba2a641.r2.dev"
+};
 const MOTS_DE_PASSE = ["ODA2025","abee","1234","ODA shop 123?"];
 let produits=JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');
-let base64Photo=""; let editIndex=-1;
-document.getElementById('photo').addEventListener('change',e=>{let r=new FileReader();r.onload=ev=>base64Photo=ev.target.result;r.readAsDataURL(e.target.files[0]);});
+let photoUrl=""; let editIndex=-1;
+
+async function uploadToR2(file){
+  const statusEl=document.getElementById('uploadStatus');
+  statusEl.innerText="⏳ Upload vers R2...";
+  AWS.config.update({accessKeyId:R2_CONFIG.accessKeyId,secretAccessKey:R2_CONFIG.secretAccessKey});
+  const s3=new AWS.S3({endpoint:R2_CONFIG.endpoint,region:"auto",s3ForcePathStyle:true,signatureVersion:"v4"});
+  const fileName=Date.now()+"-"+file.name.replace(/\s/g,"_");
+  return new Promise((resolve,reject)=>{
+    s3.upload({Bucket:R2_CONFIG.bucket,Key:fileName,Body:file,ContentType:file.type},(err,data)=>{
+      if(err){statusEl.innerText="❌ Erreur: "+err.message;reject(err);}
+      else{const url=`${R2_CONFIG.publicUrl}/${fileName}`;statusEl.innerText="✅ Photo uploadée !";document.getElementById('preview').src=url;document.getElementById('preview').style.display='block';resolve(url);}
+    });
+  });
+}
+
+document.getElementById('photo').addEventListener('change',async e=>{
+  const file=e.target.files[0]; if(!file)return;
+  try{photoUrl=await uploadToR2(file);}catch(err){alert("Erreur R2: Vérifie CORS dans Cloudflare"); }
+});
+
 function getNextCode(){return "ODA-"+String(produits.length+1).padStart(4,'0');}
 function checkPass(){let p=pass.value.trim();if(MOTS_DE_PASSE.includes(p)){loginBox.style.display='none';adminBox.style.display='block';code.value=getNextCode();afficher();}else err.innerText='Faux';}
 function ajouterPro(){
@@ -93,22 +120,23 @@ function ajouterPro(){
    produits[editIndex].nom=nom.value; produits[editIndex].prixAchat=prixAchat.value; produits[editIndex].prixVente=prixVente.value;
    produits[editIndex].categorie=cat.value; produits[editIndex].nomFour=nomFour.value; produits[editIndex].telFour=telFour.value;
    produits[editIndex].numSerie=numSerie.value; produits[editIndex].statut=statut.value; produits[editIndex].ville=ville.value;
-   if(base64Photo) produits[editIndex].photo=base64Photo; editIndex=-1; btnSave.innerText='ENREGISTRER — ODA';
+   if(photoUrl) produits[editIndex].photo=photoUrl; editIndex=-1; btnSave.innerText='ENREGISTRER — ODA';
  }else{
-   let pr={code:getNextCode(),nom:nom.value,prixAchat:prixAchat.value,prixVente:prixVente.value,categorie:cat.value,nomFour:nomFour.value,telFour:telFour.value,numSerie:numSerie.value,statut:statut.value,ville:ville.value,photo:base64Photo,date:Date.now()};
+   let pr={code:getNextCode(),nom:nom.value,prixAchat:prixAchat.value,prixVente:prixVente.value,categorie:cat.value,nomFour:nomFour.value,telFour:telFour.value,numSerie:numSerie.value,statut:statut.value,ville:ville.value,photo:photoUrl,date:Date.now()};
    produits.push(pr);
  }
  localStorage.setItem('oda_produits_pro',JSON.stringify(produits)); localStorage.setItem('oda_produits',JSON.stringify(produits));
- nom.value='';prixAchat.value='';prixVente.value='';nomFour.value='';telFour.value='';numSerie.value='';base64Photo='';code.value=getNextCode();afficher();
+ nom.value='';prixAchat.value='';prixVente.value='';nomFour.value='';telFour.value='';numSerie.value='';photoUrl='';document.getElementById('preview').style.display='none';document.getElementById('uploadStatus').innerText='';code.value=getNextCode();afficher();
+ msg.innerText="✅ Produit enregistré !"; setTimeout(()=>msg.innerText='',2000);
 }
 function afficher(list=produits){
  let h=''; [...list].reverse().forEach((p)=>{let i=produits.findIndex(x=>x.code===p.code);
- h+=`<div class="item"><div class="item-top"><img src="${p.photo||''}"><div style="flex:1"><b>${p.code}</b> — ${p.nom}<br><small>Achat: ${p.prixAchat||'-'} • Vente: ${p.prixVente||'-'} FCFA</small></div></div><div class="btns"><button class="btn-view" onclick="voirPro(${i})">VOIR</button><button class="btn-edit" onclick="modifierPro(${i})">MODIFIER</button><button class="btn-del" onclick="supp(${i})">SUPPRIMER</button></div></div>`;});
+ h+=`<div class="item"><div class="item-top"><img src="${p.photo||''}" onerror="this.src='https://via.placeholder.com/64'"><div style="flex:1"><b>${p.code}</b> — ${p.nom}<br><small>Achat: ${p.prixAchat||'-'} • Vente: ${p.prixVente||'-'} FCFA</small></div></div><div class="btns"><button class="btn-view" onclick="voirPro(${i})">VOIR</button><button class="btn-edit" onclick="modifierPro(${i})">MODIFIER</button><button class="btn-del" onclick="supp(${i})">SUPPRIMER</button></div></div>`;});
  liste.innerHTML=h||'<p style="color:#bbb;text-align:center">Aucun produit</p>';count.innerText=produits.length;
 }
 function filtrer(){let q=search.value.toLowerCase().trim();if(!q){afficher();return;}let f=produits.filter(p=>(p.code+' '+p.nom).toLowerCase().includes(q));afficher(f);}
-function voirPro(i){let p=produits[i];modal.style.display='flex';modalContent.innerHTML=`<h2>${p.code} — ${p.nom}</h2><img src="${p.photo||''}" style="width:100%;height:200px;object-fit:cover;border-radius:16px;margin:12px 0"><p><b>Achat (privé):</b> ${p.prixAchat} FCFA</p><p><b>Vente (public):</b> ${p.prixVente} FCFA</p><p><b>Fournisseur:</b> ${p.nomFour} — ${p.telFour}</p><p><b>CNI:</b> ${p.numSerie}</p><p><b>Statut:</b> ${p.statut}</p><div style="display:flex;gap:10px;margin-top:16px"><a href="tel:${p.telFour}" style="flex:1;padding:14px;background:#22c55e;color:#fff;border-radius:100px;text-align:center;text-decoration:none;font-weight:900">APPELER</a><button onclick="closeModal()" style="flex:1;padding:14px;background:#111;color:#fff;border-radius:100px;border:0">FERMER</button></div>`;}
-function modifierPro(i){let p=produits[i];editIndex=i;nom.value=p.nom;prixAchat.value=p.prixAchat;prixVente.value=p.prixVente;cat.value=p.categorie;nomFour.value=p.nomFour;telFour.value=p.telFour;numSerie.value=p.numSerie;statut.value=p.statut;ville.value=p.ville;btnSave.innerText='MODIFIER '+p.code;window.scrollTo({top:0,behavior:'smooth'});}
+function voirPro(i){let p=produits[i];modal.style.display='flex';modalContent.innerHTML=`<h2>${p.code} — ${p.nom}</h2><img src="${p.photo||''}" style="width:100%;height:200px;object-fit:cover;border-radius:16px;margin:12px 0"><p><b>Achat (privé):</b> ${p.prixAchat} FCFA</p><p><b>Vente (public):</b> ${p.prixVente} FCFA</p><p><b>Fournisseur:</b> ${p.nomFour} — ${p.telFour}</p><p><b>CNI:</b> ${p.numSerie}</p><p><b>Statut:</b> ${p.statut}</p><p style="font-size:9px;word-break:break-all;color:#999">${p.photo||''}</p><div style="display:flex;gap:10px;margin-top:16px"><a href="tel:${p.telFour}" style="flex:1;padding:14px;background:#22c55e;color:#fff;border-radius:100px;text-align:center;text-decoration:none;font-weight:900">APPELER</a><button onclick="closeModal()" style="flex:1;padding:14px;background:#111;color:#fff;border-radius:100px;border:0">FERMER</button></div>`;}
+function modifierPro(i){let p=produits[i];editIndex=i;nom.value=p.nom;prixAchat.value=p.prixAchat;prixVente.value=p.prixVente;cat.value=p.categorie;nomFour.value=p.nomFour;telFour.value=p.telFour;numSerie.value=p.numSerie;statut.value=p.statut;ville.value=p.ville;photoUrl=p.photo;if(p.photo){preview.src=p.photo;preview.style.display='block';}btnSave.innerText='MODIFIER '+p.code;window.scrollTo({top:0,behavior:'smooth'});}
 function supp(i){if(confirm('Supprimer '+produits[i].code+' ?')){produits.splice(i,1);localStorage.setItem('oda_produits_pro',JSON.stringify(produits));localStorage.setItem('oda_produits',JSON.stringify(produits));code.value=getNextCode();afficher();}}
 function closeModal(){modal.style.display='none';}
 </script>
