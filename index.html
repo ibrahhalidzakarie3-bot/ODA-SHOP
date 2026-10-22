@@ -63,3 +63,60 @@ body{font-family:Arial;background:#fff}
 
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODA SHOP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, sans-serif;}
+body{background:#000000;color:white;min-height:100vh;padding:24px;}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:50px;}
+.logo-box{background:#121212;border-radius:12px;padding:10px 12px;font-weight:900;font-size:14px;letter-spacing:1px;}
+.top-text b{color:#f5b731;display:block;font-size:14px;}
+.top-text p{font-size:13px;color:#888;margin-top:2px;}
+h1{font-size:36px;font-weight:900;line-height:1.1;margin-bottom:16px;}
+h1 span{color:#f5b731;}
+.sub{color:#777;font-size:15px;line-height:1.4;margin-bottom:35px;max-width:320px;}
+.label{color:#f5b731;font-size:11px;font-weight:800;letter-spacing:1.5px;margin-bottom:10px;display:block;}
+.input{width:100%;background:#111111;border:1px solid #222222;border-radius:30px;padding:18px 20px;color:white;font-size:15px;outline:none;margin-bottom:28px;}
+.input::placeholder{color:#555;}
+.btn{width:100%;background:#f5b731;color:black;border:none;border-radius:30px;padding:20px;font-weight:900;letter-spacing:1px;font-size:15px;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<div class="top">
+<div class="logo-box">ODA SHOP</div>
+<div class="top-text">
+<b>ODA SHOP</b>
+<p>Agadez · Niger</p>
+</div>
+</div>
+
+<h1>Bienvenue sur<br><span>ODA SHOP</span></h1>
+
+<p class="sub">Dites-nous qui vous êtes et où vous êtes, pour voir les produits livrables dans votre ville.</p>
+
+<span class="label">NOM ET PRÉNOM</span>
+<input class="input" id="nom" placeholder="Ex: Ibrahim Zakarie">
+
+<span class="label">DANS QUELLE VILLE ES-TU ?</span>
+<input class="input" id="ville" placeholder="Dans quelle ville es-tu ?">
+
+<button class="btn" onclick="go()">COMMENCER</button>
+
+<script>
+function go(){
+  const n = document.getElementById('nom').value;
+  const v = document.getElementById('ville').value;
+  localStorage.setItem('oda_nom', n);
+  localStorage.setItem('oda_ville', v);
+  alert('Parfait ' + n + ' ! Bienvenue à ' + v);
+}
+</script>
+
+</body>
+</html>
