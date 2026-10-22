@@ -3,91 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ODA SHOP - Boutique Neuf</title>
+<title>ODA SHOP - Agadez</title>
 <style>
-body{font-family:Arial,sans-serif;background:#f5f5f5;margin:0;padding:10px}
-h1{text-align:center;color:#111}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px}
-.card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-.card img{width:100%;height:280px;object-fit:cover}
-.info{padding:12px}
-.code{font-weight:bold;color:#ff6600;font-size:14px}
-.nom{font-size:18px;font-weight:bold;margin:5px 0}
-.prix{color:green;font-weight:bold;font-size:20px}
-.desc{font-size:14px;color:#555;margin:8px 0}
-.btns{display:flex;gap:6px;margin-top:10px}
-.btn{flex:1;padding:10px;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
-.zoom{background:#111;color:white}
-.cmd{background:#25D366;color:white}
-.share{background:#1877F2;color:white}
+body{font-family:Arial;background:#f5f5f5;margin:0;padding:10px}
+h1{text-align:center;color:#0a7d2e}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.15);padding-bottom:8px}
+.card img{width:100%;height:180px;object-fit:cover;background:#eee}
+.info{padding:8px}
+.price{color:#e60000;font-weight:bold;font-size:18px}
+.btn{display:block;background:#25D366;color:white;text-align:center;padding:10px;border-radius:8px;text-decoration:none;margin:8px;font-weight:bold}
+#status{text-align:center;padding:15px;background:yellow;border-radius:8px;margin:10px}
 </style>
 </head>
 <body>
-<h1>ODA SHOP - Boutique Neuf Agadez</h1>
-<div id="loading" style="text-align:center">Chargement des produits...</div>
+<h1>ODA SHOP AGADEZ - NEUF</h1>
+<div id="status">Chargement... Attends 5 sec ABEE</div>
 <div class="grid" id="grid"></div>
 
 <script>
-// MET TON LIEN GOOGLE SHEET ICI ABEE
-const SHEET_ID = "1W2e3r4t5y6u7i8o9p0a1s2d3f4g5h6j7k8"; // Remplace par ton ID
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+const SHEET_ID = "1895VPzGc3iNWS7psJNQUNBP0MjVy_PvncEkapwnNbFQ";
+const GID = "23900123";
+const URL_CSV = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID}`;
 
-async function load() {
-  try {
-    const res = await fetch(SHEET_URL);
+async function loadProduits(){
+  try{
+    const res = await fetch(URL_CSV);
+    if(!res.ok) throw new Error("Pas publié");
     const text = await res.text();
-    const json = JSON.parse(text.substr(47).slice(0, -2));
-    const rows = json.table.rows;
-    const grid = document.getElementById('grid');
-    document.getElementById('loading').style.display='none';
+    const lignes = text.split("\n");
+    const headers = lignes[0].split(",").map(h=>h.trim().toLowerCase());
     
-    rows.reverse().forEach(r => {
-      const c = r.c;
-      // A=0 Horodateur, B=1 NOM, C=2 PRIX, D=3 PHOTO, E=4 DESC, F=5 WHATSAPP, G=6 CODE ODA, H=7 SERIE PRIVE, I=8 APPROUVE
-      const nom = c[1]?.v || "";
-      const prix = c[2]?.v || "";
-      const photo = c[3]?.v || "";
-      const desc = c[4]?.v || "";
-      const whatsapp = c[5]?.v || "";
-      const code = c[6]?.v || "";
-      const approuve = c[8]?.v || "";
+    let idxCode = headers.findIndex(h=>h.includes("code"));
+    let idxApprouve = headers.findIndex(h=>h.includes("approuve"));
+    let idxSerie = headers.findIndex(h=>h.includes("serie") || h.includes("prive"));
+    
+    // Si pas trouvé, on prend par position de ta photo
+    if(idxCode<0) idxCode = 0;
+    if(idxApprouve<0) idxApprouve = 2;
 
-      if(approuve.toUpperCase() !== "OUI") return;
-      if(!code) return;
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+    let count = 0;
 
-      const card = document.createElement('div');
-      card.className='card';
-      card.innerHTML = `
-        <img src="${photo}" onerror="this.src='https://via.placeholder.com/300?text=ODA+SHOP'">
-        <div class="info">
-          <div class="code">CODE: ${code}</div>
-          <div class="nom">${nom}</div>
-          <div class="prix">${prix} FCFA</div>
-          <div class="desc">${desc}</div>
-          <div class="btns">
-            <button class="btn zoom" onclick="window.open('${photo}','_blank')">🔍 ZOOM</button>
-            <button class="btn cmd" onclick="commander('${code}','${nom}')">🟢 COMMANDER</button>
-            <button class="btn share" onclick="partager('${code}','${nom}')">↗️</button>
-          </div>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
+    for(let i=1; i<lignes.length; i++){
+      if(!lignes[i].trim()) continue;
+      const cols = lignes[i].split(",");
+      const code = cols[idxCode] ? cols[idxCode].replace(/"/g,"").trim() : "";
+      const approuve = cols[idxApprouve] ? cols[idxApprouve].replace(/"/g,"").trim().toLowerCase() : "";
+
+      if(approuve === "oui" || approuve === "oui" || approuve === "OUI" || approuve.includes("oui")){
+        count++;
+        grid.innerHTML += `
+          <div class="card">
+            <img src="https://via.placeholder.com/300x300?text=${code}" alt="${code}">
+            <div class="info">
+              <b>${code}</b><br>
+              <small>Original Agadez - ${cols[idxSerie]||""}</small>
+              <div class="price">Sur commande</div>
+              <a class="btn" href="https://wa.me/227XXXXXXXX?text=Salam ABEE je veux ${code}">Commander WhatsApp</a>
+            </div>
+          </div>`;
+      }
+    }
+
+    document.getElementById("status").innerHTML = count>0 
+      ? `✅ ${count} produits approuvés - C'est bon ABEE !` 
+      : `⚠️ Aucun produit avec OUI - Dans ton tableau mets OUI dans la colonne APPROUVE ?`;
+
   } catch(e){
-    document.getElementById('loading').innerHTML = "Erreur: Vérifie que le Sheet est en 'Toute personne disposant du lien peut consulter'";
-    console.log(e);
+    document.getElementById("status").innerHTML = `❌ Erreur encore: ${e.message}<br>Va dans Fichier > Partager > Publier sur le web > Publier`;
   }
 }
-
-function commander(code, nom){
-  const msg = `Salam ODA SHOP, je veux commander ${nom} CODE ${code} vu sur ODA SHOP`;
-  window.open(`https://wa.me/227XXXXXXXX?text=${encodeURIComponent(msg)}`,'_blank');
-}
-function partager(code, nom){
-  const text = `Regarde ${nom} ${code} sur ODA SHOP Agadez !`;
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(text)}`,'_blank');
-}
-load();
+loadProduits();
 </script>
 </body>
 </html>
