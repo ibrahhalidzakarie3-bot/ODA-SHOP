@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accueil - ODA SHOP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{background:#000;color:white;min-height:100vh;padding:20px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.welcome h2{font-size:24px} .welcome h2 span{color:#f5b731}
+.welcome p{color:#777;font-size:13px;margin-top:5px}
+.menu-btn{font-size:28px;background:#111;padding:8px 14px;border-radius:10px}
+.banner{background:#1a1a1a;border:1px solid #f5b731;color:#f5b731;padding:12px;border-radius:12px;margin-bottom:20px;display:none}
+.sectors{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:20px}
+.card{background:#111;border:1px solid #222;border-radius:20px;padding:20px;text-align:center}
+.card b{display:block;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="top">
+<div class="welcome"><h2 id="bienvenue">Bienvenue 👋</h2><p id="ville-text">Agadez · Niger</p></div>
+<div class="menu-btn">☰</div>
+</div>
+<div id="banner" class="banner"></div>
+<div class="sectors">
+<div class="card">🛍️<b>Boutique Neuf</b></div>
+<div class="card">👟<b>Chaussures</b></div>
+<div class="card">📱<b>Téléphones</b></div>
+<div class="card">👕<b>Vêtements</b></div>
+</div>
+<script>
+const nom = localStorage.getItem('oda_nom') || 'Ami';
+const ville = localStorage.getItem('oda_ville') || 'Agadez';
+document.getElementById('bienvenue').innerHTML = `Bienvenue ${nom} 👋`;
+document.getElementById('ville-text').innerText = ville + ' · Niger';
+if(ville !== 'Agadez'){
+  const b = document.getElementById('banner');
+  b.style.display='block';
+  b.innerText = `ODA n'est pas encore à ${ville}, mais tu peux voir nos produits d'Agadez`;
+}
+</script>
+</body>
+</html>
