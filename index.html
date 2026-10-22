@@ -39,14 +39,18 @@ body{font-family:Arial;background:#fff}
 
 <div class="header">
 <img src="logo.png" class="logo" alt="ODA">
-<div class="center"><b>Bienvenue <span style="color:#E9A800">Zara</span></b><p>Agadez</p></div>
+<div class="center"><b>Bienvenue <span style="color:#E9A800" id="nomAffiche">Zara</span></b><p id="villeCentre">Agadez</p></div>
 <div style="display:flex;gap:10px">
 <a href="tel:+22777174950" style="text-decoration:none"><div class="circle c-yellow">📞</div></a>
 <div class="circle c-white">☰</div>
 </div>
 </div>
 
-<div class="ville"><strong>📍 Ville : Agadez</strong><button class="btn-ville">📍 Commander vers une autre ville</button></div>
+<div class="ville"><strong id="villeBar">📍 Ville : Agadez</strong><button class="btn-ville">📍 Commander vers une autre ville</button></div>
+
+<!-- MESSAGE SI AUTRE VILLE QUE AGADEZ -->
+<div id="message-ville" style="display:none; margin:12px 16px; background:#fff3cd; border:1px solid #E9A800; color:#664d03; padding:12px; border-radius:12px; font-size:14px;"></div>
+
 <div class="search-wrap"><span>🔍</span><input class="search" placeholder="Que cherchez-vous ?"></div>
 <div class="black">🚚 <div><span>Commander à Agadez</span> · Payez et faites-vous livrer</div></div>
 
@@ -60,6 +64,30 @@ body{font-family:Arial;background:#fff}
 <a href="colis.html" style="text-decoration:none"><div class="card white"><div class="icon">📦</div><div><div class="label">SECTEUR 8</div><div class="title">SERVICE COLIS ODA</div><div class="sub">Envoyez et récupérez vos colis</div></div></div></a>
 <a href="oda-express.html" style="text-decoration:none"><div class="card"><div class="icon">⚡</div><div><div class="label">SECTEUR 9</div><div class="title">Oda Express</div><div class="sub">Gaz, eau, services rapides</div></div></div></a>
 <a href="automobile.html" style="text-decoration:none"><div class="card white"><div class="icon">🚗</div><div><div class="label">SECTEUR 10</div><div class="title">Automobile</div><div class="sub">Motos, voitures, pièces</div></div></div></a>
+
+<script>
+// ABEE - ON LIT LES INFOS VENANT DE accueil.html = LE MENU
+const nom = localStorage.getItem('oda_nom');
+const ville = localStorage.getItem('oda_ville');
+
+// Si personne n'est passé par le MENU, on l'envoie au MENU
+if(!nom){
+  // window.location.href = 'accueil.html'; // décommente quand accueil.html est prêt
+}
+
+if(nom){
+  document.getElementById('nomAffiche').innerText = nom;
+}
+if(ville){
+  document.getElementById('villeCentre').innerText = ville;
+  document.getElementById('villeBar').innerText = '📍 Ville : ' + ville;
+  if(ville.toLowerCase() !== 'agadez'){
+    const m = document.getElementById('message-ville');
+    m.style.display = 'block';
+    m.innerText = `ODA n'est pas encore à ${ville}. Tu vois les produits d'Agadez pour l'instant.`;
+  }
+}
+</script>
 
 </body>
 </html>
