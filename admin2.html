@@ -1,102 +1,134 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODA - Espace Admin AUTO</title>
+<meta charset="UTF-8">
+<title>Admin Agadez - ODA SHOP</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui;background:#fcfcfc;color:#111}
-.header{padding:22px;background:#fff;border-bottom:1px solid #f0f0f0;position:sticky;top:0;z-index:10}
-.header h1{font-size:24px;font-weight:300;letter-spacing:4px} .header h1 b{font-weight:900}
-.header p{color:#999;font-size:11px;letter-spacing:3px;margin-top:4px}
-.wrap{max-width:680px;margin:0 auto;padding:16px 16px 100px}
-.welcome{background:#fff;border-radius:24px;padding:28px 24px;border:1px solid #f0f0f0;margin-bottom:16px;text-align:center}
-.card{background:#fff;border-radius:26px;padding:24px;border:1px solid #f0f0f0;margin-bottom:16px}
-label{font-size:10px;letter-spacing:2px;color:#bbb;text-transform:uppercase;margin-top:18px;display:block;font-weight:700}
-input,select{width:100%;padding:16px;margin-top:8px;border-radius:14px;border:1px solid #eee;background:#fafafa;font-size:15px}
-.auto{background:#111!important;color:#fff!important;text-align:center;font-size:20px!important;letter-spacing:3px;font-weight:900}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn-black{width:100%;padding:18px;background:#111;color:#fff;border:0;border-radius:100px;font-weight:700;margin-top:20px}
-.btn-sync{width:100%;padding:12px;background:#E9A800;color:#000;border:0;border-radius:100px;font-weight:700;margin-top:10px}
-.btn-export{width:100%;padding:12px;background:#fff;border:1px solid #111;color:#111;border-radius:100px;font-weight:700;margin-top:10px}
-.item{background:#fff;border:1px solid #f0f0f0;border-radius:20px;padding:14px;margin-bottom:10px}
-.item img{width:64px;height:64px;border-radius:14px;object-fit:cover}
+body{ background:black; color:white; font-family:sans-serif; margin:0; }
+header{ border-bottom:1px solid gold; padding:15px; position:sticky; top:0; background:black; }
+.tab{ padding:8px 15px; border-radius:20px; border:1px solid #444; background:black; color:#ccc; margin:2px; cursor:pointer; }
+.tab.active{ background:gold; color:black; font-weight:bold; }
+.card{ border:1px solid #222; background:#111; padding:12px; border-radius:12px; margin:8px 0; display:flex; gap:10px; }
+.gold{ color:gold; }
+.btn-gold{ background:gold; color:black; font-weight:900; padding:14px; border-radius:12px; width:100%; border:none; cursor:pointer; text-transform:uppercase; }
+input{ background:black; border:1px solid #555; color:white; padding:10px; border-radius:8px; width:100%; margin:5px 0; }
 </style>
 </head>
 <body>
-<div class="header"><h1>ODA <b>SHOP</b></h1><p>ESPACE ADMIN - AUTO SYNC ✅ V3</p></div>
-<div id="loginBox" style="height:80vh;display:flex;align-items:center;justify-content:center;padding:20px"><div style="background:#fff;border:1px solid #f0f0f0;border-radius:28px;padding:36px 24px;width:100%;max-width:360px;text-align:center"><h2>BIENVENUE<br><b>ESPACE ADMIN</b></h2><input type="password" id="pass" placeholder="••••••••" style="margin-top:20px;padding:16px;border-radius:14px;border:1px solid #eee;width:100%;text-align:center"><button onclick="checkPass()" style="width:100%;padding:16px;background:#111;color:#fff;border:0;border-radius:100px;margin-top:12px;font-weight:700">ENTRER</button><p id="err" style="color:red;margin-top:10px"></p></div></div>
-<div id="adminBox" style="display:none" class="wrap">
-<div class="welcome"><h2>Bienvenue<br><b>ESPACE ADMIN</b></h2><p id="syncStatus">Prêt à publier AUTO ✅</p><small style="color:#999">Espace Admin → Clients voient direct</small></div>
-<div class="card">
-<label>Code auto</label><input id="code" class="auto" disabled>
-<label>Nom *</label><input id="nom" placeholder="Chemise...">
-<div class="grid"><div><label>Prix d'achat (PRIVÉ)</label><input id="prixAchat" type="number" placeholder="3000"></div><div><label>Prix de vente</label><input id="prixVente" type="number" placeholder="5000"></div></div>
-<div class="grid"><div><label>Catégorie *</label><select id="cat"><option value="neuve">Boutique Neuve</option><option value="occasion">Marché Occasion</option></select></div><div><label>Photo</label><input type="file" id="photo" accept="image/*"><p id="uploadStatus" style="font-size:11px;color:#E9A800;margin-top:6px"></p><img id="preview" style="width:100%;height:120px;object-fit:cover;border-radius:12px;margin-top:8px;display:none"></div></div>
-<div class="grid"><div><label>Nom fournisseur</label><input id="nomFour" placeholder="Moussa"></div><div><label>Numéro fournisseur</label><input id="telFour" placeholder="85924233"></div></div>
-<label>CNI / Série</label><input id="numSerie" placeholder="CNI...">
-<div class="grid"><div><label>Statut</label><select id="statut"><option>En Stock</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Ville</label><input id="ville" value="Agadez"></div></div>
-<button class="btn-black" onclick="ajouterPro()" id="btnSave">ENREGISTRER & PUBLIER AUTO SUR INTERNET</button>
-<button class="btn-sync" onclick="uploadAuto()">🔄 FORCER PUBLICATION AUTO</button>
-<button class="btn-export" onclick="exportJson()">📥 SECOURS: Télécharger produits.json</button>
-<p id="msg" style="text-align:center;margin-top:12px;font-weight:700"></p></div>
-<div class="card"><h3>STOCK — <span id="count">0</span></h3><div id="liste"></div></div></div>
+<header>
+<h2 style="color:gold;">📍 Admin Agadez - ODA SHOP</h2>
+<div id="tabs">
+<button class="tab active" onclick="showTab('boutique')">Boutique Neuve</button>
+<button class="tab" onclick="showTab('marketplace')">Marketing Occasion</button>
+<button class="tab" onclick="showTab('commandes')">Commandes (<span id="countCmd">0</span>)</button>
+<button class="tab" onclick="showTab('oda_gaz')">Oda Gaz</button>
+<button class="tab" onclick="showTab('patisserie')">Pâtisserie</button>
+<button class="tab" onclick="showTab('automobile')">Automobile</button>
+</div>
+</header>
+
+<main style="padding:15px;">
+<input id="search" placeholder="Rechercher code, nom, téléphone..." oninput="filtrer()">
+
+<button class="btn-gold" onclick="ajouterProduit()">+ Ajouter produit neuf</button>
+
+<div id="liste-produits" style="margin-top:20px;">
+<!-- Tes produits vont s'afficher ici -->
+</div>
+
+<!-- Formulaire caché -->
+<div id="formProduit" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#111; border-top:2px solid gold; padding:20px; max-height:90vh; overflow:auto;">
+<h3 class="gold">Ajouter Produit Agadez</h3>
+<label>Nom marchandise <input id="f_nom"></label>
+<label>Prix achat <input id="f_achat" type="number"></label>
+<label>Prix vente <input id="f_vente" type="number"></label>
+<label>Vendeur <input id="f_vendeur"></label>
+<label>Téléphone vendeur <input id="f_tel"></label>
+<label>Photo (lien) <input id="f_photo"></label>
+<label>Section 
+<select id="f_section" style="background:black; color:white; padding:10px; width:100%; border-radius:8px;">
+<option value="boutique">Boutique Neuve</option>
+<option value="marketplace">Marché Occasion</option>
+<option value="oda_gaz">Oda Gaz</option>
+<option value="patisserie">Pâtisserie</option>
+<option value="automobile">Automobile</option>
+</select>
+</label>
+<div style="display:flex; gap:10px; margin-top:15px;">
+<button onclick="fermerForm()" style="flex:1; padding:12px; background:#333; color:white; border-radius:8px; border:none;">Annuler</button>
+<button onclick="enregistrer()" class="btn-gold" style="flex:1;">Enregistrer</button>
+</div>
+</div>
+</main>
+
 <script>
-const R2_PUBLIC = "https://pub-bc19f9072caa47e18a78edafdba2a641.r2.dev";
-const MOTS_DE_PASSE=["ODA2025","abee","1234","ODA shop 123?"];
-let produits=JSON.parse(localStorage.getItem('oda_produits_pro')||'[]');
-let photoUrl="";let editIndex=-1;
-function getNextCode(){return "ODA-"+String(produits.length+1).padStart(4,'0');}
-function checkPass(){let p=pass.value.trim();if(MOTS_DE_PASSE.includes(p)){loginBox.style.display='none';adminBox.style.display='block';code.value=getNextCode();afficher();}else err.innerText='Faux';}
-document.getElementById('photo').addEventListener('change', async e=>{
-  const f=e.target.files[0]; if(!f) return;
-  const reader = new FileReader();
-  reader.onload = function(ev){
-    photoUrl = ev.target.result;
-    preview.src = photoUrl;
-    preview.style.display='block';
-    uploadStatus.innerText = "✅ Photo prête";
+// Données locales - pas besoin de mot de passe Supabase
+let produits = JSON.parse(localStorage.getItem('oda_agadez')||'[]');
+let tabActuel = 'boutique';
+
+function showTab(t){ 
+  tabActuel=t; 
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  afficher();
+}
+
+function afficher(){
+  let q=document.getElementById('search').value.toLowerCase();
+  let div=document.getElementById('liste-produits');
+  let filtres=produits.filter(p=>{
+    if(tabActuel!=='commandes' && p.section!==tabActuel) return false;
+    if(!q) return true;
+    return (p.nom+p.code+p.vendeur).toLowerCase().includes(q);
+  });
+  document.getElementById('countCmd').innerText=produits.length;
+  if(filtres.length===0){ div.innerHTML='<p style="text-align:center; color:#666; padding:20px;">Aucune marchandise Agadez.</p>'; return; }
+  div.innerHTML=filtres.map(p=>`
+    <div class="card">
+      <img src="${p.photo||'https://via.placeholder.com/60'}" style="width:56px; height:56px; border-radius:8px; object-fit:cover;">
+      <div style="flex:1;">
+        <span style="background:#332c00; color:gold; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:bold;">${p.code}</span>
+        <p style="margin:4px 0; font-weight:bold;">${p.nom}</p>
+        <p class="gold">${p.vente} FCFA</p>
+        <p style="font-size:11px; color:#aaa;">Vendeur: ${p.vendeur} - ${p.tel}</p>
+      </div>
+      <button onclick="supprimer('${p.id}')" style="background:none; border:1px solid red; color:red; border-radius:6px; padding:4px 8px; height:30px;">Supprimer</button>
+    </div>
+  `).join('');
+}
+
+function ajouterProduit(){ document.getElementById('formProduit').style.display='block'; }
+function fermerForm(){ document.getElementById('formProduit').style.display='none'; }
+
+function enregistrer(){
+  let codePrefix={boutique:'AGZ-B', marketplace:'AGZ-M', oda_gaz:'AGZ-G', patisserie:'AGZ-P', automobile:'AGZ-A'}[document.getElementById('f_section').value];
+  let num=produits.filter(p=>p.code.startsWith(codePrefix)).length+1;
+  let code=codePrefix+'-'+String(num).padStart(3,'0');
+  let nouveau={
+    id:Date.now().toString(),
+    code:code,
+    nom:document.getElementById('f_nom').value||'Oda Gaz',
+    achat:document.getElementById('f_achat').value,
+    vente:document.getElementById('f_vente').value,
+    vendeur:document.getElementById('f_vendeur').value,
+    tel:document.getElementById('f_tel').value,
+    photo:document.getElementById('f_photo').value,
+    section:document.getElementById('f_section').value
   };
-  reader.readAsDataURL(f);
-});
-async function uploadAuto(){
-  const status=document.getElementById('syncStatus');const msg=document.getElementById('msg');
-  status.innerText="⏳ Publication AUTO..."; msg.innerText="⏳ Envoi...";
-  try{
-    const jsonStr = JSON.stringify(produits);
-    const res = await fetch(R2_PUBLIC+"/produits.json", {method:"PUT", body:jsonStr, headers:{"Content-Type":"application/json"}});
-    if(!res.ok) throw new Error("CORS pas SAVE");
-    status.innerText="✅ PUBLIÉ AUTO ! Clients voient direct !";
-    msg.innerText="✅ PUBLIÉ - Ouvre boutique-neuve.html !";
-    alert("✅ C'EST EN LIGNE !");
-  }catch(e){
-    status.innerText="⚠️ Mode secours";
-    msg.innerText="⚠️ CORS pas SAVE - Téléchargement";
-    exportJson();
-    alert("⚠️ Ton CORS dans R2 n'est pas SAVE. J'ai téléchargé produits.json. Va dans R2 > Objects > Upload ce fichier !");
-  }
+  produits.unshift(nouveau);
+  localStorage.setItem('oda_agadez', JSON.stringify(produits));
+  fermerForm(); afficher();
+  alert('Produit '+code+' enregistré à Agadez!');
 }
-function exportJson(){
-  const blob=new Blob([JSON.stringify(produits)],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='produits.json';a.click();
-  URL.revokeObjectURL(url);
+
+function supprimer(id){
+  if(!confirm('Supprimer cette marchandise?')) return;
+  produits=produits.filter(p=>p.id!==id);
+  localStorage.setItem('oda_agadez', JSON.stringify(produits));
+  afficher();
 }
-async function ajouterPro(){
-  if(!nom.value||!prixVente.value){alert('Nom + Prix vente');return;}
-  if(editIndex>=0){
-    let p=produits[editIndex];p.nom=nom.value;p.prixAchat=prixAchat.value;p.prixVente=prixVente.value;p.categorie=cat.value;p.nomFour=nomFour.value;p.telFour=telFour.value;p.numSerie=numSerie.value;p.statut=statut.value;p.ville=ville.value;if(photoUrl)p.photo=photoUrl;editIndex=-1;btnSave.innerText='ENREGISTRER & PUBLIER AUTO SUR INTERNET';
-  }else{
-    produits.push({code:getNextCode(),nom:nom.value,prixAchat:prixAchat.value,prixVente:prixVente.value,categorie:cat.value,nomFour:nomFour.value,telFour:telFour.value,numSerie:numSerie.value,statut:statut.value,ville:ville.value,photo:photoUrl,date:Date.now()});
-  }
-  localStorage.setItem('oda_produits_pro',JSON.stringify(produits));
-  nom.value='';prixAchat.value='';prixVente.value='';nomFour.value='';telFour.value='';numSerie.value='';photoUrl='';preview.style.display='none';uploadStatus.innerText='';code.value=getNextCode();afficher();
-  await uploadAuto();
-}
-function afficher(list=produits){let h='';[...list].reverse().forEach(p=>{let i=produits.findIndex(x=>x.code===p.code);h+=`<div class="item"><div style="display:flex;gap:12px;align-items:center"><img src="${p.photo||''}" onerror="this.src='https://via.placeholder.com/64'"><div style="flex:1"><b>${p.code}</b> — ${p.nom}<br><small>${p.prixVente} FCFA - ${p.categorie}</small></div></div><div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:10px;border-radius:100px;border:0;background:#111;color:#fff" onclick="voirPro(${i})">VOIR</button><button style="flex:1;padding:10px;border-radius:100px;border:0;background:#E9A800" onclick="modifierPro(${i})">MODIFIER</button><button style="flex:1;padding:10px;border-radius:100px;border:1px solid #ff3b3b;color:#ff3b3b;background:#fff" onclick="supp(${i})">SUPPRIMER</button></div></div>`;});liste.innerHTML=h||'Aucun produit';count.innerText=produits.length;}
-function voirPro(i){let p=produits[i];alert(p.code+" - "+p.nom+" - "+p.prixVente+" FCFA");}
-function modifierPro(i){let p=produits[i];editIndex=i;nom.value=p.nom;prixAchat.value=p.prixAchat;prixVente.value=p.prixVente;cat.value=p.categorie;nomFour.value=p.nomFour;telFour.value=p.telFour;numSerie.value=p.numSerie;statut.value=p.statut;ville.value=p.ville;photoUrl=p.photo;if(p.photo){preview.src=p.photo;preview.style.display='block';}btnSave.innerText='MODIFIER '+p.code;window.scrollTo({top:0,behavior:'smooth'});}
-async function supp(i){if(confirm('Supprimer '+produits[i].code+' ?')){produits.splice(i,1);localStorage.setItem('oda_produits_pro',JSON.stringify(produits));code.value=getNextCode();afficher();await uploadAuto();}}
+function filtrer(){ afficher(); }
+afficher();
 </script>
 </body>
 </html>
